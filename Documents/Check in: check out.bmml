@@ -5,35 +5,41 @@
         <text>EPL%20Fiddly%20bits%0Ahttp%3A//epl.ca</text>
       </controlProperties>
     </control>
-    <control controlID="1" controlTypeID="com.balsamiq.mockups::MenuBar" x="361" y="116" w="1013" h="29" measuredW="163" measuredH="29" zOrder="1" locked="false" isInGroup="-1">
-      <controlProperties>
-        <text>Admin%2C%20Login/logout</text>
-      </controlProperties>
-    </control>
-    <control controlID="19" controlTypeID="com.balsamiq.mockups::ComboBox" x="1252" y="118" w="-1" h="-1" measuredW="122" measuredH="24" zOrder="2" locked="false" isInGroup="-1">
-      <controlProperties>
-        <text>Grant%20Macewan</text>
-      </controlProperties>
-    </control>
-    <control controlID="37" controlTypeID="com.balsamiq.mockups::Label" x="455" y="152" w="-1" h="-1" measuredW="51" measuredH="21" zOrder="3" locked="false" isInGroup="-1">
+    <control controlID="37" controlTypeID="com.balsamiq.mockups::Label" x="455" y="152" w="-1" h="-1" measuredW="51" measuredH="21" zOrder="1" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Manifest</text>
       </controlProperties>
     </control>
-    <control controlID="38" controlTypeID="com.balsamiq.mockups::DataGrid" x="362" y="173" w="1009" h="562" measuredW="567" measuredH="261" zOrder="4" locked="false" isInGroup="-1">
+    <control controlID="38" controlTypeID="com.balsamiq.mockups::DataGrid" x="362" y="173" w="1009" h="562" measuredW="567" measuredH="261" zOrder="2" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Item%20%5E%2C%20Serial%20%23%5Ev%2C%20Commet%2C%20Damaged%2C%20Missing%0AIpad%20%231%20%2C%2011111A11111%2C%20%20%2C%20%5B%20%5D%2C%20%5B%20%5D%0AIpad%20%232%2C%202222A11111%2C%20%20%2C%20%5B%20%5D%2C%20%5B%20%5D%0AIpad%20%233%2C%2013333A11111%2C%20%20%2C%20%5B%20%5D%2C%20%5B%20%5D%0AIpad%20%234%20%2C%204444A11111%2C%20Cover%20was%20drawn%20on%20with%20marker%20%2C%20%5Bx%5D%2C%20%5B%20%5D%0AIpad%20%235%20%2C%2055555A11111%2C%20%20%2C%20%5B%20%5D%2C%20%5B%20%5D%0A5%20ipad%20power%20cables%20%2C%20na%2C%20%20%2C%20%5B%20%5D%2C%20%5B%20%5D%0A5%20ipad%20power%20supplies%20%2C%20na%2C%20%20%2C%20%5B%20%5D%2C%20%5B%20%5D%0APower%20bar%20%2C%20na%2C%20%20%2C%20%5B%20%5D%2C%20%5B%20%5D</text>
       </controlProperties>
     </control>
-    <control controlID="39" controlTypeID="com.balsamiq.mockups::Button" x="1160" y="743" w="214" h="27" measuredW="75" measuredH="27" zOrder="5" locked="false" isInGroup="-1">
+    <control controlID="39" controlTypeID="com.balsamiq.mockups::Button" x="1160" y="743" w="214" h="27" measuredW="75" measuredH="27" zOrder="3" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Check%20In</text>
       </controlProperties>
     </control>
-    <control controlID="40" controlTypeID="com.balsamiq.mockups::Button" x="931" y="743" w="214" h="27" measuredW="64" measuredH="27" zOrder="6" locked="false" isInGroup="-1">
+    <control controlID="40" controlTypeID="com.balsamiq.mockups::Button" x="931" y="743" w="214" h="27" measuredW="64" measuredH="27" zOrder="4" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Cancel</text>
       </controlProperties>
+    </control>
+    <control controlID="41" controlTypeID="__group__" x="361" y="116" w="1013" h="29" measuredW="1013" measuredH="29" zOrder="5" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::MenuBar" x="0" y="0" w="1013" h="29" measuredW="600" measuredH="29" zOrder="0" locked="false" isInGroup="41">
+          <controlProperties>
+            <hrefs>Main%20Screen%26bm%3BMain%20Screen.bmml%26bm%3BMain%20Screen.bmml%26bm%3BMain%20Screen.bmml%2CBookKit%26bm%3BBookKit.bmml%26bm%3BBookKit.bmml%26bm%3BBookKit.bmml%2CRecive%20Case%26bm%3BRecive%20Case.bmml%26bm%3BRecive%20Case.bmml%26bm%3BRecive%20Case.bmml%2CShip%20Case%26bm%3BShip%20Case.bmml%26bm%3BShip%20Case.bmml%26bm%3BShip%20Case.bmml%2CCase%20Location%20Overview%26bm%3BCase%20Location%20Overview.bmml%26bm%3BCase%20Location%20Overview.bmml%26bm%3BCase%20Location%20Overview.bmml%2C%2C%2C%2C%2C%2C%2C</hrefs>
+            <map>%3Carea%20shape%3D%22rect%22%20coords%3D%2223%2C87%2C66%2C100%22%20href%3D%22Main%2520Screen.bmml%22%20alt%3D%22Main%20Screen%22%20id%3D%220%22/%3E%3Carea%20shape%3D%22rect%22%20coords%3D%2275%2C87%2C148%2C100%22%20href%3D%22BookKit.bmml%22%20alt%3D%22BookKit%22%20id%3D%220%22/%3E%3Carea%20shape%3D%22rect%22%20coords%3D%22157%2C87%2C249%2C100%22%20href%3D%22Recive%2520Case.bmml%22%20alt%3D%22Recive%20Case%22%20id%3D%220%22/%3E%3Carea%20shape%3D%22rect%22%20coords%3D%22258%2C87%2C328%2C100%22%20href%3D%22Ship%2520Case.bmml%22%20alt%3D%22Ship%20Case%22%20id%3D%220%22/%3E%3Carea%20shape%3D%22rect%22%20coords%3D%22337%2C87%2C403%2C100%22%20href%3D%22Case%2520Location%2520Overview.bmml%22%20alt%3D%22Case%20Location%20Overview%22%20id%3D%220%22/%3E</map>
+            <text>Home%2C%20Book%20Case%2C%20Recieve%20Case%2C%20Ship%20Case%2C%20Overview%2C%20Administrators%2C%20Login/logout</text>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::ComboBox" x="891" y="2" w="-1" h="-1" measuredW="122" measuredH="24" zOrder="1" locked="false" isInGroup="41">
+          <controlProperties>
+            <text>Grant%20Macewan</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
     </control>
   </controls>
 </mockup>

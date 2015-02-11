@@ -1,0 +1,44 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1380" measuredH="807" mockupW="1024" mockupH="768">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::BrowserWindow" x="356" y="39" w="1024" h="768" measuredW="450" measuredH="400" zOrder="0" locked="true" isInGroup="-1">
+      <controlProperties>
+        <text>EPL%20Fiddly%20bits%0Ahttp%3A//epl.ca</text>
+      </controlProperties>
+    </control>
+    <control controlID="37" controlTypeID="com.balsamiq.mockups::Label" x="697" y="160" w="-1" h="-1" measuredW="139" measuredH="26" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <size>18</size>
+        <text>Log%20for%20Ipad%20%235%20</text>
+      </controlProperties>
+    </control>
+    <control controlID="38" controlTypeID="com.balsamiq.mockups::DataGrid" x="362" y="202" w="1009" h="533" measuredW="479" measuredH="81" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Date%20v%2C%20User%2C%20Log%20Type%2C%20Commets%0ASep%2001%5C%2C%202014%2011%3A59%20AM%2C%20A%20User%2C%20Comment%20%2CCover%20was%20drawn%20on%20with%20marker%0ASep%2001%5C%2C%202014%201%3A00%20PM%2C%20A%20User%2C%20Damage%2C%20Ipad%20%232%20marked%20Damaged</text>
+      </controlProperties>
+    </control>
+    <control controlID="39" controlTypeID="com.balsamiq.mockups::Button" x="1160" y="743" w="214" h="27" measuredW="41" measuredH="27" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <href>Ship%20Case%26bm%3BShip%20Case.bmml%26bm%3BShip%20Case.bmml%26bm%3BShip%20Case.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22804%2C704%2C1018%2C731%22%20href%3D%22Ship%2520Case.bmml%22%20alt%3D%22Ship%20Case%22%20id%3D%2239%22/%3E</map>
+        <text>OK</text>
+      </controlProperties>
+    </control>
+    <control controlID="42" controlTypeID="__group__" x="361" y="116" w="1013" h="29" measuredW="1013" measuredH="29" zOrder="4" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::MenuBar" x="0" y="0" w="1013" h="29" measuredW="600" measuredH="29" zOrder="0" locked="false" isInGroup="42">
+          <controlProperties>
+            <hrefs>Main%20Screen%26bm%3BMain%20Screen.bmml%26bm%3BMain%20Screen.bmml%26bm%3BMain%20Screen.bmml%2CBookKit%26bm%3BBookKit.bmml%26bm%3BBookKit.bmml%26bm%3BBookKit.bmml%2CRecive%20Case%26bm%3BRecive%20Case.bmml%26bm%3BRecive%20Case.bmml%26bm%3BRecive%20Case.bmml%2CShip%20Case%26bm%3BShip%20Case.bmml%26bm%3BShip%20Case.bmml%26bm%3BShip%20Case.bmml%2CCase%20Location%20Overview%26bm%3BCase%20Location%20Overview.bmml%26bm%3BCase%20Location%20Overview.bmml%26bm%3BCase%20Location%20Overview.bmml%2CAdmin%20Screen%26bm%3BAdmin%20Screen.bmml%26bm%3BAdmin%20Screen.bmml%26bm%3BAdmin%20Screen.bmml%2C%2C%2C%2C</hrefs>
+            <map>%3Carea%20shape%3D%22rect%22%20coords%3D%2223%2C87%2C66%2C100%22%20href%3D%22Main%2520Screen.bmml%22%20alt%3D%22Main%20Screen%22%20id%3D%220%22/%3E%3Carea%20shape%3D%22rect%22%20coords%3D%2275%2C87%2C148%2C100%22%20href%3D%22BookKit.bmml%22%20alt%3D%22BookKit%22%20id%3D%220%22/%3E%3Carea%20shape%3D%22rect%22%20coords%3D%22157%2C87%2C249%2C100%22%20href%3D%22Recive%2520Case.bmml%22%20alt%3D%22Recive%20Case%22%20id%3D%220%22/%3E%3Carea%20shape%3D%22rect%22%20coords%3D%22258%2C87%2C328%2C100%22%20href%3D%22Ship%2520Case.bmml%22%20alt%3D%22Ship%20Case%22%20id%3D%220%22/%3E%3Carea%20shape%3D%22rect%22%20coords%3D%22337%2C87%2C403%2C100%22%20href%3D%22Case%2520Location%2520Overview.bmml%22%20alt%3D%22Case%20Location%20Overview%22%20id%3D%220%22/%3E%3Carea%20shape%3D%22rect%22%20coords%3D%22412%2C87%2C505%2C100%22%20href%3D%22Admin%2520Screen.bmml%22%20alt%3D%22Admin%20Screen%22%20id%3D%220%22/%3E</map>
+            <text>Home%2C%20Book%20Case%2C%20Recieve%20Case%2C%20Ship%20Case%2C%20Overview%2C%20Administrators%2C%20Login/logout</text>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::ComboBox" x="891" y="2" w="-1" h="-1" measuredW="122" measuredH="24" zOrder="1" locked="false" isInGroup="42">
+          <controlProperties>
+            <text>Grant%20Macewan</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+  </controls>
+</mockup>
