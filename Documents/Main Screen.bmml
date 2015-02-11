@@ -5,90 +5,129 @@
         <text>EPL%20Fiddly%20bits%0Ahttp%3A//epl.ca</text>
       </controlProperties>
     </control>
-    <control controlID="1" controlTypeID="com.balsamiq.mockups::MenuBar" x="361" y="116" w="1013" h="29" measuredW="163" measuredH="29" zOrder="1" locked="false" isInGroup="-1">
+    <control controlID="33" controlTypeID="__group__" x="941" y="175" w="399" h="70" measuredW="399" measuredH="70" zOrder="2" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Admin%2C%20Login/logout</text>
+        <href>Ship%20Case%26bm%3BShip%20Case.bmml%26bm%3BShip%20Case.bmml%26bm%3BShip%20Case.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22585%2C136%2C984%2C206%22%20href%3D%22Ship%2520Case.bmml%22%20alt%3D%22Ship%20Case%22%20id%3D%2233%22/%3E</map>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="399" h="70" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="33">
+          <controlProperties>
+            <href>Ship%20Case%26bm%3BShip%20Case.bmml%26bm%3BShip%20Case.bmml%26bm%3BShip%20Case.bmml</href>
+            <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22585%2C136%2C984%2C206%22%20href%3D%22Ship%2520Case.bmml%22%20alt%3D%22Ship%20Case%22%20id%3D%220%22/%3E</map>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::Label" x="64" y="7" w="-1" h="-1" measuredW="254" measuredH="24" zOrder="1" locked="false" isInGroup="33">
+          <controlProperties>
+            <size>16</size>
+            <text>Ipad%20Kit%20%235%20%2C%20Ship%20to%20Loundary%20EPL</text>
+          </controlProperties>
+        </control>
+        <control controlID="2" controlTypeID="com.balsamiq.mockups::Label" x="16" y="25" w="-1" h="-1" measuredW="286" measuredH="21" zOrder="2" locked="false" isInGroup="33">
+          <controlProperties>
+            <text>Required%20at%20destination%20on%20Monday%2C%20Jan%2015%2C%202005</text>
+          </controlProperties>
+        </control>
+        <control controlID="3" controlTypeID="com.balsamiq.mockups::Label" x="16" y="42" w="-1" h="-1" measuredW="302" measuredH="21" zOrder="3" locked="false" isInGroup="33">
+          <controlProperties>
+            <text>Must%20be%20shipped%20by%20Friday%2C%20Jan%2012%2C%202015%20@%205%3A00%20PM</text>
+          </controlProperties>
+        </control>
+        <control controlID="4" controlTypeID="com.balsamiq.mockups::IconLabel" x="328" y="25" w="-1" h="-1" measuredW="24" measuredH="39" zOrder="4" locked="false" isInGroup="33">
+          <controlProperties>
+            <icon>PhoneDialIcon%7Csmall</icon>
+            <text>%20</text>
+          </controlProperties>
+        </control>
+        <control controlID="5" controlTypeID="com.balsamiq.mockups::IconLabel" x="360" y="25" w="-1" h="-1" measuredW="24" measuredH="39" zOrder="5" locked="false" isInGroup="33">
+          <controlProperties>
+            <icon>EmailIcon%7Csmall</icon>
+            <text>%20</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="34" controlTypeID="__group__" x="941" y="253" w="399" h="70" measuredW="399" measuredH="70" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <href>Recive%20Case%26bm%3BRecive%20Case.bmml%26bm%3BRecive%20Case.bmml%26bm%3BRecive%20Case.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22585%2C214%2C984%2C284%22%20href%3D%22Recive%2520Case.bmml%22%20alt%3D%22Recive%20Case%22%20id%3D%2234%22/%3E</map>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="399" h="70" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="34">
+          <controlProperties>
+            <href>Recive%20Case%26bm%3BRecive%20Case.bmml%26bm%3BRecive%20Case.bmml%26bm%3BRecive%20Case.bmml</href>
+            <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22585%2C214%2C984%2C284%22%20href%3D%22Recive%2520Case.bmml%22%20alt%3D%22Recive%20Case%22%20id%3D%220%22/%3E</map>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::Label" x="84" y="3" w="-1" h="-1" measuredW="208" measuredH="24" zOrder="1" locked="false" isInGroup="34">
+          <controlProperties>
+            <size>16</size>
+            <text>Laptop%20Kit%20%236%20Arriving%20today</text>
+          </controlProperties>
+        </control>
+        <control controlID="2" controlTypeID="com.balsamiq.mockups::Label" x="13" y="25" w="-1" h="-1" measuredW="163" measuredH="21" zOrder="2" locked="false" isInGroup="34">
+          <controlProperties>
+            <text>Coming%20From%20Milner%20Library</text>
+          </controlProperties>
+        </control>
+        <control controlID="3" controlTypeID="com.balsamiq.mockups::IconLabel" x="330" y="16" w="-1" h="-1" measuredW="24" measuredH="39" zOrder="3" locked="false" isInGroup="34">
+          <controlProperties>
+            <icon>PhoneDialIcon%7Csmall</icon>
+            <text>%20</text>
+          </controlProperties>
+        </control>
+        <control controlID="4" controlTypeID="com.balsamiq.mockups::IconLabel" x="357" y="16" w="-1" h="-1" measuredW="24" measuredH="39" zOrder="4" locked="false" isInGroup="34">
+          <controlProperties>
+            <icon>EmailIcon%7Csmall</icon>
+            <text>%20</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="36" controlTypeID="__group__" x="931" y="151" w="443" h="621" measuredW="443" measuredH="621" zOrder="1" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="443" h="621" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="36"/>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::VerticalScrollBar" x="418" y="5" w="-1" h="608" measuredW="16" measuredH="100" zOrder="1" locked="false" isInGroup="36"/>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="37" controlTypeID="__group__" x="364" y="150" w="555" h="622" measuredW="555" measuredH="622" zOrder="4" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="555" h="622" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="37"/>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::VerticalScrollBar" x="534" y="11" w="-1" h="600" measuredW="16" measuredH="100" zOrder="1" locked="false" isInGroup="37"/>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="38" controlTypeID="com.balsamiq.mockups::List" x="369" y="175" w="525" h="587" measuredW="100" measuredH="126" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <hrefs>Ship%20Case%26bm%3BShip%20Case.bmml%26bm%3BShip%20Case.bmml%26bm%3BShip%20Case.bmml%2C%2C%2C</hrefs>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%2213%2C139%2C538%2C160%22%20href%3D%22Ship%2520Case.bmml%22%20alt%3D%22Ship%20Case%22%20id%3D%2238%22/%3E</map>
+        <text>Ipad%20%235%20%5B%28Ship%20to%20LON%20by%20Fri.%20Jan%2012%20@%205%3A00%20pm%29%5D%0AIpad%20%232%0ARaspberry%20PI%20%2312%20</text>
       </controlProperties>
     </control>
-    <control controlID="2" controlTypeID="com.balsamiq.mockups::Button" x="442" y="213" w="408" h="92" measuredW="148" measuredH="27" zOrder="2" locked="false" isInGroup="-1">
+    <control controlID="39" controlTypeID="com.balsamiq.mockups::Label" x="561" y="151" w="-1" h="-1" measuredW="151" measuredH="21" zOrder="6" locked="false" isInGroup="-1">
       <controlProperties>
-        <size>18</size>
-        <text>Check%20out%20Item</text>
+        <text>Grant%20Macewan%20Inventory</text>
       </controlProperties>
     </control>
-    <control controlID="3" controlTypeID="com.balsamiq.mockups::Button" x="442" y="311" w="408" h="96" measuredW="106" measuredH="27" zOrder="3" locked="false" isInGroup="-1">
+    <control controlID="40" controlTypeID="com.balsamiq.mockups::Label" x="1075" y="151" w="-1" h="-1" measuredW="107" measuredH="21" zOrder="7" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Check%20Item%20In</text>
+        <text>Pending%20Activities</text>
       </controlProperties>
     </control>
-    <control controlID="5" controlTypeID="com.balsamiq.mockups::Button" x="442" y="413" w="408" h="92" measuredW="82" measuredH="27" zOrder="4" locked="false" isInGroup="-1">
-      <controlProperties>
-        <text>Book%20Item</text>
-      </controlProperties>
-    </control>
-    <control controlID="6" controlTypeID="com.balsamiq.mockups::Button" x="442" y="514" w="408" h="92" measuredW="79" measuredH="27" zOrder="5" locked="false" isInGroup="-1">
-      <controlProperties>
-        <text>Overview</text>
-      </controlProperties>
-    </control>
-    <control controlID="7" controlTypeID="com.balsamiq.mockups::Canvas" x="963" y="147" w="411" h="625" measuredW="100" measuredH="70" zOrder="6" locked="false" isInGroup="-1"/>
-    <control controlID="8" controlTypeID="com.balsamiq.mockups::Canvas" x="966" y="150" w="399" h="70" measuredW="100" measuredH="70" zOrder="7" locked="false" isInGroup="-1"/>
-    <control controlID="9" controlTypeID="com.balsamiq.mockups::Label" x="1030" y="157" w="-1" h="-1" measuredW="254" measuredH="24" zOrder="8" locked="false" isInGroup="-1">
-      <controlProperties>
-        <size>16</size>
-        <text>Ipad%20Kit%20%235%20%2C%20Ship%20to%20Loundary%20EPL</text>
-      </controlProperties>
-    </control>
-    <control controlID="10" controlTypeID="com.balsamiq.mockups::Label" x="982" y="175" w="-1" h="-1" measuredW="286" measuredH="21" zOrder="9" locked="false" isInGroup="-1">
-      <controlProperties>
-        <text>Required%20at%20destination%20on%20Monday%2C%20Jan%2015%2C%202005</text>
-      </controlProperties>
-    </control>
-    <control controlID="11" controlTypeID="com.balsamiq.mockups::Label" x="982" y="192" w="-1" h="-1" measuredW="302" measuredH="21" zOrder="10" locked="false" isInGroup="-1">
-      <controlProperties>
-        <text>Must%20be%20shipped%20by%20Friday%2C%20Jan%2012%2C%202015%20@%205%3A00%20PM</text>
-      </controlProperties>
-    </control>
-    <control controlID="12" controlTypeID="com.balsamiq.mockups::Canvas" x="969" y="225" w="399" h="70" measuredW="100" measuredH="70" zOrder="11" locked="false" isInGroup="-1"/>
-    <control controlID="13" controlTypeID="com.balsamiq.mockups::Label" x="1053" y="228" w="-1" h="-1" measuredW="208" measuredH="24" zOrder="12" locked="false" isInGroup="-1">
-      <controlProperties>
-        <size>16</size>
-        <text>Laptop%20Kit%20%236%20Arriving%20today</text>
-      </controlProperties>
-    </control>
-    <control controlID="14" controlTypeID="com.balsamiq.mockups::Label" x="982" y="250" w="-1" h="-1" measuredW="163" measuredH="21" zOrder="13" locked="false" isInGroup="-1">
-      <controlProperties>
-        <text>Coming%20From%20Milner%20Library</text>
-      </controlProperties>
-    </control>
-    <control controlID="15" controlTypeID="com.balsamiq.mockups::IconLabel" x="1294" y="175" w="-1" h="-1" measuredW="24" measuredH="39" zOrder="14" locked="false" isInGroup="-1">
-      <controlProperties>
-        <icon>PhoneDialIcon%7Csmall</icon>
-        <text>%20</text>
-      </controlProperties>
-    </control>
-    <control controlID="16" controlTypeID="com.balsamiq.mockups::IconLabel" x="1299" y="241" w="-1" h="-1" measuredW="24" measuredH="39" zOrder="15" locked="false" isInGroup="-1">
-      <controlProperties>
-        <icon>PhoneDialIcon%7Csmall</icon>
-        <text>%20</text>
-      </controlProperties>
-    </control>
-    <control controlID="17" controlTypeID="com.balsamiq.mockups::IconLabel" x="1326" y="175" w="-1" h="-1" measuredW="24" measuredH="39" zOrder="16" locked="false" isInGroup="-1">
-      <controlProperties>
-        <icon>EmailIcon%7Csmall</icon>
-        <text>%20</text>
-      </controlProperties>
-    </control>
-    <control controlID="18" controlTypeID="com.balsamiq.mockups::IconLabel" x="1326" y="241" w="-1" h="-1" measuredW="24" measuredH="39" zOrder="17" locked="false" isInGroup="-1">
-      <controlProperties>
-        <icon>EmailIcon%7Csmall</icon>
-        <text>%20</text>
-      </controlProperties>
-    </control>
-    <control controlID="19" controlTypeID="com.balsamiq.mockups::ComboBox" x="1252" y="118" w="-1" h="-1" measuredW="122" measuredH="24" zOrder="18" locked="false" isInGroup="-1">
-      <controlProperties>
-        <text>Grant%20Macewan</text>
-      </controlProperties>
+    <control controlID="42" controlTypeID="__group__" x="361" y="116" w="1013" h="29" measuredW="1013" measuredH="29" zOrder="8" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::MenuBar" x="0" y="0" w="1013" h="29" measuredW="600" measuredH="29" zOrder="0" locked="false" isInGroup="42">
+          <controlProperties>
+            <hrefs>Main%20Screen%26bm%3BMain%20Screen.bmml%26bm%3BMain%20Screen.bmml%26bm%3BMain%20Screen.bmml%2CBookKit%26bm%3BBookKit.bmml%26bm%3BBookKit.bmml%26bm%3BBookKit.bmml%2CRecive%20Case%26bm%3BRecive%20Case.bmml%26bm%3BRecive%20Case.bmml%26bm%3BRecive%20Case.bmml%2CShip%20Case%26bm%3BShip%20Case.bmml%26bm%3BShip%20Case.bmml%26bm%3BShip%20Case.bmml%2CCase%20Location%20Overview%26bm%3BCase%20Location%20Overview.bmml%26bm%3BCase%20Location%20Overview.bmml%26bm%3BCase%20Location%20Overview.bmml%2CAdmin%20Screen%26bm%3BAdmin%20Screen.bmml%26bm%3BAdmin%20Screen.bmml%26bm%3BAdmin%20Screen.bmml%2C%2C%2C%2C</hrefs>
+            <map>%3Carea%20shape%3D%22rect%22%20coords%3D%2223%2C87%2C66%2C100%22%20href%3D%22Main%2520Screen.bmml%22%20alt%3D%22Main%20Screen%22%20id%3D%220%22/%3E%3Carea%20shape%3D%22rect%22%20coords%3D%2275%2C87%2C148%2C100%22%20href%3D%22BookKit.bmml%22%20alt%3D%22BookKit%22%20id%3D%220%22/%3E%3Carea%20shape%3D%22rect%22%20coords%3D%22157%2C87%2C249%2C100%22%20href%3D%22Recive%2520Case.bmml%22%20alt%3D%22Recive%20Case%22%20id%3D%220%22/%3E%3Carea%20shape%3D%22rect%22%20coords%3D%22258%2C87%2C328%2C100%22%20href%3D%22Ship%2520Case.bmml%22%20alt%3D%22Ship%20Case%22%20id%3D%220%22/%3E%3Carea%20shape%3D%22rect%22%20coords%3D%22337%2C87%2C403%2C100%22%20href%3D%22Case%2520Location%2520Overview.bmml%22%20alt%3D%22Case%20Location%20Overview%22%20id%3D%220%22/%3E%3Carea%20shape%3D%22rect%22%20coords%3D%22412%2C87%2C505%2C100%22%20href%3D%22Admin%2520Screen.bmml%22%20alt%3D%22Admin%20Screen%22%20id%3D%220%22/%3E</map>
+            <text>Home%2C%20Book%20Case%2C%20Recieve%20Case%2C%20Ship%20Case%2C%20Overview%2C%20Administrators%2C%20Login/logout</text>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::ComboBox" x="891" y="2" w="-1" h="-1" measuredW="122" measuredH="24" zOrder="1" locked="false" isInGroup="42">
+          <controlProperties>
+            <text>Grant%20Macewan</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
     </control>
   </controls>
 </mockup>
