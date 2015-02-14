@@ -10,6 +10,13 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
+Route::resource('book_kit', 'BookKitController');
+Route::resource('recieve_kit', 'RecieveKitController');
+Route::resource('ship_kit', 'ShipKitController');
+
+Route::resource('authenticate', 'AuthController');
+
+Route::resource('main', 'UserController');
 
 Route::get('/', function()
 {

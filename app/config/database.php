@@ -55,12 +55,13 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'forge',
-			'username'  => 'forge',
-			'password'  => '',
+			'database'  => 'EPL_KIT_DB',
+			'username'  => 'root',
+			'password'  => 'bigtexasbutters',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
+			'port'		=> '3306'
 		),
 
 		'pgsql' => array(
