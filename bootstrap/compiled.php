@@ -363,7 +363,7 @@ class Container implements ArrayAccess
     }
     public function offsetUnset($key)
     {
-        unset($this->bindings[$key], $this->instances[$key]);
+        unset($this->bindings[$key], $this->instances[$key], $this->resolved[$key]);
     }
     public function __get($key)
     {
@@ -423,7 +423,7 @@ use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class Application extends Container implements HttpKernelInterface, TerminableInterface, ResponsePreparerInterface
 {
-    const VERSION = '4.2.16';
+    const VERSION = '4.2.17';
     protected $booted = false;
     protected $bootingCallbacks = array();
     protected $bootedCallbacks = array();
@@ -476,7 +476,7 @@ class Application extends Container implements HttpKernelInterface, TerminableIn
     }
     public static function getBootstrapFile()
     {
-        return '/home/jharvard/cmpt395project/irww/vendor/laravel/framework/src/Illuminate/Foundation' . '/start.php';
+        return '/Users/ian-nalbach/Documents/CMPT395/395Project/irww/vendor/laravel/framework/src/Illuminate/Foundation' . '/start.php';
     }
     public function startExceptionHandling()
     {
@@ -1138,7 +1138,11 @@ class Request extends SymfonyRequest
         if ($request instanceof static) {
             return $request;
         }
-        return (new static())->duplicate($request->query->all(), $request->request->all(), $request->attributes->all(), $request->cookies->all(), $request->files->all(), $request->server->all());
+        $content = $request->content;
+        $request = (new static())->duplicate($request->query->all(), $request->request->all(), $request->attributes->all(), $request->cookies->all(), $request->files->all(), $request->server->all());
+        $request->content = $content;
+        $request->request = $request->getInputSource();
+        return $request;
     }
     public function session()
     {
@@ -3595,14 +3599,15 @@ class Str
     }
     public static function snake($value, $delimiter = '_')
     {
-        if (isset(static::$snakeCache[$value . $delimiter])) {
-            return static::$snakeCache[$value . $delimiter];
+        $key = $value . $delimiter;
+        if (isset(static::$snakeCache[$key])) {
+            return static::$snakeCache[$key];
         }
         if (!ctype_lower($value)) {
             $replace = '$1' . $delimiter . '$2';
             $value = strtolower(preg_replace('/(.)([A-Z])/', $replace, $value));
         }
-        return static::$snakeCache[$value . $delimiter] = $value;
+        return static::$snakeCache[$key] = $value;
     }
     public static function startsWith($haystack, $needles)
     {
@@ -3615,11 +3620,12 @@ class Str
     }
     public static function studly($value)
     {
-        if (isset(static::$studlyCache[$value])) {
-            return static::$studlyCache[$value];
+        $key = $value;
+        if (isset(static::$studlyCache[$key])) {
+            return static::$studlyCache[$key];
         }
         $value = ucwords(str_replace(array('-', '_'), ' ', $value));
-        return static::$studlyCache[$value] = str_replace(' ', '', $value);
+        return static::$studlyCache[$key] = str_replace(' ', '', $value);
     }
 }
 namespace Symfony\Component\Debug;
@@ -4206,9 +4212,9 @@ class Filesystem
     {
         require_once $file;
     }
-    public function put($path, $contents)
+    public function put($path, $contents, $lock = false)
     {
-        return file_put_contents($path, $contents);
+        return file_put_contents($path, $contents, $lock ? LOCK_EX : 0);
     }
     public function prepend($path, $data)
     {
@@ -4855,6 +4861,9 @@ class Router implements HttpKernelInterface, RouteFiltererInterface
     protected function getGroupResourceName($prefix, $resource, $method)
     {
         $group = str_replace('/', '.', $this->getLastGroupPrefix());
+        if (empty($group)) {
+            return trim("{$prefix}{$resource}.{$method}", '.');
+        }
         return trim("{$prefix}{$group}.{$resource}.{$method}", '.');
     }
     public function getResourceWildcard($value)
@@ -6539,10 +6548,10 @@ abstract class Model implements ArrayAccess, ArrayableInterface, JsonableInterfa
     }
     public static function find($id, $columns = array('*'))
     {
-        if (is_array($id) && empty($id)) {
-            return new Collection();
-        }
         $instance = new static();
+        if (is_array($id) && empty($id)) {
+            return $instance->newCollection();
+        }
         return $instance->newQuery()->find($id, $columns);
     }
     public static function findOrNew($id, $columns = array('*'))
@@ -6975,8 +6984,7 @@ abstract class Model implements ArrayAccess, ArrayableInterface, JsonableInterfa
     }
     public function newQuery()
     {
-        $builder = $this->newEloquentBuilder($this->newBaseQueryBuilder());
-        $builder->setModel($this)->with($this->with);
+        $builder = $this->newQueryWithoutScopes();
         return $this->applyGlobalScopes($builder);
     }
     public function newQueryWithoutScope($scope)
@@ -6986,7 +6994,8 @@ abstract class Model implements ArrayAccess, ArrayableInterface, JsonableInterfa
     }
     public function newQueryWithoutScopes()
     {
-        return $this->removeGlobalScopes($this->newQuery());
+        $builder = $this->newEloquentBuilder($this->newBaseQueryBuilder());
+        return $builder->setModel($this)->with($this->with);
     }
     public function applyGlobalScopes($builder)
     {

@@ -10,15 +10,30 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
+
+// add resources
+Route::resource('home', 'HomeController');
+//Route::resource('authenticate', 'AuthController');
+
 Route::resource('book_kit', 'BookKitController');
 Route::resource('recieve_kit', 'RecieveKitController');
 Route::resource('ship_kit', 'ShipKitController');
+Route::resource('overview_kit', 'OverviewKitController');
 
-Route::resource('authenticate', 'AuthController');
+// **************** authentication *************************
+Route::post("authenticate.login", array( 
+	'as'   => 'authenticate.login', 
+	'uses' => "AuthController@login"
+));
+Route::get('authenticate.logout', array( 
+	'as'   => 'authenticate.logout', 
+	'uses' => "AuthController@logout"
+));
 
-Route::resource('main', 'UserController');
-
+// **************** general ********************************
 Route::get('/', function()
 {
-	return View::make('hello');
+	return View::make('home');
 });
+
+

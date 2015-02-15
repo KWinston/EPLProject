@@ -1,9 +1,10 @@
 <?php
+include('GlobalFunctions.php');
 
 class BookKitController extends BaseController {
 
 	public function index()
 	{
-		return View::make('hello');
+		return CheckIfAuthenticated('members.bookkit',[], 'home.index', [], false);
 	}
 }

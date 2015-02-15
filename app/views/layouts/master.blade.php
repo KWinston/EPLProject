@@ -15,7 +15,7 @@
 	<body>
 		<div class="menu">
 			<div class="options">
-				<div class="option-left">
+				<div class="option left">
 					<a href="{{ route('home.index'); }}">HOME</a>
 				</div>
 				@if(Auth::check())
@@ -29,18 +29,32 @@
 				<div class="option left">
 					<a href="{{ route('ship_kit.index'); }}">Ship Kit</a>
 				</div>
+				<div class="option left">
+					<a href="{{ route('overview_kit.index'); }}">Kit Overview</a>
+				</div>
 				@endif
 
-				<div class="option right">
 				@if (Auth::check())
-					<a href="{{ URL::route('account-log-out') }}">LOGOUT</a>
-				</div>
-				<div class="option right">
-					<p>{{ Auth::user()->username }}</p>
+					<div class="option right">
+						<a href="{{ URL::route('authenticate.logout') }}">LOGOUT</a>
+					</div>
+					<div class="option right">
+						<p>Welcome: {{ Auth::user()->username }}</p>
+					</div>
 				@else
-					<a href="{{ URL::route('account-log-in') }}">PLEASE LOGIN</a>
+					<div class="option right">
+						{{ Form::open(['route' => 'authenticate.login']) }}
+							{{ Form::label('username', 'Username:') }}
+							{{ Form::text('username') }}
+
+							{{ Form::label('password', 'Password:')}}
+							{{ Form::password('password') }}
+							{{Form::submit('Login') }}	
+						{{ Form::close() }}
+					</div>
+				
 				@endif
-				</div>
+				
 			</div>
 		</div>
 		<div class="content">
