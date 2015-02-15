@@ -6,6 +6,7 @@
 		<title>EPL Kit Manager</title>
 	    <style> @import url(//fonts.googleapis.com/css?family=Lato:700);</style>
 	    {{ HTML::style('css/master.css') }}
+	    {{ HTML::style('css/notifications-menu.css') }}
 	    {{ HTML::style('plugins/chosen_1_3_0_dropdown/chosen.css') }}
 
 	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js">
@@ -15,6 +16,11 @@
 	</head>
 
 	<body>
+		<div class="slideout-menu">
+			<h3>NOTIFICATIONS</h3>
+			<a href="#" class="slideout-menu-toggle">&times;</a>
+		</div>
+
 		<div class="menu">
 			<div class="options">
 				<div class="option left">
@@ -22,44 +28,52 @@
 				</div>
 				@if(Auth::check())
 					<div class="option left">
-						<a href="{{ route('book_kit.index'); }}">Book Kit</a>
-					</div>
-					
-					<div class="option left">
-						<a href="{{ route('recieve_kit.index'); }}">Recieve Kit</a>
+						<a href="{{ route('book_kit.index'); }}">BOOK KIT</a>
 					</div>
 					<div class="option left">
-						<a href="{{ route('ship_kit.index'); }}">Ship Kit</a>
+						<a href="{{ route('recieve_kit.index'); }}">RECIEVE KIT</a>
 					</div>
 					<div class="option left">
-						<a href="{{ route('overview_kit.index'); }}">Kit Overview</a>
+						<a href="{{ route('ship_kit.index'); }}">SHIP KIT</a>
+					</div>
+					<div class="option left">
+						<a href="{{ route('overview_kit.index'); }}">OVERVIEW</a>
 					</div>
 				@endif
 
 				@if(Auth::check() && Auth::user()->is_admin == 1)
 					<div class="option left">
-						<a href="">Administrator</a>
+						<a href="">ADMINISTRATOR</a>
 					</div>
 				@endif
 
-				<div class="option right">
-					<select data-placeholder="Choose a Branch" class="chosen-select branch-select" 		tabindex="2">
-			            <option value="1"><p>Test1</p></option>
-			            <option value="2">Test2</option>
-			            <option value="3">Test3</option>
-			        </select>
-				</div>
+				@if(Auth::check())
+					<div class="option right">
+						<a href="#" class="slideout-menu-toggle">
+							<i class="fa fa-bars"></i>NOTIFICATIONS
+						</a>
+					</div>
+
+					<div class="option right">
+						<select data-placeholder="Branch" class="chosen-select branch-select" tabindex="2">
+				            <option value></option>
+				            <option value="idcode-test1">Test1</option>
+				            <option value="idcode-test2">Test2</option>
+				            <option value="idcode-test3">Test3</option>
+				        </select>
+					</div>
+				@endif
 
 				@if (Auth::check())
 					<div class="option right">
-						<a href="{{ URL::route('authenticate.logout') }}">LOGOUT</a>
+						<a href="{{ URL::route('master.logout') }}">LOGOUT</a>
 					</div>
 					<div class="option right">
-						<p>Welcome: {{ Auth::user()->username }}</p>
+						<p>WELCOME: {{ Auth::user()->username }}</p>
 					</div>
 				@else
 					<div class="option right">
-						{{ Form::open(['route' => 'authenticate.login']) }}
+						{{ Form::open(['route' => 'master.login']) }}
 							{{ Form::label('username', 'Username:') }}
 							{{ Form::text('username') }}
 
@@ -86,20 +100,32 @@
   		{{ HTML::script('plugins/chosen_1_3_0_dropdown/chosen.jquery.min.js', 
   			array('type' => 'text/javascript')) }}
 
-  		<script type="text/javascript">
-		    var config = 
-		    {
-		    	'.chosen-select'           : {},
-		      	'.chosen-select-deselect'  : {allow_single_deselect: true},
-		      	'.chosen-select-no-single' : {disable_search_threshold:10},
-		      	'.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
-		      	'.chosen-select-width'     : {width:"95%"}
-		    }
+  		{{ HTML::script('js/master.js', 
+  			array('type' => 'text/javascript')) }}
 
-		    for (var selector in config) 
-		      $(selector).chosen(config[selector]);
-		    
-  		</script>
+  		<script type="text/javascript">
+  		for (var selector in config)
+		{ 
+		  	$(selector).chosen(config[selector]);
+		  	$(selector).chosen().on('change', function(e)
+		  	{
+		  		var json = { 'branch' : $(this).chosen().val() };
+		  		$.post("{{ URL::route('master.select_branch') }}", json)
+		      		.success(function(data){
+					  	console.log(data);
+					})
+					.fail(function(){
+						console.log("error");
+					});
+		  	});
+
+		  	@if (Session::has('branch'))
+		  		$(selector).val("{{ Session::get('branch') }}");
+				$(selector).trigger("chosen:updated");
+			@endif
+		}
+		</script>
+
   		@yield('foot')
 	</body>
 </html>

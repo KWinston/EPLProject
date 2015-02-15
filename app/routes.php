@@ -21,16 +21,22 @@ Route::resource('ship_kit', 'ShipKitController');
 Route::resource('overview_kit', 'OverviewKitController');
 
 // **************** authentication *************************
-Route::post("authenticate.login", array( 
-	'as'   => 'authenticate.login', 
-	'uses' => "AuthController@login"
+Route::post("master.login", array( 
+	'as'   => 'master.login', 
+	'uses' => "MasterController@login"
 ));
-Route::get('authenticate.logout', array( 
-	'as'   => 'authenticate.logout', 
-	'uses' => "AuthController@logout"
+Route::get('master.logout', array( 
+	'as'   => 'master.logout', 
+	'uses' => "MasterController@logout"
 ));
 
 // **************** general ********************************
+
+Route::post('master.select_branch', array( 
+	'as'   => 'master.select_branch', 
+	'uses' => "MasterController@select_branch"
+));
+
 Route::get('/', function()
 {
 	return View::make('home');

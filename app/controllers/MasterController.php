@@ -1,6 +1,6 @@
 <?php
 
-class AuthController extends BaseController {
+class MasterController extends BaseController {
 
     public function login()
     {
@@ -13,9 +13,20 @@ class AuthController extends BaseController {
         return View::make("home.index", []);
     }
 
-    public function logout() {
+    public function logout() 
+    {
         Auth::logout();
+        Session::flush();
         return Redirect::route('home.index');
     }
 
+    public function select_branch()
+    {
+        if(!Request::ajax())
+            return "not a json request";
+
+        $data = Input::all();
+        Session::put('branch', $data['branch']);
+        return $data['branch'];
+    }
 }
