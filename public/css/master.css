@@ -29,7 +29,7 @@ html, body
 
 .menu a:hover
 {
-	color: rgb(122,122,0);
+	color: rgb(255, 255, 0);
 }
 
 .menu p
@@ -61,7 +61,7 @@ html, body
 
 .menu input[type="submit"]:hover
 {
-	color: rgb(122,122,0);
+	color: rgb(255, 255, 0);
 }
 
 .menu label
@@ -77,6 +77,12 @@ html, body
 	color: #000;
 	background-color: #ddd;
 	margin: 7px 5px;
+}
+
+.branch-select
+{
+	width: 80px;
+	background-color: #fff;
 }
 
 .options
@@ -111,7 +117,7 @@ html, body
 	height: 75%;
 	margin: 0px auto;
 	overflow-y: scroll;
-	padding: 10px 2px;
+	padding: 10px 1px;
 	border: 2px solid #000; 
 }
 

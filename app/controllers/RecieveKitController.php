@@ -1,5 +1,5 @@
 <?php
-include('GlobalFunctions.php');
+include('Globals/GlobalFunctions.php');
 
 class RecieveKitController extends BaseController {
 

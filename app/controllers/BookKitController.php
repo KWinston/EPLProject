@@ -1,5 +1,5 @@
 <?php
-include('GlobalFunctions.php');
+include('Globals/GlobalFunctions.php');
 
 class BookKitController extends BaseController {
 

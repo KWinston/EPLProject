@@ -1,5 +1,5 @@
 <?php
-include('GlobalFunctions.php');
+include('Globals/GlobalFunctions.php');
 
 class ShipKitController extends BaseController {
 
