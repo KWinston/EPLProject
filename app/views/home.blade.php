@@ -1,15 +1,5 @@
 @extends('layouts.master')
 @section('head')
-	<script type="text/javascript">
-	var current_kit_id = "";
-	function homeMenuCallback(value)
-	{
-		console.log(value);
-		$('#current_kit').text("Selected Kit is: " + value.text);
-		$('#current_kit_id').val(value.id);
-	}
-
-	</script>
 @stop
 
 @section('content')
@@ -30,7 +20,8 @@
 								"id"    : "root2",
 								"text"  : "root2",
 								"state" : {
-									"opened" : false
+									"opened" : false,
+									"disabled": true
 								},
 								"children" : [
 									"test 1",
@@ -45,8 +36,26 @@
 		<td style="padding: 5px 10px; vertical-align: top;">
 			<p id="current_kit">Select a Kit</p>
 			<input type="hidden" id="current_kit_id">
-			@include('components.comp_calendar')
+			@include('components.comp_calendar', array(
+				'updateMethod' => "",
+				'insertMethod' => ""
+			))
 		</td>
 	</tr>
 </table>
+
+<script type="text/javascript">
+	var current_kit_id = "";
+	function homeMenuCallback(value)
+	{
+		console.log(value);
+		$('#current_kit').text("Selected Kit is: " + value.text);
+		$('#current_kit_id').val(value.id);
+		setBookingKit(value.id, value.text);
+	}
+
+	$(document).ready(function() {
+		setBookingKit(null, null);
+	});
+</script>
 @stop

@@ -1,49 +1,24 @@
 {{ HTML::style("plugins/ashaw_2_2_7_calendar/fullcalendar.css") }}
-<style type="text/css">
-.fc-event 
-{
-	margin: 2px 0px;
-	height: 40px;
-}
-
-.bookings
-{
-	width: 20%; 
-	vertical-align: top; 
-	text-align: center;
-	border-right: 2px solid #aaa; 
-}
-
-.bookings input[type="button"]
-{
-	width: 90%;
-	height: 40px;
-	border: 1px solid #000;
-	box-shadow: none;
-	color: white;
-	background-color: #333;
-	border-radius: 5px;
-}
-
-.bookings input[type="button"]:hover
-{
-	background-color: #666;
-}
-
-</style>
+{{ HTML::style("css/comp-calendar.css") }}
 
 {{ HTML::script('plugins/ashaw_2_2_7_calendar/lib/moment.min.js', 
 	array('type' => 'text/javascript')) }}
 {{ HTML::script('plugins/ashaw_2_2_7_calendar/fullcalendar.js', 
 	array('type' => 'text/javascript')) }}
 
+<div id="booking_dialog">
+	<p>Please indicate how many days you would like to book this kit. 
+		You will pick which day to book after from this menu.</p>
+	<input type="number" min="1" max="14" value="1" />
+	<p class="days">Days</p>
+</div>
+
 <table style="border: 2px solid #aaa;">
 	<tr>
 		<td class="bookings">
 			<div id="external-events">
-				<input type="button" id="bookKit" value="Book Kit Time" 
-					onclick="createBooking();" />
-				<h4>Drag to Book</h4>
+				<input type="button" id="book_kit" value="Book Kit Time" />
+				<hr/><p>Drag to Book</p><hr/>
 			</div>
 		</td>
 		<td style="width: 79%; vertical-align: top;">
@@ -54,23 +29,37 @@
 
 <script type="text/javascript">
 
-	function setEnabled(enabled)
-	{
-		$('#bookKit').prop('disabled', !enabled);
+	var _kitID = "";
+	var _kitText = "";
+	function setBookingKit(kitID, kitText) {
+		if(kitID == null || kitText == null) {
+			$('#book_kit').prop('disabled', true);
+		}
+		else {
+			_kitID = kitID;
+			_kitText = kitText;
+			$('#book_kit').prop('disabled', false);
+		}
 	}
 
-	function createBooking(days)
-	{
+	function addCalendarEvents(event){
+		// this needs work
+		$('#calendar').fullCalendar('addEvent', event);
+	}
+
+	function createBooking(kitID, kitText, days) {
 		var created = $('<div/>',{
 			'class': "fc-event ui-draggable ui-draggable-handle",
-			'text': 'My Event 1',
+			'html':  kitText + '<br> Duration: ' + days + ' days',
 			'style': 'background-color: #ccc; border-color: #555;' 
 		});
 
 		created.appendTo('#external-events').show('slow');
 
 		created.data('event', {
-			title: $.trim(created.text()),
+			name: _kitText,
+			value: _kitID,
+			title: $.trim(created.html().replace("<br>", "\n")),
 			allDay: true,
 			stick: true,
 			duration: parseInt(days * 24).toString() + ":00:00",
@@ -92,22 +81,6 @@
 	}
 
 	$(document).ready(function() {
-		var days = 5;
-		$('#external-events .fc-event').each(function() {
-			$(this).data('event', {
-				title: $.trim($(this).text()),
-				allDay: true,
-				stick: true,
-				duration: parseInt(days * 24).toString() + ":00:00" 
-			});
-
-			$(this).draggable({
-				zIndex: 999,
-				revert: true,      
-				revertDuration: 0  
-			});
-		});
-
     	$('#calendar').fullCalendar({
     		defaultView: 'month',
     		height: 350,
@@ -118,18 +91,58 @@
 			editable: true,
 			eventOverlap: false,
     		fixedWeekCount: false,
-        	eventClick: function(calEvent, jsEvent, view) {
+        	eventClick: function(event, jsEvent, view) {
+        		
+        	},
+        	eventMouseout: function(event, jsEvent, view) {
+        		var days = (event.end - event.start) / (1000 * 60 * 60 * 24);
+				event.title =  event.name + "\n Duration: " + days + " days";
+				$('#calendar').fullCalendar('updateEvent', event);
+
+				var target = "{{ $updateMethod }}";
+				var fn = window[target];
+				if(typeof fn === 'function')
+    				fn(event);
+				else
+					console.log("function not defined: " + target);
         	},
         	droppable: true, 
 			drop: function(date, jsEvent, ui) {
-				// add event to system via ajax,
 				console.log(date.toString()); 
 				$(this).remove();
+
+				var target = "{{ $insertMethod }}";
+				var fn = window[target];
+				if(typeof fn === 'function')
+    				fn(event);
+				else
+					console.log("function not defined: " + target);
 			},
-			eventRender: function(event, element){
-				// update event in system via ajax,
-				console.log(event.start.toString());
-			} 
     	});
+
+    	$("#booking_dialog").dialog({
+			'autoOpen': false,
+			'title': "Duration of Booking",
+		    'modal': true,
+		    'draggable': true,
+		    'show': "fade",
+		    'buttons': [
+			    {
+			    	'text': "Okay",
+			    	'icons': {
+			    		'primary': ""
+			    	},
+			    	'click': function() {
+			    		$(this).dialog("close");
+			    		var booking_days = $(this).find('input').val();
+			    		createBooking(_kitID, _kitText, booking_days);
+			    	}
+			    }
+		    ]
+		});
+
+    	$("#book_kit").click(function () {
+    		$("#booking_dialog").dialog('open');
+		});
 	});
 </script>

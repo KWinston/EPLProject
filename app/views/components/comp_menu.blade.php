@@ -37,7 +37,6 @@
 
 	$('#tree-menu').on("changed.jstree", function (e, data) {
 		selected_node_value = data.instance.get_node(data.selected[0]);
-
 		var target = "{{ $function }}";
 		var fn = window[target];
 
