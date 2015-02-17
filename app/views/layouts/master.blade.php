@@ -8,9 +8,10 @@
 	    {{ HTML::style('css/master.css') }}
 	    {{ HTML::style('css/notifications-menu.css') }}
 	    {{ HTML::style('plugins/chosen_1_3_0_dropdown/chosen.css') }}
+		<link rel="stylesheet" href="https://code.jquery.com/ui/1.10.4/themes/black-tie/jquery-ui.css" />
 
-	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js">
-	    </script>
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  		<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
 	    @yield('head')
 	</head>
@@ -57,9 +58,9 @@
 					<div class="option right">
 						<select data-placeholder="Branch" class="chosen-select branch-select" tabindex="2">
 				            <option value></option>
-				            <option value="idcode-test1">Test1</option>
-				            <option value="idcode-test2">Test2</option>
-				            <option value="idcode-test3">Test3</option>
+				            <option value="idcode-test1">Branch1</option>
+				            <option value="idcode-test2">Branch2</option>
+				            <option value="idcode-test3">Branch3</option>
 				        </select>
 					</div>
 				@endif
@@ -104,26 +105,26 @@
   			array('type' => 'text/javascript')) }}
 
   		<script type="text/javascript">
-  		for (var selector in config)
-		{ 
-		  	$(selector).chosen(config[selector]);
-		  	$(selector).chosen().on('change', function(e)
-		  	{
-		  		var json = { 'branch' : $(this).chosen().val() };
-		  		$.post("{{ URL::route('master.select_branch') }}", json)
-		      		.success(function(data){
-					  	console.log(data);
-					})
-					.fail(function(){
-						console.log("error");
-					});
-		  	});
+	  		for (var selector in config)
+			{ 
+			  	$(selector).chosen(config[selector]);
+			  	$(selector).chosen().on('change', function(e)
+			  	{
+			  		var json = { 'branch' : $(this).chosen().val() };
+			  		$.post("{{ URL::route('master.select_branch') }}", json)
+			      		.success(function(data){
+						  	console.log(data);
+						})
+						.fail(function(){
+							console.log("error");
+						});
+			  	});
 
-		  	@if (Session::has('branch'))
-		  		$(selector).val("{{ Session::get('branch') }}");
-				$(selector).trigger("chosen:updated");
-			@endif
-		}
+			  	@if (Session::has('branch'))
+			  		$(selector).val("{{ Session::get('branch') }}");
+					$(selector).trigger("chosen:updated");
+				@endif
+			}
 		</script>
 
   		@yield('foot')

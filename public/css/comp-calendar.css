@@ -1,0 +1,56 @@
+/*********** booking menu ***************************/
+.fc-event 
+{
+	margin: 2px 0px;
+	height: 40px;
+	padding: 2px 5px;
+}
+
+.bookings
+{
+	width: 20%; 
+	vertical-align: top; 
+	text-align: center;
+	border-right: 2px solid #aaa; 
+}
+
+.bookings p
+{
+	color: # 222;
+	font-size: 15px;
+	margin: 5px 0px 2px 0px;
+}
+
+.bookings input[type="button"]
+{
+	width: 90%;
+	height: 35px;
+	border: 1px solid #000;
+	box-shadow: none;
+	color: white;
+	background-color: #333;
+	border-radius: 5px;
+}
+
+.bookings input[type="button"]:hover
+{
+	background-color: #666;
+}
+
+.bookings input[type="button"]:disabled
+{
+	background-color: #ddd;
+}
+
+/*********** booking dialog *************************/
+
+#booking_dialog p
+{
+	font-size: 12px;
+}
+
+#booking_dialog .days
+{
+	font-size: 16px;
+	display: inline-block;
+}
