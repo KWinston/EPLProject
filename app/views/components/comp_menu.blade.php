@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="plugins/jstree_2_2_0_treeview/themes/default/style.css" />
+{{ HTML::style("plugins/jstree_2_2_0_treeview/themes/default/style.css") }}
 {{ HTML::style('css/menu-treeview.css') }}
 
 <div class="side-menu">
@@ -10,9 +10,13 @@
 	</div>
 </div>
 
-<script src="plugins/jstree_2_2_0_treeview/jstree.min.js"></script>
+{{ HTML::script('plugins/jstree_2_2_0_treeview/jstree.min.js', 
+	array('type' => 'text/javascript')) }}
 <script type="text/javascript">
-	var to = false;
+	var time_out = false;
+	var selected_node_value = null;
+	var setSelectedNode = function(id){ $('#tree-menu').jstree().select_node(id); } 
+	var getSelectedNode = function() { return selected_node_value; } 
 
 	$('#tree-menu').jstree({
 	  	"core" : {
@@ -32,26 +36,22 @@
 	});
 
 	$('#tree-menu').on("changed.jstree", function (e, data) {
-		var value = "";
-		if("{{ $field }}" === "id")
-			value = data.instance.get_node(data.selected[0]).id;
-		else
-			value = data.instance.get_node(data.selected[0]).text;
+		selected_node_value = data.instance.get_node(data.selected[0]);
 
 		var target = "{{ $function }}";
 		var fn = window[target];
-		if(typeof fn === 'function') {
-    		fn(value);
-		}
+
+		if(typeof fn === 'function')
+    		fn(selected_node_value);
 		else
 			console.log("function not defined: " + target);
 	});
 
 	$('#tree-menu-search').keyup(function () {
-    	if(to) { 
-    		clearTimeout(to); 
+    	if(time_out) { 
+    		clearTimeout(time_out); 
     	}
-	    to = setTimeout(function () {
+	    time_out = setTimeout(function () {
 	      	var value = $('#tree-menu-search').val();
 	      	$('#tree-menu').jstree().search(value);
 	      	console.log(value);

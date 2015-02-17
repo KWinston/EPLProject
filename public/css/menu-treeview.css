@@ -1,11 +1,11 @@
 .side-menu
 {
-	float: left;
 	height: 100%;
 	width: 200px;
 	border: 2px solid #aaa;
-	margin-right: 5px;
 	overflow-y: scroll;
+	position: relative;
+
 }
 
 .search-menu

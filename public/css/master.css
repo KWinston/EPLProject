@@ -123,7 +123,7 @@ html, body
 }
 
 .content::-webkit-scrollbar {
-    width: 1em;
+    width: 0.7em;
 }
  
 .content::-webkit-scrollbar-track {
@@ -132,6 +132,6 @@ html, body
  
 .content::-webkit-scrollbar-thumb {
   	background-color: black;
-  	outline: 1px solid slategrey;
-  	border-radius: 3px;
+  	border: 1px solid slategrey;
+  	border-radius: 5px;
 }
