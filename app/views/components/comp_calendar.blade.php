@@ -31,6 +31,7 @@
 
 	var _kitID = "";
 	var _kitText = "";
+	
 	function setBookingKit(kitID, kitText) {
 		if(kitID == null || kitText == null) {
 			$('#book_kit').prop('disabled', true);
@@ -38,13 +39,38 @@
 		else {
 			_kitID = kitID;
 			_kitText = kitText;
+			$('#calendar').fullCalendar('removeEvents');
 			$('#book_kit').prop('disabled', false);
 		}
 	}
 
-	function addCalendarEvents(event){
+	function generateEventTitle(kitText, start, end) {
+		var days = (end - start) / (1000 * 60 * 60 * 24);
+		var title =  kitText + "\n Duration: " + days + " days";
+		return title;	
+	}
+
+	function addCalendarEvents(events){
 		// this needs work
-		$('#calendar').fullCalendar('addEvent', event);
+		var kitObjects = [];
+		for (var i in events) {
+			var e = events[i];
+			var title = generateEventTitle(e.kitText, e.start, e.end);
+			kitObjects.push({
+				kitText: e.kitText,
+				kitId: e.kitId,
+				title: title,
+				allDay: true,
+				stick: true,
+				start: e.start,
+				end: e.end,
+				editable: false,		// not perminent
+				overlap: false,
+				borderColor: '#555',
+				textColor: '#fff'
+			});	
+		}
+		$('#calendar').fullCalendar('addEventSource', kitObjects);
 	}
 
 	function createBooking(kitID, kitText, days) {
@@ -57,8 +83,8 @@
 		created.appendTo('#external-events').show('slow');
 
 		created.data('event', {
-			name: _kitText,
-			value: _kitID,
+			kitText: _kitText,
+			kitId: _kitID,
 			title: $.trim(created.html().replace("<br>", "\n")),
 			allDay: true,
 			stick: true,
@@ -95,8 +121,7 @@
         		
         	},
         	eventMouseout: function(event, jsEvent, view) {
-        		var days = (event.end - event.start) / (1000 * 60 * 60 * 24);
-				event.title =  event.name + "\n Duration: " + days + " days";
+        		
 				$('#calendar').fullCalendar('updateEvent', event);
 
 				var target = "{{ $updateMethod }}";
@@ -118,6 +143,10 @@
 				else
 					console.log("function not defined: " + target);
 			},
+			eventRender: function(event, element)
+			{
+				event.title = generateEventTitle(event.kitText, event.start, event.end);
+			}
     	});
 
     	$("#booking_dialog").dialog({

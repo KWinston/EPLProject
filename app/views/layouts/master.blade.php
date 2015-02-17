@@ -58,9 +58,9 @@
 					<div class="option right">
 						<select data-placeholder="Branch" class="chosen-select branch-select" tabindex="2">
 				            <option value></option>
-				            <option value="idcode-test1">Test1</option>
-				            <option value="idcode-test2">Test2</option>
-				            <option value="idcode-test3">Test3</option>
+				            <option value="idcode-test1">Branch1</option>
+				            <option value="idcode-test2">Branch2</option>
+				            <option value="idcode-test3">Branch3</option>
 				        </select>
 					</div>
 				@endif
