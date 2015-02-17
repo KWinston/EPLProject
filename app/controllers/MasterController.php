@@ -10,7 +10,7 @@ class MasterController extends BaseController {
         {
             return Redirect::route('home.index');
         }
-        return View::make("home.index", []);
+        return View::make("home", []);
     }
 
     public function logout() 

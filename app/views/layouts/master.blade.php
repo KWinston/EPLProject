@@ -104,26 +104,26 @@
   			array('type' => 'text/javascript')) }}
 
   		<script type="text/javascript">
-  		for (var selector in config)
-		{ 
-		  	$(selector).chosen(config[selector]);
-		  	$(selector).chosen().on('change', function(e)
-		  	{
-		  		var json = { 'branch' : $(this).chosen().val() };
-		  		$.post("{{ URL::route('master.select_branch') }}", json)
-		      		.success(function(data){
-					  	console.log(data);
-					})
-					.fail(function(){
-						console.log("error");
-					});
-		  	});
+	  		for (var selector in config)
+			{ 
+			  	$(selector).chosen(config[selector]);
+			  	$(selector).chosen().on('change', function(e)
+			  	{
+			  		var json = { 'branch' : $(this).chosen().val() };
+			  		$.post("{{ URL::route('master.select_branch') }}", json)
+			      		.success(function(data){
+						  	console.log(data);
+						})
+						.fail(function(){
+							console.log("error");
+						});
+			  	});
 
-		  	@if (Session::has('branch'))
-		  		$(selector).val("{{ Session::get('branch') }}");
-				$(selector).trigger("chosen:updated");
-			@endif
-		}
+			  	@if (Session::has('branch'))
+			  		$(selector).val("{{ Session::get('branch') }}");
+					$(selector).trigger("chosen:updated");
+				@endif
+			}
 		</script>
 
   		@yield('foot')

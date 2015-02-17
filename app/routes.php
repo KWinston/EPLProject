@@ -25,6 +25,7 @@ Route::post("master.login", array(
 	'as'   => 'master.login', 
 	'uses' => "MasterController@login"
 ));
+
 Route::get('master.logout', array( 
 	'as'   => 'master.logout', 
 	'uses' => "MasterController@logout"
@@ -41,5 +42,6 @@ Route::get('/', function()
 {
 	return View::make('home');
 });
+
 
 
