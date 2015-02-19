@@ -3,4 +3,5 @@
 @stop
 
 @section('content')
+	<div>test page</div>
 @stop
