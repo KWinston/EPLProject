@@ -10,14 +10,14 @@
 	</div>
 </div>
 
-{{ HTML::script('plugins/jstree_2_2_0_treeview/jstree.min.js', 
+{{ HTML::script('plugins/jstree_2_2_0_treeview/jstree.min.js',
 	array('type' => 'text/javascript')) }}
 <script type="text/javascript">
 	var time_out = false;
 	var selected_node_value = null;
-	var setSelectedNode = function(id){ $('#tree-menu').jstree().select_node(id); } 
-	var getSelectedNode = function() { return selected_node_value; } 
-
+	var setSelectedNode = function(id){ $('#tree-menu').jstree().select_node(id); }
+	var getSelectedNode = function() { return selected_node_value; }
+	console.log({{ $treeData }});
 	$('#tree-menu').jstree({
 	  	"core" : {
 	    	"animation" : 250,
@@ -26,10 +26,10 @@
 	    		"name" : "default",
 	    		"icons" : false
 	    	 },
-	    	'data' : {{ $json }},
+	    	'data' : {{ $treeData }},
 		},
 	  	"plugins" : [
-	  		"themes", 
+	  		"themes",
 	  		"search",
 	  		"wholerow"
 	    ]
@@ -47,8 +47,8 @@
 	});
 
 	$('#tree-menu-search').keyup(function () {
-    	if(time_out) { 
-    		clearTimeout(time_out); 
+    	if(time_out) {
+    		clearTimeout(time_out);
     	}
 	    time_out = setTimeout(function () {
 	      	var value = $('#tree-menu-search').val();
@@ -57,4 +57,3 @@
 	    }, 250);
 	});
 </script>
-

@@ -56,12 +56,12 @@ return array(
 			'driver'    => 'mysql',
 			'host'      => '127.0.0.1',
 			'database'  => 'EPL_KIT_DB',
-			'username'  => 'root',
-			'password'  => 'bigtexasbutters',
+			'username'  => 'EPL',
+			'password'  => 'EPL',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
-			'port'		=> '3306'
+			'port'		=> '8889'
 		),
 
 		'pgsql' => array(

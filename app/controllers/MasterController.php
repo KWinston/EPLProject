@@ -6,14 +6,17 @@ class MasterController extends BaseController {
     {
         $username = Input::get('username');
         $password = Input::get('password');
+        // return Hash::make($password);
         if (Auth::attempt(array('username' => $username, 'password' => $password)))
         {
             return Redirect::route('home.index');
         }
+        $branches = Branch::all();
+
         return View::make("home", []);
     }
 
-    public function logout() 
+    public function logout()
     {
         Auth::logout();
         Session::flush();
@@ -28,5 +31,16 @@ class MasterController extends BaseController {
         $data = Input::all();
         Session::put('branch', $data['branch']);
         return $data['branch'];
+    }
+
+    public function get_branchs()
+    {
+        $branches = Branches::all();
+        $res = "";
+        foreach ($branches as $branch)
+        {
+            $res = $res . "<option value=\"" . $branch->ID . "\">" . $branch->BranchID . "</option>";
+        }
+        return $res;
     }
 }
