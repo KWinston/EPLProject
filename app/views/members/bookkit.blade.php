@@ -9,26 +9,17 @@
 			@include('components.comp_menu', array(
 				'json' => 
 					'[{
-						"id"    : "#",
-						"text"  : "root",
-						"state" : {
-							"opened" : false
-						},
-						"children" : [
-							"test 1",
-							{
-								"id"    : "root2",
-								"text"  : "root2",
-								"state" : {
-									"opened" : false,
-									"disabled": true
-								},
-								"children" : [
-									"test 1",
-									"test 2"
-								]
-							}
-						]
+					  id          : "string" // required
+					  parent      : "string" // required
+					  text        : "string" // node text
+					  icon        : "string" // string for custom
+					  state       : {
+					    opened    : boolean  // is the node open
+					    disabled  : boolean  // is the node disabled
+					    selected  : boolean  // is the node selected
+					  },
+					  li_attr     : {}  // attributes for the generated LI node
+					  a_attr      : {}  // attributes for the generated A node
 					}]',
 				'function' => 'homeMenuCallback'
 		    ))

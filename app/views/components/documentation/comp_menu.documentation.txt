@@ -1,3 +1,4 @@
+// ----------------------------------------------------------------------------------------
 // Usage Example:
 
 //  add to page: 
@@ -12,9 +13,11 @@
 
 // select node:
 
-    setSelectedNode(id)
+    setSelectedNode(id)   // where 'id' is kitID in DB
 
 // get selected node
+    
+    getSelectedNode()     // returns object of node
 
 // ----------------------------------------------------------------------------------------
 // Node Object Fields (parent oriented) example:

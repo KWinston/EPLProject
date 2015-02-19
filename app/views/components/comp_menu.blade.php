@@ -1,5 +1,5 @@
 {{ HTML::style("plugins/jstree_2_2_0_treeview/themes/default/style.css") }}
-{{ HTML::style('css/menu-treeview.css') }}
+{{ HTML::style('css/comp-menu.css') }}
 
 <div class="side-menu">
 	<div class="search-menu">
@@ -15,8 +15,14 @@
 <script type="text/javascript">
 	var time_out = false;
 	var selected_node_value = null;
-	var setSelectedNode = function(id){ $('#tree-menu').jstree().select_node(id); } 
-	var getSelectedNode = function() { return selected_node_value; } 
+	
+	function setSelectedNode(id){ 
+		$('#tree-menu').jstree().select_node(id); 
+	} 
+	
+	function getSelectedNode() { 
+		return selected_node_value; 
+	} 
 
 	$('#tree-menu').jstree({
 	  	"core" : {
@@ -36,6 +42,7 @@
 	});
 
 	$('#tree-menu').on("changed.jstree", function (e, data) {
+		console.log('change');
 		selected_node_value = data.instance.get_node(data.selected[0]);
 		var target = "{{ $function }}";
 		var fn = window[target];
