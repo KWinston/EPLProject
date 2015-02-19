@@ -13,6 +13,7 @@
 {{ HTML::script('plugins/jstree_2_2_0_treeview/jstree.min.js',
     array('type' => 'text/javascript')) }}
 <script type="text/javascript">
+
     var time_out = false;
     var selected_node_value = null;
     var setSelectedNode = function(id){ $('#tree-menu').jstree().select_node(id); }
