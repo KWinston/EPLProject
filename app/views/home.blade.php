@@ -2,9 +2,6 @@
 @section('head')
 @stop
 
-
-
-
 @section('content')
 
 {{--check if user is logged o
