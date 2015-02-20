@@ -8,10 +8,10 @@
         {{ HTML::style('css/master.css') }}
         {{ HTML::style('css/notifications-menu.css') }}
         {{ HTML::style('plugins/chosen_1_3_0_dropdown/chosen.css') }}
-        <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.4/themes/black-tie/jquery-ui.css" />
+        {{ HTML::style('css/jquery-ui.css') }}
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+        {{ HTML::script('plugins/jQuery_1_1_2/jquery-1.11.2.min.js', array('type' => 'text/javascript')) }}
+        {{ HTML::script('plugins/jQuery_1_1_2/jquery-ui.js', array('type' => 'text/javascript')) }}
 
         @yield('head')
     </head>
