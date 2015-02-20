@@ -44,7 +44,7 @@
 
                 @if(Auth::check() && Auth::user()->is_admin == 1)
                     <div class="option left">
-                        <a href="">ADMINISTRATOR</a>
+                        <a href="{{ route('admin.index'); }}">ADMINISTRATOR</a>
                     </div>
                 @endif
 
@@ -63,10 +63,7 @@
 
                 @if (Auth::check())
                     <div class="option right">
-                        <a href="{{ URL::route('master.logout') }}">LOGOUT</a>
-                    </div>
-                    <div class="option right">
-                        <p>WELCOME: {{ Auth::user()->username }}</p>
+                        <p>WELCOME: {{ Auth::user()->username }} <a href="{{ URL::route('master.logout') }}">(logout)</a></p>
                     </div>
                 @else
                     <div class="option right">

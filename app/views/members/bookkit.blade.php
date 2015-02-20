@@ -7,7 +7,8 @@
     <tr>
         <td style="vertical-align: top;">
             @include('components.comp_menu', array(
-                'function' => 'homeMenuCallback'
+                'function' => 'homeMenuCallback',
+                'side_menu_class' => ''
             ))
         </td>
         <td style="padding: 5px 10px; vertical-align: top; text-align: center;">

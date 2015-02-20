@@ -5,7 +5,7 @@ use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
-class Kits extends Eloquent 
+class Kits extends Eloquent
 {
 
     /**
@@ -26,17 +26,17 @@ class Kits extends Eloquent
 
     public function atBranch()
     {
-        return $this->hasOne('Branches', 'AtBranch', 'ID');
+        return $this->hasOne('Branches', 'ID', 'AtBranch');
     }
 
     public function type()
     {
-        return $this->hasOne('KitTypes', 'KitType', 'ID');
+        return $this->hasOne('KitTypes', 'ID', 'KitType');
     }
 
     public function state()
     {
-        return $this->hasOne('KitState', 'KitState', 'ID');
+        return $this->hasOne('KitState', 'ID', 'KitState');
     }
 
     public function contents()

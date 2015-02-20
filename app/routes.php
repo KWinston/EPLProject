@@ -19,6 +19,8 @@ Route::resource('book_kit', 'BookKitController');
 Route::resource('recieve_kit', 'RecieveKitController');
 Route::resource('ship_kit', 'ShipKitController');
 Route::resource('overview_kit', 'OverviewKitController');
+Route::resource('admin', 'AdminController');
+
 
 // **************** authentication *************************
 Route::post("master.login", array(
@@ -40,6 +42,16 @@ Route::post('master.select_branch', array(
 Route::get('master.branchs', array(
     'as'   => 'master.branchs',
     'uses' => "MasterController@get_branchs"
+));
+
+// **************** general ********************************
+Route::get('logs.show1.{LogKey1}', array(
+    'as'   => 'logs.show1',
+    'uses' => "LogsController@show1"
+));
+Route::get('logs.show2.{LogKey1}.{LogKey2?}', array(
+    'as'   => 'logs.show2',
+    'uses' => "LogsController@show2"
 ));
 
 Route::get('/', function()
