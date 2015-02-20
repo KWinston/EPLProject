@@ -4,7 +4,6 @@
 
 @section('content')
 <table cellpadding="0" style="height: 100%;" >
-<<<<<<< HEAD
     <tr>
         <td style="vertical-align: top;">
             @include('components.comp_menu', array(

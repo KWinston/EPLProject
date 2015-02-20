@@ -106,6 +106,26 @@
     	return result;
 	}
 
+	function insertKitDB(event)
+	{
+		var target = "{{ $insertMethod }}";
+		var fn = window[target];
+		if(typeof fn === 'function')
+			fn(event);
+		else
+			console.log("function not defined: " + target);
+	}
+
+	function updateKitDB(event)
+	{
+		var target = "{{ $updateMethod }}";
+		var fn = window[target];
+		if(typeof fn === 'function')
+			fn(event);
+		else
+			console.log("function not defined: " + target);
+	}
+
 	$(document).ready(function() {
     	$('#calendar').fullCalendar({
     		defaultView: 'month',
@@ -118,35 +138,31 @@
 			eventOverlap: false,
     		fixedWeekCount: false,
         	eventClick: function(event, jsEvent, view) {
-        		
+        		alert('test popup');
         	},
         	eventMouseout: function(event, jsEvent, view) {
-        		
-				$('#calendar').fullCalendar('updateEvent', event);
-
-				var target = "{{ $updateMethod }}";
-				var fn = window[target];
-				if(typeof fn === 'function')
-    				fn(event);
-				else
-					console.log("function not defined: " + target);
+        	
         	},
         	droppable: true, 
-			drop: function(date, jsEvent, ui) {
-				console.log(date.toString()); 
-				$(this).remove();
-
-				var target = "{{ $insertMethod }}";
-				var fn = window[target];
-				if(typeof fn === 'function')
-    				fn(event);
-				else
-					console.log("function not defined: " + target);
+			// internal changes (updates)
+			eventDrop: function(event)
+			{
+				updateKitDB(event);
 			},
-			eventRender: function(event, element)
+			eventResize: function(event)
 			{
 				event.title = generateEventTitle(event.kitText, event.start, event.end);
-			}
+				$('#calendar').fullCalendar('updateEvent', event);
+				updateKitDB(event);
+			},
+			// external changes (insert)
+			drop: function(date, jsEvent, ui) {
+				console.log(date.toString()); 
+				$(this).remove();					// remove dropped object
+			},
+			eventReceive: function(event) {
+				insertKitDB(event);
+			}			
     	});
 
     	$("#booking_dialog").dialog({

@@ -11,7 +11,7 @@ class MasterController extends BaseController {
         {
             return Redirect::route('home.index');
         }
-        $branches = Branch::all();
+        $branches = Branches::all();
 
         return View::make("home", []);
     }
