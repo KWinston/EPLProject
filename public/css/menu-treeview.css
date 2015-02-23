@@ -29,3 +29,18 @@
 	width: 150px;
 	margin: 0px auto;
 }
+
+.button-bar-visible
+{
+	height: 90% !important;
+}
+.hidden
+{
+	display: none;
+}
+.side-menu-button-bar
+{
+	height: 10%;
+	border: 2px solid #aaa;
+	padding: 2px 2px 2px 7px;
+}

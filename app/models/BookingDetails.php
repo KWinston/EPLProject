@@ -5,7 +5,7 @@ use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
-class BookingDetails extends Eloquent 
+class BookingDetails extends Eloquent
 {
 
     /**
@@ -27,6 +27,6 @@ class BookingDetails extends Eloquent
 
     public function booking()
     {
-        return $this->hasOne('Booking', 'BookingID', 'ID');
+        return $this->hasOne('Booking', 'ID', 'BookingID');
     }
 }

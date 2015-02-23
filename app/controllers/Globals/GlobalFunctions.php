@@ -34,12 +34,12 @@ function GetKitTypeTreeData()
             {
                 $n = $n . ' + ' . $kit->SecializedName;
             }
-            array_unshift($childNodes, array('id' => 'kit_' . $kit->ID, 'text' => $n , 'parent' => $key, 'state' => $nodeState, 'children' =>array()));
+            array_unshift($childNodes, array('type' => 'KIT', 'id' => 'kit_' . $kit->ID, 'KitID' => $kit->ID, 'KitTypeID' => $kitType->ID ,'text' => $n , 'parent' => $key, 'state' => $nodeState, 'children' =>array()));
         }
         $childNodes = array_values(array_sort($childNodes, function($value) { return $value['text'];}));
-        array_unshift($children, array('id' => $key, 'text' => $kitType->Name , 'state' => $nodeState, 'children' =>$childNodes));
+        array_unshift($children, array('type' => 'TYPE','KitTypeID' => $kitType->ID, 'KitID' => NULL, 'id' => $key, 'text' => $kitType->Name , 'state' => $nodeState, 'children' =>$childNodes));
     }
     $children = array_values(array_sort($children, function($value) { return $value['text'];}));
-    array_unshift($data, array('id' => '#', 'text' => 'root' , 'state' => $nodeState, 'children' => $children));
+    array_unshift($data, array('type' => '#', 'id' => '#', 'text' => 'root' , 'state' => $nodeState, 'children' => $children));
     return json_encode($data);
 }

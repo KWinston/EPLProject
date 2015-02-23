@@ -26,12 +26,12 @@ class Logs extends Eloquent
 
     public function type()
     {
-        return $this->hasOne('LogType', 'LogType', 'ID');
+        return $this->hasOne('LogType', 'ID', 'LogType');
     }
 
     public function user()
     {
-        return $this->hasOne('users', 'LogUserID', 'id'); // odd names because of laravel standards.
+        return $this->hasOne('User', 'id', 'LogUserID'); // odd names because of laravel standards.
     }
 
     // --------------------------------------------------------------

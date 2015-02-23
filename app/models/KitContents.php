@@ -26,6 +26,6 @@ class KitContents extends Eloquent
 
     public function kit()
     {
-        return $this->hasOne('Kits', 'KitID', 'ID');
+        return $this->hasOne('Kits', 'ID', 'KitID');
     }
 }

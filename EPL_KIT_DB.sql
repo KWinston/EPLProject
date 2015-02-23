@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:8889
--- Generation Time: Feb 19, 2015 at 03:01 PM
+-- Generation Time: Feb 20, 2015 at 03:13 AM
 -- Server version: 5.5.38-log
 -- PHP Version: 5.6.2
 
@@ -50,7 +50,7 @@ CREATE TABLE `BookingDetails` (
   `BookingID` int(11) NOT NULL,
   `UserID` int(11) DEFAULT NULL,
   `Email` tinytext,
-  `Booker` bit(1) NOT NULL DEFAULT b'1',
+  `Booker` tinyint(1) NOT NULL DEFAULT '1',
   `updated_at` varchar(45) DEFAULT NULL,
   `created_at` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -110,11 +110,45 @@ CREATE TABLE `KitContents` (
   `KitID` int(11) NOT NULL,
   `Name` tinytext NOT NULL,
   `SerialNumber` tinytext,
-  `Damaged` bit(1) NOT NULL DEFAULT b'0',
-  `Missing` bit(1) NOT NULL DEFAULT b'0',
+  `Damaged` tinyint(1) NOT NULL DEFAULT '0',
+  `Missing` tinyint(1) NOT NULL DEFAULT '0',
   `updated_at` varchar(45) DEFAULT NULL,
   `created_at` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `KitContents`
+--
+
+INSERT INTO `KitContents` (`ID`, `KitID`, `Name`, `SerialNumber`, `Damaged`, `Missing`, `updated_at`, `created_at`) VALUES
+(1, 1, 'Ipad #1', '1111', 0, 0, NULL, NULL),
+(2, 1, 'Ipad #2', '2222', 0, 0, NULL, NULL),
+(3, 1, 'Ipad #3', '3333', 0, 0, '', NULL),
+(4, 1, 'Ipad #4', '4444', 0, 0, NULL, NULL),
+(5, 1, 'Ipad #5', '5555', 0, 0, NULL, NULL),
+(6, 1, 'Ipad #6', '6666', 0, 0, NULL, NULL),
+(7, 1, '6x Power cables', 'na', 0, 0, NULL, NULL),
+(8, 1, '6x Ipad power bricks', 'ns', 0, 0, NULL, NULL),
+(9, 1, '8-slot powerbar', 'ns', 0, 0, NULL, NULL),
+(10, 1, '6x magnetic ipad covers', 'na', 0, 0, NULL, NULL),
+(11, 2, 'Ipad #1', '11111', 0, 0, NULL, NULL),
+(12, 2, 'Ipad #2', '22222', 0, 0, NULL, NULL),
+(13, 2, 'Ipad #3', '33333', 0, 0, NULL, NULL),
+(14, 2, 'Ipad #4', '44444', 0, 0, NULL, NULL),
+(15, 2, 'Ipad #5', '55555', 1, 0, NULL, NULL),
+(16, 2, 'Ipad #6', '66666', 0, 1, NULL, NULL),
+(17, 2, '6x Power cables', 'na', 1, 0, NULL, NULL),
+(18, 2, '6x power Bricks', 'na', 1, 0, NULL, NULL),
+(19, 2, '8-slot power bar', 'na', 0, 0, NULL, NULL),
+(20, 2, '6x magnetic ipad covers', 'na', 1, 1, NULL, NULL),
+(21, 3, 'Laptop #1', 'aaaa', 0, 0, NULL, NULL),
+(22, 3, 'Laptop #2', 'bbbb', 0, 0, NULL, NULL),
+(23, 3, 'Laptop #3', 'cccc', 0, 0, NULL, NULL),
+(24, 3, 'Laptop #4', 'dddd', 0, 0, NULL, NULL),
+(25, 3, 'Laptop #5', 'eeee', 0, 0, NULL, NULL),
+(26, 3, 'Laptop #6', 'ffff', 1, 0, NULL, NULL),
+(27, 3, '6x Power bricks', 'na', 0, 0, NULL, NULL),
+(28, 3, '8-slot power bar', 'na', 0, 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -127,7 +161,7 @@ CREATE TABLE `Kits` (
   `KitType` int(11) NOT NULL,
   `Name` tinytext NOT NULL,
   `AtBranch` int(11) NOT NULL,
-  `Available` bit(1) NOT NULL DEFAULT b'1',
+  `Available` tinyint(1) NOT NULL DEFAULT '1',
   `KitState` int(11) NOT NULL,
   `KitDesc` text NOT NULL,
   `Specialized` tinyint(1) NOT NULL DEFAULT '0',
@@ -141,9 +175,9 @@ CREATE TABLE `Kits` (
 --
 
 INSERT INTO `Kits` (`ID`, `KitType`, `Name`, `AtBranch`, `Available`, `KitState`, `KitDesc`, `Specialized`, `SecializedName`, `updated_at`, `created_at`) VALUES
-(1, 1, 'Kit #1', 1, b'1', 1, 'A kit of 6 ipad 2''s with ESL programs', 1, 'ESL Tutor', NULL, NULL),
-(2, 1, 'Kit #2', 1, b'1', 1, 'A Kit of 6 Ipad ''2', 0, NULL, NULL, NULL),
-(3, 2, 'Kit #1', 3, b'1', 1, '6Laptops with 15" screens', 0, NULL, NULL, NULL);
+(1, 1, 'Kit #1', 1, 1, 1, 'A kit of 6 ipad 2''s with ESL programs', 1, 'ESL Tutor', NULL, NULL),
+(2, 1, 'Kit #2', 1, 1, 1, 'A Kit of 6 Ipad ''2', 0, NULL, NULL, NULL),
+(3, 2, 'Kit #1', 3, 1, 1, '6Laptops with 15" screens', 0, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -204,7 +238,17 @@ CREATE TABLE `Logs` (
   `LogMessage` text NOT NULL,
   `updated_at` varchar(45) DEFAULT NULL,
   `created_at` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `Logs`
+--
+
+INSERT INTO `Logs` (`ID`, `LogDate`, `LogType`, `LogKey1`, `LogKey2`, `LogUserID`, `LogMessage`, `updated_at`, `created_at`) VALUES
+(1, '2015-02-19 00:00:00', 1, 1, 1, 1, 'blass', '2015-02-19 14:48:51', '2015-02-19 14:48:51'),
+(4, '2015-02-19 00:00:00', 4, 1, NULL, 1, 'A new Kit was created', '2015-02-19 15:13:39', '2015-02-19 15:13:39'),
+(5, '2015-02-19 00:00:00', 4, 1, NULL, 1, 'A new Kit was created', '2015-02-19 15:17:51', '2015-02-19 15:17:51'),
+(6, '2015-02-19 00:00:00', 4, 1, NULL, 1, 'A new Kit was created', '2015-02-19 15:18:07', '2015-02-19 15:18:07');
 
 -- --------------------------------------------------------
 
@@ -217,7 +261,30 @@ CREATE TABLE `LogType` (
   `Name` text NOT NULL,
   `updated_at` varchar(45) DEFAULT NULL,
   `created_at` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `LogType`
+--
+
+INSERT INTO `LogType` (`ID`, `Name`, `updated_at`, `created_at`) VALUES
+(1, 'Damage Report', NULL, NULL),
+(2, 'Missing Report', NULL, NULL),
+(3, 'Note', NULL, NULL),
+(4, 'Kit Created', NULL, NULL),
+(5, 'Kit Edit', NULL, NULL),
+(6, 'Kit Deleted', NULL, NULL),
+(7, 'Kit Type Created', NULL, NULL),
+(8, 'Kit Type Edited', NULL, NULL),
+(9, 'Kit Type Deleted', NULL, NULL),
+(10, 'Kit Contents added', NULL, NULL),
+(11, 'Kit Contents Editied', NULL, NULL),
+(12, 'Kit Contents Removed', NULL, NULL),
+(13, 'Booking Request', NULL, NULL),
+(14, 'Booking Canceled', NULL, NULL),
+(15, 'Booking Edited', NULL, NULL),
+(16, 'Kit Transfer Shipped', NULL, NULL),
+(17, 'Kit Transfer Received', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -232,15 +299,16 @@ CREATE TABLE `users` (
   `realname` tinytext NOT NULL,
   `rememberToken` text,
   `updated_at` tinytext NOT NULL,
-  `created_at` tinytext NOT NULL
+  `created_at` tinytext NOT NULL,
+  `is_admin` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `realname`, `rememberToken`, `updated_at`, `created_at`) VALUES
-(1, 'user', '$2y$10$yKhkFzxkvhrgMY7DCXCdAOA2lNIIMDEYw4qnKCTxnpPXplZV7KzgG', 'User', NULL, '', '');
+INSERT INTO `users` (`id`, `username`, `password`, `realname`, `rememberToken`, `updated_at`, `created_at`, `is_admin`) VALUES
+(1, 'user', '$2y$10$yKhkFzxkvhrgMY7DCXCdAOA2lNIIMDEYw4qnKCTxnpPXplZV7KzgG', 'User', NULL, '', '', 1);
 
 --
 -- Indexes for dumped tables
@@ -292,7 +360,7 @@ ALTER TABLE `KitTypes`
 -- Indexes for table `Logs`
 --
 ALTER TABLE `Logs`
- ADD PRIMARY KEY (`ID`), ADD KEY `Logs_users_idx` (`LogUserID`), ADD KEY `Logs_LogType_idx` (`LogType`);
+ ADD PRIMARY KEY (`ID`), ADD KEY `Logs_users_idx` (`LogUserID`), ADD KEY `Logs_LogType_idx` (`LogType`), ADD KEY `Logs_Type_Keys_idx` (`LogType`,`LogKey1`,`LogKey2`);
 
 --
 -- Indexes for table `LogType`
@@ -329,7 +397,7 @@ MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
 -- AUTO_INCREMENT for table `KitContents`
 --
 ALTER TABLE `KitContents`
-MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT for table `Kits`
 --
@@ -349,12 +417,12 @@ MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 -- AUTO_INCREMENT for table `Logs`
 --
 ALTER TABLE `Logs`
-MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `LogType`
 --
 ALTER TABLE `LogType`
-MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `users`
 --
@@ -395,7 +463,7 @@ ADD CONSTRAINT `Kits_KitType` FOREIGN KEY (`KitType`) REFERENCES `KitTypes` (`ID
 -- Constraints for table `Logs`
 --
 ALTER TABLE `Logs`
-ADD CONSTRAINT `Logs_LogType` FOREIGN KEY (`LogType`) REFERENCES `Logs` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+ADD CONSTRAINT `Logs_LogType` FOREIGN KEY (`LogType`) REFERENCES `LogType` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
 ADD CONSTRAINT `Logs_users` FOREIGN KEY (`LogUserID`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
