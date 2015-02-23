@@ -56,7 +56,8 @@
                     </div>
 
                     <div class="option right">
-                        <select data-placeholder="Branch" class="chosen-select branch-select" tabindex="2">
+                        <select data-placeholder="Branch" 
+                            class="chosen-select branch-select" tabindex="2">
                         </select>
                     </div>
                 @endif
@@ -101,7 +102,7 @@
             array('type' => 'text/javascript')) }}
 
         <script type="text/javascript">
-            $(".branch-select").load("{{ URL::route('master.branchs') }}", function(){
+            $(".branch-select").load("{{ URL::route('master.branches') }}", function(){
 
                 for (var selector in config)
                 {
@@ -111,7 +112,7 @@
                         var json = { 'branch' : $(this).chosen().val() };
                         $.post("{{ URL::route('master.select_branch') }}", json)
                             .success(function(data){
-                                console.log(data);
+                                @yield('changeBranch')
                             })
                             .fail(function(){
                                 console.log("error");

@@ -31,6 +31,8 @@
 
 	var _kitID = "";
 	var _kitText = "";
+	var shadowObjects;
+	var kitObjects;
 	
 	function setBookingKit(kitID, kitText) {
 		if(kitID == null || kitText == null) {
@@ -39,7 +41,6 @@
 		else {
 			_kitID = kitID;
 			_kitText = kitText;
-			$('#calendar').fullCalendar('removeEvents');
 			$('#book_kit').prop('disabled', false);
 		}
 	}
@@ -50,13 +51,45 @@
 		return title;	
 	}
 
-	function addCalendarEvents(events){
+	function addCalendarShadowDays(shadowDays)
+	{
+		$('#calendar').fullCalendar('removeEventSource', shadowObjects);
+		shadowObjects = [];
+		for (var i in shadowDays) {
+			var shadowDay = shadowDays[i];
+			var today = new Date(shadowDay.HolidayDate);
+			var tomorrow = new Date(today);
+			tomorrow.setDate(today.getDate()+1);
+			var title = [
+				shadowDay.HolidayName,
+				"\n Stat Holiday"
+				].join('');
+
+			shadowObjects.push({
+				objID: 'holiday',
+				title: title,
+				allDay: true,
+				stick: true,
+				start: today,
+				end: tomorrow,
+				editable: false,		// not perminent
+				borderColor: '#555',
+				backgroundColor: '#000',
+				textColor: '#fff'
+			});	
+		}
+		$('#calendar').fullCalendar('addEventSource', shadowObjects);
+	}
+
+	function addCalendarKits(events){
 		// this needs work
-		var kitObjects = [];
+		$('#calendar').fullCalendar('removeEventSource', kitObjects);
+		kitObjects = [];
 		for (var i in events) {
 			var e = events[i];
 			var title = generateEventTitle(e.kitText, e.start, e.end);
 			kitObjects.push({
+				objID: 'other',
 				kitText: e.kitText,
 				kitId: e.kitId,
 				title: title,
@@ -64,9 +97,9 @@
 				stick: true,
 				start: e.start,
 				end: e.end,
-				editable: false,		// not perminent
-				overlap: false,
+				editable: false,	
 				borderColor: '#555',
+				backgroundColor: '#ccc',
 				textColor: '#fff'
 			});	
 		}
@@ -74,23 +107,29 @@
 	}
 
 	function createBooking(kitID, kitText, days) {
+		var borderColor = '#555';
+		var backgroundColor = '#006699';
 		var created = $('<div/>',{
 			'class': "fc-event ui-draggable ui-draggable-handle",
 			'html':  kitText + '<br> Duration: ' + days + ' days',
-			'style': 'background-color: #ccc; border-color: #555;' 
+			'style': [
+				'background-color: ' + backgroundColor + ';',
+				'border-color: ' + borderColor + ';'
+			].join('') 
 		});
 
 		created.appendTo('#external-events').show('slow');
 
 		created.data('event', {
+			objID: 'kit',
 			kitText: _kitText,
 			kitId: _kitID,
 			title: $.trim(created.html().replace("<br>", "\n")),
 			allDay: true,
 			stick: true,
 			duration: parseInt(days * 24).toString() + ":00:00",
-			backgroundColor: '#ccc',
-			borderColor: '#555' 
+			backgroundColor: backgroundColor,
+			borderColor: borderColor
 		});
 
 		created.draggable({
@@ -108,6 +147,7 @@
 
 	function insertKitDB(event)
 	{
+		console.log('insert');
 		var target = "{{ $insertMethod }}";
 		var fn = window[target];
 		if(typeof fn === 'function')
@@ -118,12 +158,40 @@
 
 	function updateKitDB(event)
 	{
+		console.log('update');
 		var target = "{{ $updateMethod }}";
 		var fn = window[target];
 		if(typeof fn === 'function')
 			fn(event);
 		else
 			console.log("function not defined: " + target);
+	}
+
+	function adjustForShadowDays(event) {
+		// non-recieving start date 
+		if (event.start.format('dddd') == 'Sunday')
+			event.start.subtract(2, 'days').calendar();
+		else if (event.start.format('dddd') == 'Saturday')
+			event.start.subtract(1, 'days').calendar();
+
+		// non-shipping end date 
+		if (event.end.format('dddd') == 'Sunday')
+			event.end.add(1, 'days').calendar();
+		else if (event.end.format('dddd') == 'Saturday')
+			event.end.add(2, 'days').calendar();
+
+		for (var i in shadowObjects)
+		{	
+			var day = new Date(shadowObjects[i].start);
+			if (day.toLocaleDateString() == new Date(event.start).toLocaleDateString())
+				event.start.subtract(1, 'days').calendar();
+
+			if (day.toLocaleDateString() == new Date(event.end).toLocaleDateString())
+				event.end.add(1, 'days').calendar();
+		}
+
+		event.title = generateEventTitle(event.kitText, event.start, event.end);
+		$('#calendar').fullCalendar('updateEvent', event);
 	}
 
 	$(document).ready(function() {
@@ -135,32 +203,35 @@
 				center: 'title'
 			},
 			editable: true,
-			eventOverlap: false,
+			eventOverlap: function(stillEvent, movingEvent) {
+				return stillEvent.objID == 'holiday' && 
+					movingEvent.objID == 'kit';
+			},
     		fixedWeekCount: false,
         	eventClick: function(event, jsEvent, view) {
         		alert('test popup');
         	},
-        	eventMouseout: function(event, jsEvent, view) {
-        	
+        	eventMouseover: function(event, jsEvent, view) {
+        		console.log(jsEvent);
         	},
         	droppable: true, 
 			// internal changes (updates)
 			eventDrop: function(event)
 			{
+				adjustForShadowDays(event);
 				updateKitDB(event);
 			},
 			eventResize: function(event)
 			{
-				event.title = generateEventTitle(event.kitText, event.start, event.end);
-				$('#calendar').fullCalendar('updateEvent', event);
+				adjustForShadowDays(event);
 				updateKitDB(event);
 			},
 			// external changes (insert)
 			drop: function(date, jsEvent, ui) {
-				console.log(date.toString()); 
 				$(this).remove();					// remove dropped object
 			},
 			eventReceive: function(event) {
+				adjustForShadowDays(event);
 				insertKitDB(event);
 			}			
     	});
