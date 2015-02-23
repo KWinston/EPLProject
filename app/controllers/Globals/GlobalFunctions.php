@@ -1,4 +1,9 @@
 <?php
+function API_URL()
+{
+    return 'http://www.epl.ca/opendata/branches/api/:FORMAT/:BRANCH';
+}
+
 function CheckIfAuthenticated($page, $pageParams, $reroute, $rerouteParams, $isAdminPage)
 {
 	if(!Auth::check())
@@ -43,3 +48,14 @@ function GetKitTypeTreeData()
     array_unshift($data, array('type' => '#', 'id' => '#', 'text' => 'root' , 'state' => $nodeState, 'children' => $children));
     return json_encode($data);
 }
+
+function xmlToJSON ($url) {
+    $fileContents= file_get_contents($url);
+    $fileContents = str_replace(array("\n", "\r", "\t"), '', $fileContents);
+    $fileContents = trim(str_replace('"', "'", $fileContents));
+    $simpleXml = simplexml_load_string($fileContents);
+    $json = json_encode($simpleXml);
+
+    return $json;
+}
+

@@ -36,7 +36,6 @@
     });
 
 	$('#tree-menu').on("changed.jstree", function (e, data) {
-		console.log('change');
 		selected_node_value = data.instance.get_node(data.selected[0]);
 		var target = "{{ $function }}";
 		var fn = window[target];

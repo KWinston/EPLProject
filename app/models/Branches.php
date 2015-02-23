@@ -22,5 +22,5 @@ class Branches extends Eloquent
      */
     protected $hidden = array();
 
-    protected $fillable = array('BranchMangerID', 'BranchID', 'Name', 'EPLAddress', 'PhoneNumber', 'Latitude', 'LONGitude', 'updated_at', 'created_at');
+    protected $fillable = array('BranchMangerID', 'BranchID', 'Name', 'EPLAddress', 'PhoneNumber', 'Latitude', 'Longitude', 'updated_at', 'created_at');
 }

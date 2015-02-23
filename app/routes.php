@@ -13,7 +13,6 @@
 
 // add resources
 Route::resource('home', 'HomeController');
-//Route::resource('authenticate', 'AuthController');
 
 Route::resource('book_kit', 'BookKitController');
 Route::resource('recieve_kit', 'RecieveKitController');
@@ -33,15 +32,21 @@ Route::get('master.logout', array(
 	'uses' => "MasterController@logout"
 ));
 
+// **************** booking kit ****************************
+Route::post('book_kit.get_shadow_days', array(
+	'as'   => 'book_kit.get_shadow_days',
+	'uses' => "BookKitController@get_shadow_days"
+));
+
 // **************** general ********************************
 
 Route::post('master.select_branch', array(
 	'as'   => 'master.select_branch',
 	'uses' => "MasterController@select_branch"
 ));
-Route::get('master.branchs', array(
-    'as'   => 'master.branchs',
-    'uses' => "MasterController@get_branchs"
+Route::get('master.branches', array(
+    'as'   => 'master.branches',
+    'uses' => "MasterController@get_branches"
 ));
 
 // **************** general ********************************

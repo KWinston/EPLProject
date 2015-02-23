@@ -1,6 +1,22 @@
 @extends('layouts.master')
+
 @section('head')
 @stop
+
+@section('changeBranch')
+    console.log(data);
+    var json = { 'ID' : data };
+    $.post("{{ URL::route('book_kit.get_shadow_days') }}", json)
+        .success(function(resp){
+            var data = JSON.parse(resp);
+            addCalendarShadowDays(data.BranchInfo.HolidayClosures.HolidayClosure);
+            console.log('shadow days added');
+        })
+        .fail(function(){
+            console.log("error");
+        });
+@stop
+
 
 @section('content')
 <table cellpadding="0" style="height: 100%;" >
@@ -29,7 +45,7 @@
         $('#current_kit').text("Selected Kit is: " + value.text);
         $('#current_kit_id').val(value.id);
         setBookingKit(value.id, value.text);
-        addCalendarEvents([
+        addCalendarKits([
             {
                 kitId: 'id-test1',
                 kitText: 'another different booking',

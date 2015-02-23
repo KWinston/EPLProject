@@ -6,7 +6,6 @@ class MasterController extends BaseController {
     {
         $username = Input::get('username');
         $password = Input::get('password');
-        // return Hash::make($password);
         if (Auth::attempt(array('username' => $username, 'password' => $password)))
         {
             return Redirect::route('home.index');
@@ -33,7 +32,7 @@ class MasterController extends BaseController {
         return $data['branch'];
     }
 
-    public function get_branchs()
+    public function get_branches()
     {
         $branches = Branches::all();
         $res = "";
