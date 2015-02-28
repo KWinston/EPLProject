@@ -36,6 +36,16 @@ Route::post('book_kit.get_shadow_days', array(
 	'uses' => "BookKitController@get_shadow_days"
 ));
 
+Route::post('book_kit.insert_booking', array(
+	'as'   => 'book_kit.insert_booking',
+	'uses' => "BookKitController@insertBooking"
+));
+
+Route::post('book_kit.update_booking', array(
+	'as'   => 'book_kit.update_booking',
+	'uses' => "BookKitController@updateBooking"
+));
+
 // **************** general ********************************
 
 Route::post('master.select_branch', array(

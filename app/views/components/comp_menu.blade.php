@@ -23,7 +23,7 @@
 	function getSelectedNode() { 
 		return selected_node_value; 
 	} 
-
+	console.log({{ $treeData }});
 	$('#tree-menu').jstree({
 	  	"core" : {
 	    	"animation" : 250,

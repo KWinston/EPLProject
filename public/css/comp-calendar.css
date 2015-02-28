@@ -1,4 +1,40 @@
 /*********** booking menu ***************************/
+.tool-tip
+{
+	width: 150px; height: 50px;
+    padding: 5px;
+    background: #fff; color: #000;
+    border: 1px groove #000;
+    position: absolute; z-index:1001;
+}
+
+.shadow-day-effect.fc-start.fc-end
+{
+	background-image: 
+		url('/public/images/shadow.png'),
+		url('/public/images/shadow.png');
+    background-repeat: no-repeat, no-repeat !important;
+    background-position: left, right !important;
+    text-align: center; 
+}
+
+.shadow-day-effect.fc-start
+{
+	background-image: 
+		url('/public/images/shadow.png');
+    background-repeat: no-repeat !important;
+    background-position: left !important; 
+}
+
+.shadow-day-effect.fc-end
+{
+	background-image: 
+		url('/public/images/shadow.png');
+    background-repeat: no-repeat !important;
+    background-position: right !important; 
+    text-align: right;
+}
+
 .fc-event 
 {
 	margin: 2px 0px;
