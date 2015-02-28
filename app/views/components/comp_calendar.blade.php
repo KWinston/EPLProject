@@ -34,14 +34,21 @@
 	var shadowObjects;
 	var kitObjects;
 	
-	function setBookingKit(kitID, kitText) {
-		if(kitID == null || kitText == null) {
+	function setBookingKit(value) {
+		if(value == null) {
 			$('#book_kit').prop('disabled', true);
 		}
 		else {
-			_kitID = kitID;
-			_kitText = kitText;
-			$('#book_kit').prop('disabled', false);
+			console.log(value);
+			var reg = RegExp('kit', 'i');
+			if (reg.test(value.original.type)) {
+				_kitID = value.original.id;
+				_kitText = value.original.text;
+				$('#book_kit').prop('disabled', false);
+			}
+			else {
+				console.log('add code for type settings'); // to do
+			}
 		}
 	}
 
@@ -51,8 +58,30 @@
 		return title;	
 	}
 
-	function addCalendarShadowDays(shadowDays)
-	{
+	function setEventShadow(event, elem) {
+
+		var width = $('#calendar').find('.fc-day-header').width();
+
+		var startShadow = (width + 3).toString();
+		var endShadow = (width + 3).toString();
+
+		var css = [ 
+			'; background-size:',
+			startShadow + 'px 100%,',
+			endShadow + 'px 100%;',
+			$(elem).hasClass('fc-start') ? 
+				'padding-left: ' + startShadow + 'px;' : 
+				'padding-left: 0px;'
+			,
+			$(elem).hasClass('fc-end') ? 
+				'padding-right: ' + endShadow + 'px;' : 
+				'padding-right: 0px;'
+		].join(' ');
+
+		$(elem).attr('style', $(elem).attr('style') + css);
+	}
+
+	function addCalendarShadowDays(shadowDays) {
 		$('#calendar').fullCalendar('removeEventSource', shadowObjects);
 		shadowObjects = [];
 		for (var i in shadowDays) {
@@ -81,7 +110,7 @@
 		$('#calendar').fullCalendar('addEventSource', shadowObjects);
 	}
 
-	function addCalendarKits(events){
+	function addCalendarKits(events) {
 		// this needs work
 		$('#calendar').fullCalendar('removeEventSource', kitObjects);
 		kitObjects = [];
@@ -106,9 +135,10 @@
 		$('#calendar').fullCalendar('addEventSource', kitObjects);
 	}
 
+	var count = 0;
 	function createBooking(kitID, kitText, days) {
 		var borderColor = '#555';
-		var backgroundColor = '#006699';
+		var backgroundColor = '#006B00';
 		var created = $('<div/>',{
 			'class': "fc-event ui-draggable ui-draggable-handle",
 			'html':  kitText + '<br> Duration: ' + days + ' days',
@@ -119,17 +149,20 @@
 		});
 
 		created.appendTo('#external-events').show('slow');
-
 		created.data('event', {
+			id: (count++).toString(),
 			objID: 'kit',
+			kitAtBranch: $('#branchMenu option:selected').text(), 
 			kitText: _kitText,
 			kitId: _kitID,
+			kitNotes: '',
 			title: $.trim(created.html().replace("<br>", "\n")),
 			allDay: true,
 			stick: true,
-			duration: parseInt(days * 24).toString() + ":00:00",
-			backgroundColor: backgroundColor,
-			borderColor: borderColor
+			className: 'shadow-day-effect',
+			duration: { days: (2 + parseInt(days)), hours:0, minutes:0 },
+			borderColor: borderColor,
+			backgroundColor: backgroundColor
 		});
 
 		created.draggable({
@@ -139,14 +172,7 @@
 		});
 	}
 
-	function addDays(date, days) {
-    	var result = new Date(date);
-    	result.setDate(date.getDate() + days);
-    	return result;
-	}
-
-	function insertKitDB(event)
-	{
+	function insertKitDB(event) {
 		console.log('insert');
 		var target = "{{ $insertMethod }}";
 		var fn = window[target];
@@ -156,8 +182,7 @@
 			console.log("function not defined: " + target);
 	}
 
-	function updateKitDB(event)
-	{
+	function updateKitDB(event) {
 		console.log('update');
 		var target = "{{ $updateMethod }}";
 		var fn = window[target];
@@ -168,30 +193,83 @@
 	}
 
 	function adjustForShadowDays(event) {
+		var startDayOrig = moment(event.start);
+		var endDayOrig = moment(event.end);
+
+		var startDay = moment(event.start);
+		var endDay = moment(event.end).subtract(1, 'd'); // due to 00:00:00 dates posting as next
+
 		// non-recieving start date 
-		if (event.start.format('dddd') == 'Sunday')
-			event.start.subtract(2, 'days').calendar();
-		else if (event.start.format('dddd') == 'Saturday')
-			event.start.subtract(1, 'days').calendar();
+		if (startDay.format('dddd') === "Sunday")
+			startDay.subtract(2, 'd');
 
-		// non-shipping end date 
-		if (event.end.format('dddd') == 'Sunday')
-			event.end.add(1, 'days').calendar();
-		else if (event.end.format('dddd') == 'Saturday')
-			event.end.add(2, 'days').calendar();
+		else if (startDay.format('dddd') === "Saturday")
+			startDay.subtract(1, 'd');
 
+		// non-shipping end date 	
+		if (endDay.format('dddd') === "Sunday")
+			endDay.add(1, 'd');
+		
+		else if (endDay.format('dddd') === "Saturday")
+			endDay.add(2, 'd');
+
+		// verify against holidays and weekends
 		for (var i in shadowObjects)
 		{	
-			var day = new Date(shadowObjects[i].start);
-			if (day.toLocaleDateString() == new Date(event.start).toLocaleDateString())
-				event.start.subtract(1, 'days').calendar();
+			var shadowDay = moment(shadowObjects[i].start);
+			if (shadowDay.format('dddd') != 'Sunday' &&
+				shadowDay.format('dddd') != 'Saturday') 
+			{
+				if (shadowDay.format('l') == startDay.format('l'))
+					startDay.subtract(1, 'd');
+				if (shadowDay.add(1, 'd').format('l') == endDay.format('l'))
+					endDay.add(1, 'd');
+			}
+		}
+		// compare to to kit current bookings
+		endDay.add(1, 'd');
+		var isConflict = false;
+		for (var i in kitObjects)
+		{
+			var kit = kitObjects[i];
 
-			if (day.toLocaleDateString() == new Date(event.end).toLocaleDateString())
-				event.end.add(1, 'days').calendar();
+			if (endDay.diff(kit.start, 'd') > 0 && 
+				endDay.diff(kit.end, 'd') < 0) {
+				isConflict = true;
+				break;
+			}
+
+			if (moment(kit.end).diff(startDay, 'd') > 0 && 
+				moment(kit.start).diff(startDay, 'd') < 0) { 				
+				isConflict = true;
+				break;
+			}
 		}
 
-		event.title = generateEventTitle(event.kitText, event.start, event.end);
+		if (!isConflict)
+		{
+			var diffStart = startDay.diff(event.start, 'd');
+			var diffEnd = endDay.diff(event.end, 'd');
+			
+			event.start.add(diffStart, 'd');
+			event.end.add(diffEnd, 'd');
+			event.title = generateEventTitle(event.kitText, event.start, event.end);
+		}
+		else
+		{
+			var diffStart = startDayOrig.diff(event.start, 'd');
+			var diffEnd = endDayOrig.diff(event.end, 'd');
+
+			event.start.add(diffStart, 'd');
+			event.end.add(diffEnd, 'd');
+			alert('an overlap with another kit has occurred, reverting');	
+		}
+
+		event.start.calendar();
+		event.end.calendar();
 		$('#calendar').fullCalendar('updateEvent', event);
+
+		return !isConflict;
 	}
 
 	$(document).ready(function() {
@@ -203,6 +281,9 @@
 				center: 'title'
 			},
 			editable: true,
+			windowResize: function(view) {
+				$('#calendar').fullCalendar('rerenderEvents'); 
+    		},
 			eventOverlap: function(stillEvent, movingEvent) {
 				return stillEvent.objID == 'holiday' && 
 					movingEvent.objID == 'kit';
@@ -212,29 +293,66 @@
         		alert('test popup');
         	},
         	eventMouseover: function(event, jsEvent, view) {
-        		console.log(jsEvent);
+        		var tooltip = [
+        			'<div class="tooltipevent tool-tip">',
+        			event.title,
+        			'</div>'
+        		].join('');
+
+				$("body").append(tooltip);
+				$(this).mouseover(function(e) {
+			        $(this).css('z-index', 10000);
+			        $('.tooltipevent').fadeIn('500');
+			        $('.tooltipevent').fadeTo('10', 1.9);
+				}).mousemove(function(e) {
+			        $('.tooltipevent').css('top', e.pageY + 10);
+			        $('.tooltipevent').css('left', e.pageX + 20);
+				});
+        	},
+        	eventMouseout: function(event) {
+        		$(this).css('z-index', 8);
+    			$('.tooltipevent').remove();
         	},
         	droppable: true, 
 			// internal changes (updates)
-			eventDrop: function(event)
+			eventDrop: function(event, delta, revertFunc)
 			{
-				adjustForShadowDays(event);
-				updateKitDB(event);
+				if(adjustForShadowDays(event)) {
+					updateKitDB(event);
+				}
+				else {
+					revertFunc();
+				}
 			},
 			eventResize: function(event)
 			{
-				adjustForShadowDays(event);
-				updateKitDB(event);
+				var days = event.end.diff(event.start, 'd');
+				if (days < 3)
+					event.end.add(3 - days, 'd');
+
+				if(adjustForShadowDays(event)) {
+					updateKitDB(event);
+				}
+				else {
+					revertFunc();
+				}
 			},
 			// external changes (insert)
 			drop: function(date, jsEvent, ui) {
 				$(this).remove();					// remove dropped object
 			},
 			eventReceive: function(event) {
-				adjustForShadowDays(event);
-				insertKitDB(event);
-			}			
-    	});
+				if (adjustForShadowDays(event)) {
+					insertKitDB(event);
+				}
+				else {
+					$('#calendar').fullCalendar('removeEvents', event.id);
+				}
+			},
+			eventAfterRender: function(event, element) {
+				setEventShadow(event, element[0]);
+			}
+    	});	
 
     	$("#booking_dialog").dialog({
 			'autoOpen': false,

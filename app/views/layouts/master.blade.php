@@ -56,7 +56,7 @@
                     </div>
 
                     <div class="option right">
-                        <select data-placeholder="Branch" 
+                        <select data-placeholder="Branch" id="branchMenu"
                             class="chosen-select branch-select" tabindex="2">
                         </select>
                     </div>
