@@ -57,6 +57,7 @@ Route::post('master.select_branch', array(
 Route::get('master.branches', array(
     'as'   => 'master.branches',
     'uses' => "MasterController@get_branches"
+<<<<<<< HEAD
 ));
 
 // **************** general ********************************
@@ -67,6 +68,8 @@ Route::get('logs.show1.{LogKey1}', array(
 Route::get('logs.show2.{LogKey1}.{LogKey2?}', array(
     'as'   => 'logs.show2',
     'uses' => "LogsController@show2"
+=======
+>>>>>>> origin/master
 ));
 
 Route::get('/', function()

@@ -3,7 +3,6 @@
 @stop
 
 @section('content')
-<<<<<<< HEAD
 
 {{--check if user is logged o
 	n to determine what to display--}}
@@ -57,7 +56,4 @@
 	<p>You have not logged in yet.</p>
 @endif
 
-=======
-	<div>test page</div>
->>>>>>> Calendar tinkering
 @stop
