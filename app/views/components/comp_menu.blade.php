@@ -17,45 +17,57 @@
 	var time_out = false;
 	var selected_node_value = null;
 	
-	function setSelectedNode(id){ 
+	function setSelectedNode(id) { 
 		$('#tree-menu').jstree().select_node(id); 
 	} 
 	
 	function getSelectedNode() { 
 		return selected_node_value; 
-	} 
-	console.log({{ $treeData }});
-	$('#tree-menu').jstree({
-	  	"core" : {
-	    	"animation" : 250,
-	    	"check_callback" : true,
-	    	"themes" : {
-	    		"name" : "default",
-	    		"icons" : false
-	    	 },
-	    	'data' : {{ $treeData }},
-		},
-	  	"plugins" : [
-	  		"themes",
-	  		"search",
-	  		"wholerow"
-	    ]
-	});
+	}
 
-	$('#tree-menu').on("changed.jstree", function (e, data) {
-		console.log('change');
-		selected_node_value = data.instance.get_node(data.selected[0]);
-		var target = "{{ $function }}";
-		var fn = window[target];
+    function setKitID() {
 
-    $('#tree-menu-search').keyup(function () {
-        if(time_out) {
-            clearTimeout(time_out);
-        }
-        time_out = setTimeout(function () {
-            var value = $('#tree-menu-search').val();
-            $('#tree-menu').jstree().search(value);
-            console.log(value);
-        }, 250);
+    }
+
+    $(document).ready(function() { 
+    	$('#tree-menu').jstree({
+    	  	"core" : {
+    	    	"animation" : 250,
+    	    	"check_callback" : true,
+    	    	"themes" : {
+    	    		"name" : "default",
+    	    		"icons" : false
+    	    	 },
+    	    	'data' : {{ $treeData }},
+    		},
+    	  	"plugins" : [
+    	  		"themes",
+    	  		"search",
+    	  		"wholerow"
+    	    ]
+    	});
+
+    	$('#tree-menu').on("changed.jstree", function (e, data) {
+    		selected_node_value = data.instance.get_node(data.selected[0]);
+    		var target = "{{ $function }}";
+    		var fn = window[target];
+            if(typeof fn === 'function') {
+                var val = selected_node_value.original;
+                fn(val.KitID, selected_node_value.text, val.type);
+            }
+        else
+            console.log("function not defined: " + target);
+        });
+
+        $('#tree-menu-search').keyup(function () {
+            if(time_out) {
+                clearTimeout(time_out);
+            }
+            time_out = setTimeout(function () {
+                var value = $('#tree-menu-search').val();
+                $('#tree-menu').jstree().search(value);
+                console.log(value);
+            }, 250);
+        });
     });
 </script>
