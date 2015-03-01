@@ -33,9 +33,20 @@ Route::get('master.logout', array(
 ));
 
 // **************** booking kit ****************************
+
+Route::post('book_kit.get_kit_bookings', array(
+	'as'   => 'book_kit.get_kit_bookings',
+	'uses' => "BookKitController@getKitBookings"
+));
+
+Route::post('book_kit.get_type_overlaps', array(
+	'as'   => 'book_kit.get_type_overlaps',
+	'uses' => "BookKitController@getTypeOverlaps"
+));
+
 Route::post('book_kit.get_shadow_days', array(
 	'as'   => 'book_kit.get_shadow_days',
-	'uses' => "BookKitController@get_shadow_days"
+	'uses' => "BookKitController@getShadowDays"
 ));
 
 Route::post('book_kit.insert_booking', array(
@@ -54,13 +65,12 @@ Route::post('master.select_branch', array(
 	'as'   => 'master.select_branch',
 	'uses' => "MasterController@select_branch"
 ));
+
 Route::get('master.branches', array(
     'as'   => 'master.branches',
     'uses' => "MasterController@get_branches"
-<<<<<<< HEAD
 ));
 
-// **************** general ********************************
 Route::get('logs.show1.{LogKey1}', array(
     'as'   => 'logs.show1',
     'uses' => "LogsController@show1"
@@ -68,8 +78,6 @@ Route::get('logs.show1.{LogKey1}', array(
 Route::get('logs.show2.{LogKey1}.{LogKey2?}', array(
     'as'   => 'logs.show2',
     'uses' => "LogsController@show2"
-=======
->>>>>>> origin/master
 ));
 
 Route::get('/', function()

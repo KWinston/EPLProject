@@ -14,7 +14,8 @@ class BookKitController extends BaseController {
         if(!Request::ajax())
             return "not a json request";
 
-        $post = Input::all();
+        $post = Input::except('ID');
+        $index = intval(Input::get('ID'));
 
         $branchID = Branches::select('ID')
             ->where('BranchID', '=', $post['ForBranch'])
@@ -23,13 +24,12 @@ class BookKitController extends BaseController {
         $post['KitID'] = intval($post['KitID']);
         $post['ForBranch'] = intval($branchID['ID']);
 
-        $data = new Booking;
-        $data->fill($post);
-        $data->save();
+        $stat = DB::table('Booking')
+            ->where('id', $index)
+            ->update($post);
 
         return Response::json(array(
-            'success' => true, 
-            'insert_id' => $data->id
+            'success' => $stat = 1 ? true : false
         ), 200);
     }
 
@@ -51,13 +51,47 @@ class BookKitController extends BaseController {
         $data->fill($post);
         $data->save();
 
+        $data2 = new BookingDetails;
+        $data2->fill(array(
+            'BookingID' => $data->id,
+            'UserID' => Auth::user()->id,
+            'Email' =>  Auth::user()->Email,
+            'Booker' => 1
+        ));
+        $data2->save();
+
         return Response::json(array(
             'success' => true, 
-            'last_insert_id' => $data->id
+            'insert_id' => $data->id
         ), 200);
     }
 
-    public function get_shadow_days()
+    public function getKitBookings() {
+        if(!Request::ajax())
+            return "not a json request";
+
+        $index = Input::get('ID');
+
+        return DB::table('Booking')
+            ->join('BookingDetails', 
+                'Booking.id', '=', 'BookingDetails.BookingID')
+            ->where('Booking.KitID', $index)
+            ->get();
+    }  
+
+    public function getTypeOverlaps() {
+        if(!Request::ajax())
+            return "not a json request";
+
+        $kitType = Input::get('Type');
+
+        $kits = Kits::where('kitType', '=', $kitType)->get();
+        return $kits;
+        foreach ($kits as $value)
+        {}
+    } 
+
+    public function getShadowDays()
     {
     	if(!Request::ajax())
             return "not a json request";

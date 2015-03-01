@@ -18,51 +18,67 @@
             ))
         </td>
         <td style="padding: 5px 10px; vertical-align: top; text-align: center;">
-            <p id="current_kit" style="font-size: 22px;">Select a Kit</p>
+            <p id="current_kit" style="font-size: 18px; width: 100%; 
+                background-color: #ddd; text-align: center; 
+                border: 2px solid #000; 
+                margin: 0px 0px 5px 0px; padding: 4px 0px;">
+            Select a Kit</p>
             <input type="hidden" id="current_kit_id">
             @include('components.comp_calendar', array(
                 'updateMethod' => "updateBooking",
-                'insertMethod' => "insertBooking"
+                'insertMethod' => "insertBooking",
+                'kitChange'    => "homeMenuCallback"
             ))
-            <div id="bookingStatus">Booking: status</div>
+            <div id="bookingStatus" style="font-size: 16px; width: 100%; 
+                background-color: #ddd; text-align: center; 
+                border: 2px solid #000; 
+                margin: 5px 0px 0px 0px; padding: 2px 0px;">
+                Booking: status
+            </div>
         </td>
     </tr>
 </table>
 
 
 <script type="text/javascript">
+    function homeMenuCallback(kitID, kitText, kitType) {
+        $('#current_kit').text("Selected Kit is: " + kitText);
+        json = {
+            'ID' : kitID
+        };
+        console.log(json);
+        if (RegExp('kit', 'i').test(kitType)) {
+            setBookingKit(kitID, kitText, kitType);
+            $.post("{{ URL::route('book_kit.get_kit_bookings') }}", json)
+                .success(function(resp){
+                    console.log(resp);
+                    addCalendarKits(resp);
+                })
+               .fail(function(){
+                    console.log("error on insert");
+                });   
+        }
+        else {
+            $.post("{{ URL::route('book_kit.get_type_overlaps') }}", json)
+                .success(function(resp){
+                    console.log(resp);
+                    //addCalendarKits(resp);
+                })
+               .fail(function(){
+                    console.log("error on insert");
+                });  
 
-    function homeMenuCallback(value)
-    {
-        $('#current_kit').text("Selected Kit is: " + value.text);
-        setBookingKit(value);
-        addCalendarKits([
-            {
-                kitId: 'id-test1',
-                kitText: 'another different booking',
-                kitAtBranch: 'CAL', 
-                start: new Date(2015, 01, 15),
-                end: new Date(2015, 01, 20)
-            },
-            {
-                kitId: 'id-test2',
-                kitText: 'different booking',
-                kitAtBranch: 'CPL',
-                start: new Date(2015, 01, 21),
-                end: new Date(2015, 01, 25)
-            }
-        ]);
+        }
     }
 
     function setBookingFeedback(method) {
         $('#bookingStatus').html('Booking Status: ' + method);
-                setTimeout(function(){
-                    $('#bookingStatus').html('Booking Status: Awaiting');
-                }, 2500);
+        setTimeout(function(){
+            $('#bookingStatus').html('Booking Status: Awaiting');
+        }, 2500);
     }
 
-    function insertBooking(event)
-    {
+    function insertBooking(event) {
         var startBooking = moment(event.start).add(1, 'd').format('YYYY-MM-DD');
         var endBooking = moment(event.end).subtract(1, 'd').format('YYYY-MM-DD');
 
@@ -71,13 +87,15 @@
             'EndDate'   : endBooking,
             'ShadowStartDate' : event.start.format('YYYY-MM-DD'),
             'ShadowEndDate'   : event.end.format('YYYY-MM-DD'),
-            'ForBranch' : event.kitAtBranch, 
+            'ForBranch' : event.kitForBranch, 
             'Purpose'   : event.kitText,
             'KitID'     : event.kitId
         };
+
         $.post("{{ URL::route('book_kit.insert_booking') }}", json)
             .success(function(resp){
-                event['bookID'] = resp.insert_id;
+                console.log(resp);
+                event.bookID = resp.insert_id;
 
                 setBookingFeedback('Created');
             })
@@ -86,8 +104,7 @@
             });
     }
 
-    function updateBooking(event)
-    {
+    function updateBooking(event) {
         var startBooking = moment(event.start).add(1, 'd').format('YYYY-MM-DD');
         var endBooking = moment(event.end).subtract(1, 'd').format('YYYY-MM-DD');
 
@@ -97,12 +114,14 @@
             'EndDate'   : endBooking,
             'ShadowStartDate' : event.start.format('YYYY-MM-DD'),
             'ShadowEndDate'   : event.end.format('YYYY-MM-DD'),
-            'ForBranch' : event.kitAtBranch, 
+            'ForBranch' : event.kitForBranch, 
             'Purpose'   : event.kitText,
             'KitID'     : event.kitId
         };
+
         $.post("{{ URL::route('book_kit.update_booking') }}", json)
             .success(function(resp){
+                console.log(resp);
                 setBookingFeedback('Updated');
             })
            .fail(function(){
@@ -110,7 +129,7 @@
             });
     }
 
-    function addHolidays(id){
+    function addHolidays(id) {
         var json = { 'ID' : id };
         $.post("{{ URL::route('book_kit.get_shadow_days') }}", json)
             .success(function(resp){
@@ -125,7 +144,7 @@
 
     $(document).ready(function() {
         @if(Session::has('branch')) 
-            addHolidays({{Session::get('branch', '*')}});
+            addHolidays("{{Session::get('branch', '*')}}");
         @endif
         setBookingKit(null);
     });
