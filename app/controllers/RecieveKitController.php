@@ -5,6 +5,6 @@ class RecieveKitController extends BaseController {
 
 	public function index()
 	{
-		return CheckIfAuthenticated('members.receivekit',[ 'selected_menu' => 'main-menu-receive'], 'home.index', [], false);
+		return CheckIfAuthenticated('members.recievekit',[ 'selected_menu' => 'main-menu-receive'], 'home.index', [], false);
 	}
 }
