@@ -19,16 +19,18 @@
 			<div id="external-events">
 				<input type="button" id="book_kit" value="Book Kit Time" />
 				<hr/><p>Drag to Book</p><hr/>
-			</div>
+			</div> 
 		</td>
 		<td style="width: 79%; vertical-align: top;">
 			<div id="calendar"></div>
+			</div>
 		</td>
 	</tr>
 </table>
 
 <script type="text/javascript">
 
+	var count = 0;
 	var _kitID = "";
 	var _kitText = "";
 	var shadowObjects;
@@ -53,7 +55,7 @@
 	}
 
 	function generateEventTitle(kitText, start, end) {
-		var days = (end - start) / (1000 * 60 * 60 * 24);
+		var days = moment(end).diff(moment(start), 'd');
 		var title =  kitText + "\n Duration: " + days + " days";
 		return title;	
 	}
@@ -82,6 +84,36 @@
 			$(elem).attr('style', $(elem).attr('style') + css);
 	}
 
+	function existsInNewBookings(booking) {
+		for(var i in newKitObjects) { 
+			if (parseInt(booking.BookingID, 10) === 
+				parseInt(newKitObjects[i].bookID, 10)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	function checkScheduleConflicts(newKit, startDay, endDay, currentKits) {
+		var isConflict = false;
+		for (var i in currentKits)
+		{
+			var kit = currentKits[i];
+
+			// determine if of same kit type or comparing to self
+			if (parseInt(newKit.bookID, 10) !== parseInt(kit.bookID, 10) && 
+				parseInt(newKit.kitId) === parseInt(kit.kitId)) {
+				isConflict = checkEventsOverlap({
+					'start': startDay,
+					'end': endDay
+				}, kit);
+			}
+			if (isConflict)
+				break;
+		}
+		return isConflict;
+	}
+
 	function addCalendarShadowDays(shadowDays) {
 		$('#calendar').fullCalendar('removeEventSource', shadowObjects);
 		shadowObjects = [];
@@ -108,16 +140,6 @@
 			});	
 		}
 		$('#calendar').fullCalendar('addEventSource', shadowObjects);
-	}
-
-	function existsInNewBookings(booking) {
-		for(var i in newKitObjects) { 
-			if (parseInt(booking.BookingID, 10) === 
-				parseInt(newKitObjects[i].bookID, 10)) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	function addCalendarKits(bookings, UserID) {
@@ -155,7 +177,6 @@
 		$('#calendar').fullCalendar('addEventSource', oldKitObjects);
 	}
 
-	var count = 0;
 	function createBooking(kitID, kitText, days) {
 		var borderColor = '#555';
 		var backgroundColor = '#006B00';
@@ -259,38 +280,11 @@
 					endDay.add(1, 'd');
 			}
 		}
+
 		// compare to to kit current bookings
 		endDay.add(1, 'd');
-		var isConflict = false;
-		for (var i in oldKitObjects)
-		{
-			var kit = oldKitObjects[i];
-
-			if (parseInt(event.bookID, 10) !== parseInt(kit.bookID, 10)) {
-				isConflict = checkEventsOverlap({
-					'start': startDay,
-					'end': endDay
-				}, kit);
-			}
-			if (isConflict)
-				break;
-		}
-
-		for (var i in newKitObjects)
-		{
-			var kit = newKitObjects[i];
-
-			if (parseInt(event.bookID, 10) !== parseInt(kit.bookID, 10)) {
-				isConflict = checkEventsOverlap({
-					'start': startDay,
-					'end': endDay
-				}, kit);
-			}
-			if (isConflict)
-				break;
-		}
-
-		if (!isConflict)
+		if (!checkScheduleConflicts(event, startDay, endDay, oldKitObjects) && 
+			!checkScheduleConflicts(event, startDay, endDay, newKitObjects)) 
 		{
 			var diffStart = startDay.diff(event.start, 'd');
 			var diffEnd = endDay.diff(event.end, 'd');
@@ -299,6 +293,11 @@
 			event.end.add(diffEnd, 'd');
 			event.title = generateEventTitle(event.kitText, 
 				moment(event.start).add(1, 'd'), moment(event.end).subtract(1, 'd'));
+
+			event.start.calendar();
+			event.end.calendar();
+			$('#calendar').fullCalendar('updateEvent', event);
+			return true;
 		}
 		else
 		{
@@ -307,14 +306,9 @@
 
 			event.start.add(diffStart, 'd');
 			event.end.add(diffEnd, 'd');
-			alert('an overlap with another kit has occurred, reverting');	
+			alert('an overlap with another kit has occurred, reverting');
+			return false;	
 		}
-
-		event.start.calendar();
-		event.end.calendar();
-		$('#calendar').fullCalendar('updateEvent', event);
-
-		return !isConflict;
 	}
 
 	function checkEventsOverlap(eventActive, eventInactive) {
@@ -355,6 +349,7 @@
 		else
 			console.log("function not defined: " + target);
 	}
+
 	$(document).ready(function() {
 		newKitObjects = [];
 
@@ -468,21 +463,6 @@
     	$("#book_kit").click(function () {
     		$("#booking_dialog").dialog('open');
 		});
-
-    	// delete feature coming
-		$("#calendarTrash").droppable({
-	        tolerance: 'pointer',
-	        drop: function(event, ui) { 
-	            if ( dragged && ui.helper && ui.helper[0] === dragged[0] ) {
-	                var event = dragged[1];
-	                var answer = confirm("Delete Event?")
-	                if (answer)
-	                {
-
-	                }
-	            }
-	        }
-	    });
 	});
 
 </script>
