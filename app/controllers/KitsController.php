@@ -72,7 +72,6 @@ class KitsController extends BaseController
 
     public function destroy($kitID)
     {
-
         $kit = Kits::find($kitID);
         Logs::KitDelete($kit->KitType, $kit->ID);
         $kit->delete();
