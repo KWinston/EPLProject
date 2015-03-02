@@ -12,7 +12,7 @@
 */
 
 // add resources
-Route::resource('home', 'HomeController');
+Route::resource('home', 'HomeController@home');
 
 Route::resource('book_kit', 'BookKitController');
 Route::resource('recieve_kit', 'RecieveKitController');

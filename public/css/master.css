@@ -268,3 +268,9 @@ input.log-filter
     padding-left: 10px;
     font-size: 20px;
 }
+.welcomeMessage
+{
+    text-align: center;
+    line-height: 400px;
+    vertical-align: middle;
+}
