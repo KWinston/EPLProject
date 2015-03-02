@@ -63,7 +63,7 @@ class BookKitController extends BaseController {
 
         return Response::json(array(
             'success' => true,
-            'insert_id' => $booking->id
+            'insert_id' => $booking->ID
         ), 200);
     }
 
