@@ -250,3 +250,7 @@ input.log-filter
     float: right;
 
 }
+.kitBlock
+{
+    border: auto;
+}

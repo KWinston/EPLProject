@@ -19,7 +19,7 @@ class MasterController extends BaseController {
     {
         Auth::logout();
         Session::flush();
-        return Redirect::route('home.index');
+        return Redirect::action('HomeController@home');
     }
 
     public function select_branch()
@@ -29,6 +29,7 @@ class MasterController extends BaseController {
 
         $data = Input::all();
         Session::put('branch', $data['branch']);
+        Redirect::action('HomeController@home');
         return $data['branch'];
     }
 
