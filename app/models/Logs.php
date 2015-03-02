@@ -68,22 +68,22 @@ class Logs extends Eloquent
     }
     // --------------------------------------------------------------
     // Make a log entry for LogType '4','Kit Created'
-    public static function KitCreated($KitID)
+    public static function KitCreated($KitType, $KitID)
     {
-        Logs::LogMsg(4, $KitID, NULL, "A new Kit was created");
+        Logs::LogMsg(4, $KitType, $KitID, "A new Kit was created");
     }
 
     // --------------------------------------------------------------
     // Make a log entry for LogType '5','Kit Edit'
-    public static function KitEdit($KitID, $field, $from, $to)
+    public static function KitEdit($KitType, $KitID, $field, $from, $to)
     {
-        Logs::LogMsg(5, $KitID, NULL, "Changed ". $field . "From:" . $from . " To:" . $to);
+        Logs::LogMsg(5, $KitType, $KitID,  "Changed ". $field . " From:" . $from . " To:" . $to);
     }
     // --------------------------------------------------------------
     // Make a log entry for LogType '6','Kit Deleted'
-    public static function KitDelete($KitID, $field, $from, $to)
+    public static function KitDelete($KitType, $KitID)
     {
-        Logs::LogMsg(6, $KitID, NULL, "Kit was deleted");
+        Logs::LogMsg(6, $KitType, $KitID, "Kit was deleted");
     }
     // --------------------------------------------------------------
     // Make a log entry for LogType '7','Kit Type Created'
@@ -95,7 +95,7 @@ class Logs extends Eloquent
     // Make a log entry for LogType '8','Kit Type Edited'
     public static function KitTypeEdit($KitTypeID, $field, $from, $to)
     {
-        Logs::LogMsg(8, $KitTypeID, NULL, "Changed ". $field . "From:" . $from . " To:" . $to);
+        Logs::LogMsg(8, $KitTypeID, NULL, "Changed ". $field . " From: '" . $from . "'' To: '" . $to ."'");
     }
     // --------------------------------------------------------------
     // Make a log entry for LogType '9','Kit Type Deleted'

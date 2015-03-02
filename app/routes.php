@@ -15,10 +15,15 @@
 Route::resource('home', 'HomeController');
 
 Route::resource('book_kit', 'BookKitController');
-Route::resource('receive_kit', 'ReceiveKitController');
+Route::resource('recieve_kit', 'RecieveKitController');
 Route::resource('ship_kit', 'ShipKitController');
 Route::resource('overview_kit', 'OverviewKitController');
 Route::resource('admin', 'AdminController');
+Route::resource('branches', 'BranchesController');
+Route::resource('kits', 'KitsController');
+Route::resource('kitTypes', 'KitTypesController');
+
+
 
 
 // **************** authentication *************************
@@ -80,5 +85,4 @@ Route::get('logs.show2.{LogKey1}.{LogKey2?}', array(
     'uses' => "LogsController@show2"
 ));
 
-Route::get('/', 'HomeController@home');
-
+Route::get('/', 'HomeController@index');

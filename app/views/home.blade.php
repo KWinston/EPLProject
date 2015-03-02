@@ -9,50 +9,35 @@
 
 {{--check if user is logged on to determine what to display--}}
 @if (Auth::check())
-	{{-- identify the branch --}}
-	{{-- use a for loop on each branch extracting out relavent kits based on their currently location --}}
-	{{--populate div inventory with relevent data --}}
-	<div class="branchInventory">
+    {{-- identify the branch --}}
+    {{-- use a for loop on each branch extracting out relavent kits based on their currently location --}}
+    {{--populate div inventory with relevent data --}}
+    <div class="branchInventory">
 
-		{{--write function in controller to match branch name with number--}}
-		<p class='inventoryTitle'>Kits Currently at {{ $branch_name }}:</p>
+        {{--write function in controller to match branch name with number--}}
+        <p class='inventory-title'>Kits Currently at {{ $branch_name }}:</p>
 
-				@foreach ($kits as $kit)
-				@if($kit->AtBranch == Session::get('branch') )
-				<div class="kitBlock">
-					<p class="kitBlockName">Type: {{ $kit->KitType }}</p>
-					<p class="kitBlockId">Id: {{ $kit->ID }}</p>
-					<p class="kitBlackContents">Description: {{ $kit->KitDesc }}</p>
-					<p class="kitBlackState">Kit is currently: {{ $kit->KitState }}</p>
-				</div>
-				@endif
-				@endforeach
-				
-			{{--
-			@else
-				<p class="noInventory">There are currently no kits at this branch</p>
-			@endif
-			--}}			
-	</div>
+            @foreach ($kits as $kit)
+                <div class="kit-block">
+                    <p class="kit-block-name">{{ $kit->type->Name }} - {{ $kit->Name }}
+                        @if ($kit->Specialized)
+                        + {{ $kit->SecializedName}}
+                        @endif
+                    </p>
+                    <p class="kit-black-contents">Description: {{ $kit->KitDesc }}</p>
+                    <p class="kit-black-state">Kit is currently: {{ $kit->state->StateName}}</p>
+                </div>
+            @endforeach
 
-{{--display page if user has not logged in --}}
-@else 
-{{-- Use this code view all kits and their datafields before log in --}}
-{{--
-	<p>Showing all kits: </p>
-	@foreach ($kits as $kit)
-		<div class="kitBlock">
-			<p class="kitBlockName">Type: {{ $kit->KitType }}</p>
-			<p class="kitBlockId">Id: {{ $kit->ID }}</p>
-			<p class="kitBlackContents">Description: {{ $kit->KitDesc }}</p>
-			<p class="kitBlackState">Kit is currently: {{ $kit->KitState }}</p>
-			<p class="kitBlockSerialNumber">Currently at: {{ $kit->AtBranch }}</p>
-		</div>
-	@endforeach
---}}
-{{-- Use this code if we want a welcome scren --}}
-<h1 class='welcomeMessage'>Welcome to the EPL Kit Manager</h1>
+            {{--
+            @else
+                <p class="kit-no-inventory">There are currently no kits at this branch</p>
+            @endif
+            --}}
+    </div>
 
+@else {{--display page if user has not logged in --}}
+    <h1 class='welcome-message'>Welcome to the EPL Kit Manager</h1>
 @endif
 
 @stop
