@@ -14,6 +14,7 @@ class Booking extends Eloquent
      * @var string
      */
     protected $table = 'Booking';
+    protected $primaryKey = 'ID';
 
     /**
      * The attributes excluded from the model's JSON form.

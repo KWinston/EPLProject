@@ -5,6 +5,6 @@ class AdminController extends BaseController {
 
     public function index()
     {
-        return CheckIfAuthenticated('administrator.admin',[ ], 'home.index', [], true);
+        return CheckIfAuthenticated('administrator.logs', ['selected_menu' => 'main-menu-administration', 'selected_admin_menu' => 'admin-menu-logs'], 'home.index', [], true);
     }
 }

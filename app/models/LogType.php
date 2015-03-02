@@ -5,7 +5,7 @@ use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
-class LogType extends Eloquent 
+class LogType extends Eloquent
 {
 
     /**
@@ -14,6 +14,7 @@ class LogType extends Eloquent
      * @var string
      */
     protected $table = 'LogType';
+    protected $primaryKey = 'ID';
 
     /**
      * The attributes excluded from the model's JSON form.

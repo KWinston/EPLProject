@@ -5,8 +5,9 @@ class BookKitController extends BaseController {
 
     public function index()
     {
-        return CheckIfAuthenticated('members.bookkit', ['treeData' =>  GetKitTypeTreeData() ], 
-            'home.index', [], false);
+        return CheckIfAuthenticated('members.bookkit',[
+            'selected_menu' => 'main-menu-book'
+            ], 'home.index', [], false);
     }
 
     public function updateBooking()
@@ -52,6 +53,7 @@ class BookKitController extends BaseController {
         $post['KitID'] = intval($post['KitID']);
         $post['ForBranch'] = intval($branchID['ID']);
 
+
         $data = new Booking;
         $data->fill($post);
         $data->save();
@@ -66,12 +68,12 @@ class BookKitController extends BaseController {
         $data2->save();
 
         return Response::json(array(
-            'success' => true, 
+            'success' => true,
             'insert_id' => $data->id
         ), 200);
     }
 
-    public function getKitBookings() 
+    public function getKitBookings()
     {
         if(!Request::ajax())
             return "not a json request";
@@ -79,13 +81,13 @@ class BookKitController extends BaseController {
         $index = Input::get('ID');
 
         return DB::table('Booking')
-            ->join('BookingDetails', 
+            ->join('BookingDetails',
                 'Booking.id', '=', 'BookingDetails.BookingID')
             ->where('Booking.KitID', $index)
             ->get();
-    }  
+    }
 
-    public function getTypeOverlaps() 
+    public function getTypeOverlaps()
     {
         if(!Request::ajax())
             return "not a json request";
@@ -96,7 +98,7 @@ class BookKitController extends BaseController {
         return $kits;
         foreach ($kits as $value)
         {}
-    } 
+    }
 
     public function getShadowDays()
     {

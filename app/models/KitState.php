@@ -5,7 +5,7 @@ use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
-class KitState extends Eloquent 
+class KitState extends Eloquent
 {
 
     /**
@@ -14,6 +14,7 @@ class KitState extends Eloquent
      * @var string
      */
     protected $table = 'KitState';
+    protected $primaryKey = 'ID';
 
     /**
      * The attributes excluded from the model's JSON form.

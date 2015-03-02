@@ -14,6 +14,7 @@ class Branches extends Eloquent
      * @var string
      */
     protected $table = 'Branches';
+    protected $primaryKey = 'ID';
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -23,4 +24,8 @@ class Branches extends Eloquent
     protected $hidden = array();
 
     protected $fillable = array('BranchMangerID', 'BranchID', 'Name', 'EPLAddress', 'PhoneNumber', 'Latitude', 'Longitude', 'updated_at', 'created_at');
+    public function kits()
+    {
+        return $this->hasMany('Kits', 'AtBranch', 'ID');
+    }
 }
