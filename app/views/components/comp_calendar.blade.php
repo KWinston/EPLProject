@@ -1,13 +1,13 @@
 {{ HTML::style("plugins/ashaw_2_2_7_calendar/fullcalendar.css") }}
 {{ HTML::style("css/comp-calendar.css") }}
 
-{{ HTML::script('plugins/ashaw_2_2_7_calendar/lib/moment.min.js', 
+{{ HTML::script('plugins/ashaw_2_2_7_calendar/lib/moment.min.js',
 	array('type' => 'text/javascript')) }}
-{{ HTML::script('plugins/ashaw_2_2_7_calendar/fullcalendar.js', 
+{{ HTML::script('plugins/ashaw_2_2_7_calendar/fullcalendar.js',
 	array('type' => 'text/javascript')) }}
 
 <div id="booking_dialog">
-	<p>Please indicate how many days you would like to book this kit. 
+	<p>Please indicate how many days you would like to book this kit.
 		You will pick which day to book after from this menu.</p>
 	<input type="number" min="1" max="14" value="1" />
 	<p class="days">Days</p>
@@ -19,7 +19,7 @@
 			<div id="external-events">
 				<input type="button" id="book_kit" value="Book Kit Time" />
 				<hr/><p>Drag to Book</p><hr/>
-			</div> 
+			</div>
 		</td>
 		<td style="width: 79%; vertical-align: top;">
 			<div id="calendar"></div>
@@ -36,7 +36,7 @@
 	var shadowObjects;
 	var oldKitObjects;
 	var newKitObjects;
-	
+
 	function setBookingKit(kitID, kitText, kitType) {
 		if(kitID == null || kitType == null) {
 			$('#book_kit').prop('disabled', true);
@@ -57,7 +57,7 @@
 	function generateEventTitle(kitText, start, end) {
 		var days = moment(end).diff(moment(start), 'd');
 		var title =  kitText + "\n Duration: " + days + " days";
-		return title;	
+		return title;
 	}
 
 	function setEventShadow(event, elem) {
@@ -67,16 +67,16 @@
 		var startShadow = (width + 3).toString();
 		var endShadow = (width + 3).toString();
 
-		var css = [ 
+		var css = [
 			'; background-size:',
 			startShadow + 'px 100%,',
 			endShadow + 'px 100%;',
-			$(elem).hasClass('fc-start') ? 
-				'padding-left: ' + startShadow + 'px;' : 
+			$(elem).hasClass('fc-start') ?
+				'padding-left: ' + startShadow + 'px;' :
 				'padding-left: 0px;'
 			,
-			$(elem).hasClass('fc-end') ? 
-				'padding-right: ' + endShadow + 'px;' : 
+			$(elem).hasClass('fc-end') ?
+				'padding-right: ' + endShadow + 'px;' :
 				'padding-right: 0px;'
 		].join(' ');
 
@@ -85,8 +85,8 @@
 	}
 
 	function existsInNewBookings(booking) {
-		for(var i in newKitObjects) { 
-			if (parseInt(booking.BookingID, 10) === 
+		for(var i in newKitObjects) {
+			if (parseInt(booking.BookingID, 10) ===
 				parseInt(newKitObjects[i].bookID, 10)) {
 				return true;
 			}
@@ -101,7 +101,7 @@
 			var kit = currentKits[i];
 
 			// determine if of same kit type or comparing to self
-			if (parseInt(newKit.bookID, 10) !== parseInt(kit.bookID, 10) && 
+			if (parseInt(newKit.bookID, 10) !== parseInt(kit.bookID, 10) &&
 				parseInt(newKit.kitId) === parseInt(kit.kitId)) {
 				isConflict = checkEventsOverlap({
 					'start': startDay,
@@ -137,7 +137,7 @@
 				borderColor: '#555',
 				backgroundColor: '#ccff00',
 				textColor: '#000'
-			});	
+			});
 		}
 		$('#calendar').fullCalendar('addEventSource', shadowObjects);
 	}
@@ -150,7 +150,7 @@
 			var e = bookings[i];
 
 			if (!existsInNewBookings(e)) {
-				var title = generateEventTitle(e.Purpose, 
+				var title = generateEventTitle(e.Purpose,
 					moment(e.StartDate), moment(e.EndDate));
 				var creator = (e.UserID === UserID);
 
@@ -166,13 +166,13 @@
 					stick: true,
 					start: moment(e.ShadowStartDate),
 					end: moment(e.ShadowEndDate),
-					editable: creator,		
+					editable: creator,
 					className: 'shadow-day-effect',
 					borderColor: '#555',
 					backgroundColor: creator ? '#0033CC' :'#ccc',
 					textColor: '#fff'
-				});	
-			}	
+				});
+			}
 		}
 		$('#calendar').fullCalendar('addEventSource', oldKitObjects);
 	}
@@ -183,7 +183,7 @@
 		var created = $('<div/>',{
 			'kitid': kitID,			// val[0].value
 			'kittext': kitText,		// val[1].value
-			'kittype': 'kit',			
+			'kittype': 'kit',
 			'class': "fc-event ui-draggable ui-draggable-handle",
 			'html':  kitText + '<br> Duration: ' + days + ' days',
 			'style': [
@@ -197,7 +197,7 @@
 			id: (count++).toString(),
 			objID: 'kit',
 			objState: 'new',
-			kitForBranch: $('#branchMenu option:selected').text(), 
+			kitForBranch: $('#branchMenu option:selected').val(), 
 			kitText: _kitText,
 			kitId: _kitID,
 			kitNotes: '',
@@ -253,26 +253,26 @@
 		var startDay = moment(event.start);
 		var endDay = moment(event.end).subtract(1, 'd'); // due to 00:00:00 dates posting as next
 
-		// non-recieving start date 
+		// non-recieving start date
 		if (startDay.format('dddd') === "Sunday")
 			startDay.subtract(2, 'd');
 
 		else if (startDay.format('dddd') === "Saturday")
 			startDay.subtract(1, 'd');
 
-		// non-shipping end date 	
+		// non-shipping end date
 		if (endDay.format('dddd') === "Sunday")
 			endDay.add(1, 'd');
-		
+
 		else if (endDay.format('dddd') === "Saturday")
 			endDay.add(2, 'd');
 
 		// verify against holidays and weekends
 		for (var i in shadowObjects)
-		{	
+		{
 			var shadowDay = moment(shadowObjects[i].start);
 			if (shadowDay.format('dddd') != 'Sunday' &&
-				shadowDay.format('dddd') != 'Saturday') 
+				shadowDay.format('dddd') != 'Saturday')
 			{
 				if (shadowDay.format('l') == startDay.format('l'))
 					startDay.subtract(1, 'd');
@@ -283,15 +283,15 @@
 
 		// compare to to kit current bookings
 		endDay.add(1, 'd');
-		if (!checkScheduleConflicts(event, startDay, endDay, oldKitObjects) && 
-			!checkScheduleConflicts(event, startDay, endDay, newKitObjects)) 
+		if (!checkScheduleConflicts(event, startDay, endDay, oldKitObjects) &&
+			!checkScheduleConflicts(event, startDay, endDay, newKitObjects))
 		{
 			var diffStart = startDay.diff(event.start, 'd');
 			var diffEnd = endDay.diff(event.end, 'd');
-			
+
 			event.start.add(diffStart, 'd');
 			event.end.add(diffEnd, 'd');
-			event.title = generateEventTitle(event.kitText, 
+			event.title = generateEventTitle(event.kitText,
 				moment(event.start).add(1, 'd'), moment(event.end).subtract(1, 'd'));
 
 			event.start.calendar();
@@ -307,7 +307,7 @@
 			event.start.add(diffStart, 'd');
 			event.end.add(diffEnd, 'd');
 			alert('an overlap with another kit has occurred, reverting');
-			return false;	
+			return false;
 		}
 	}
 
@@ -328,7 +328,7 @@
 		else if (activeEnd < inactiveEnd && inactiveStart < activeStart) {
 			return true;
 		}
-		
+
 		// ends overlap
 		if (activeEnd > inactiveEnd) {
 			if (activeStart < inactiveEnd) { return true; }
@@ -362,7 +362,7 @@
 			},
 			editable: true,
 			windowResize: function(view) {
-				$('#calendar').fullCalendar('rerenderEvents'); 
+				$('#calendar').fullCalendar('rerenderEvents');
     		},
 			eventOverlap: true,
     		fixedWeekCount: false,
@@ -397,7 +397,7 @@
         		$(this).css('z-index', 8);
     			$('.tooltipevent').remove();
         	},
-        	droppable: true, 
+        	droppable: true,
 			// internal changes (updates)
 			eventDrop: function(event, delta, revertFunc)
 			{
@@ -437,7 +437,7 @@
 			eventAfterRender: function(event, element) {
 				setEventShadow(event, element[0]);
 			}
-    	});	
+    	});
 
     	$("#booking_dialog").dialog({
 			'autoOpen': false,

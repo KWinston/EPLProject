@@ -46,30 +46,24 @@ class BookKitController extends BaseController {
 
         $post = Input::all();
 
-        $branchID = Branches::select('ID')
-            ->where('BranchID', '=', $post['ForBranch'])
-            ->first();
-
         $post['KitID'] = intval($post['KitID']);
-        $post['ForBranch'] = intval($branchID['ID']);
 
+        $booking = new Booking;
+        $booking->fill($post);
+        $booking->save();
 
-        $data = new Booking;
-        $data->fill($post);
-        $data->save();
-
-        $data2 = new BookingDetails;
-        $data2->fill(array(
-            'BookingID' => $data->id,
+        $bookingDetail = new BookingDetails;
+        $bookingDetail->fill(array(
+            'BookingID' => $booking->ID,
             'UserID' => Auth::user()->id,
             'Email' =>  Auth::user()->Email,
             'Booker' => 1
         ));
-        $data2->save();
+        $bookingDetail->save();
 
         return Response::json(array(
             'success' => true,
-            'insert_id' => $data->id
+            'insert_id' => $booking->id
         ), 200);
     }
 

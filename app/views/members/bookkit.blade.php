@@ -18,9 +18,9 @@
             ))
         </td>
         <td style="padding: 5px 10px; vertical-align: top; text-align: center;">
-            <p id="current_kit" style="font-size: 18px; width: 100%; 
-                background-color: #ddd; text-align: center; 
-                border: 2px solid #000; 
+            <p id="current_kit" style="font-size: 18px; width: 100%;
+                background-color: #ddd; text-align: center;
+                border: 2px solid #000;
                 margin: 0px 0px 5px 0px; padding: 4px 0px;">
             Select a Kit</p>
             <input type="hidden" id="current_kit_id">
@@ -29,9 +29,9 @@
                 'insertMethod' => "insertBooking",
                 'kitChange'    => "homeMenuCallback"
             ))
-            <div id="bookingStatus" style="font-size: 16px; width: 100%; 
-                background-color: #ddd; text-align: center; 
-                border: 2px solid #000; 
+            <div id="bookingStatus" style="font-size: 16px; width: 100%;
+                background-color: #ddd; text-align: center;
+                border: 2px solid #000;
                 margin: 5px 0px 0px 0px; padding: 2px 0px;">
                 Booking: status
             </div>
@@ -52,12 +52,13 @@
             setBookingKit(kitID, kitText, kitType);
             $.post("{{ URL::route('book_kit.get_kit_bookings') }}", json)
                 .success(function(resp){
+                    console.log("-------- Got bookings" + resp);
                     //console.log(JSON.stringify(resp));
                     addCalendarKits(resp, '{{ Auth::id(); }}');
                 })
                .fail(function(){
                     console.log("error on insert");
-                });   
+                });
         }
         else {
             $.post("{{ URL::route('book_kit.get_type_overlaps') }}", json)
@@ -67,7 +68,7 @@
                 })
                .fail(function(){
                     console.log("error on insert");
-                });  
+                });
 
         }
     }
@@ -83,12 +84,12 @@
         var startBooking = moment(event.start).add(1, 'd').format('YYYY-MM-DD');
         var endBooking = moment(event.end).subtract(1, 'd').format('YYYY-MM-DD');
 
-        var json = { 
+        var json = {
             'StartDate' : startBooking,
             'EndDate'   : endBooking,
             'ShadowStartDate' : event.start.format('YYYY-MM-DD'),
             'ShadowEndDate'   : event.end.format('YYYY-MM-DD'),
-            'ForBranch' : event.kitForBranch, 
+            'ForBranch' : event.kitForBranch,
             'Purpose'   : event.kitText,
             'KitID'     : event.kitId
         };
@@ -109,13 +110,13 @@
         var startBooking = moment(event.start).add(1, 'd').format('YYYY-MM-DD');
         var endBooking = moment(event.end).subtract(1, 'd').format('YYYY-MM-DD');
 
-        var json = { 
+        var json = {
             'ID' : event.bookID,
             'StartDate' : startBooking,
             'EndDate'   : endBooking,
             'ShadowStartDate' : event.start.format('YYYY-MM-DD'),
             'ShadowEndDate'   : event.end.format('YYYY-MM-DD'),
-            'ForBranch' : event.kitForBranch, 
+            'ForBranch' : event.kitForBranch,
             'Purpose'   : event.kitText,
             'KitID'     : event.kitId
         };
@@ -143,7 +144,7 @@
     }
 
     $(document).ready(function() {
-        @if(Session::has('branch')) 
+        @if(Session::has('branch'))
             addHolidays("{{Session::get('branch', '*')}}");
         @endif
         setBookingKit(null);
