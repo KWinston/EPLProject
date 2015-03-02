@@ -15,7 +15,7 @@
 Route::resource('home', 'HomeController');
 
 Route::resource('book_kit', 'BookKitController');
-Route::resource('recieve_kit', 'RecieveKitController');
+Route::resource('receive_kit', 'ReceiveKitController');
 Route::resource('ship_kit', 'ShipKitController');
 Route::resource('overview_kit', 'OverviewKitController');
 Route::resource('admin', 'AdminController');

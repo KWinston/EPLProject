@@ -32,7 +32,7 @@
                         <a href="{{ route('book_kit.index'); }}">BOOK KIT</a>
                     </div>
                     <div class="option left">
-                        <a href="{{ route('recieve_kit.index'); }}">RECIEVE KIT</a>
+                        <a href="{{ route('receive_kit.index'); }}">RECEIVE KIT</a>
                     </div>
                     <div class="option left">
                         <a href="{{ route('ship_kit.index'); }}">SHIP KIT</a>
@@ -56,6 +56,7 @@
                     </div>
 
                     <div class="option right">
+                        BRANCH&#58;
                         <select data-placeholder="Branch" id="branchMenu"
                             class="chosen-select branch-select" tabindex="2">
                         </select>
