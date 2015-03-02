@@ -8,11 +8,11 @@ class MasterController extends BaseController {
         $password = Input::get('password');
         if (Auth::attempt(array('username' => $username, 'password' => $password)))
         {
-            return Redirect::route('home.index');
+            return Redirect::action('HomeController@home', []);
         }
         $branches = Branches::all();
 
-        return View::make("home", []);
+        return View::make("HomeContoller@home", []);
     }
 
     public function logout()

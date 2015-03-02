@@ -19,11 +19,11 @@
 				@foreach ($kits as $kit)
 				@if($kit->AtBranch == Session::get('branch') )
 				<div class="kitBlock">
-					<p class="kitBlockName">Kit Type: $kitType</p>
-					<p class="kitBlockId">Kit Id: $kitID</p>
-					<p class="kitBlockSerialNumber">Kit Serial Number: $serialNumber</p>
-					<p class="kitBlockRecieved">Last recieved: $date</p>
-					<p class="kitBlockUser">Last booked by: $user</p>
+					<p class="kitBlockName">Type: {{ $kit->KitType }}</p>
+					<p class="kitBlockId">Id: {{ $kit->ID }}</p>
+					<p class="kitBlackContents">Description: {{ $kit->KitDesc }}</p>
+					<p class="kitBlackState">Kit is currently: {{ $kit->KitState }}</p>
+					<p class="kitBlockSerialNumber">Currently at: {{ $kit->AtBranch }}</p>
 				</div>
 				@endif
 				@endforeach
