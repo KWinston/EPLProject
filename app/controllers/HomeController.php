@@ -17,7 +17,7 @@ class HomeController extends BaseController {
 
 	public function index()
 	{
-		return View::make('home');
+		return View::make('home', array( 'selected_menu' => 'main-menu-home'));
 	}
 
 }
