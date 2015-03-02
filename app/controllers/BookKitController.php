@@ -15,7 +15,7 @@ class BookKitController extends BaseController {
             return "not a json request";
 
         $post = Input::except('ID');
-        $index = intval(Input::get('ID'));
+        $index = Input::get('ID');
 
         $branchID = Branches::select('ID')
             ->where('BranchID', '=', $post['ForBranch'])
@@ -26,7 +26,12 @@ class BookKitController extends BaseController {
 
         $stat = DB::table('Booking')
             ->where('id', $index)
-            ->update($post);
+            ->update(array(
+                'ShadowStartDate' => $post['ShadowStartDate'],
+                'ShadowEndDate' => $post['ShadowEndDate'],
+                'StartDate' => $post['StartDate'],
+                'EndDate' => $post['EndDate']
+            ));
 
         return Response::json(array(
             'success' => $stat = 1 ? true : false

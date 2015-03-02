@@ -52,8 +52,8 @@
             setBookingKit(kitID, kitText, kitType);
             $.post("{{ URL::route('book_kit.get_kit_bookings') }}", json)
                 .success(function(resp){
-                    console.log(JSON.stringify(resp));
-                    addCalendarKits(resp);
+                    //console.log(JSON.stringify(resp));
+                    addCalendarKits(resp, '{{ Auth::id(); }}');
                 })
                .fail(function(){
                     console.log("error on insert");
@@ -95,7 +95,7 @@
 
         $.post("{{ URL::route('book_kit.insert_booking') }}", json)
             .success(function(resp){
-                console.log(resp);
+                //console.log(resp);
                 event.bookID = resp.insert_id;
 
                 setBookingFeedback('Created');
@@ -119,10 +119,9 @@
             'Purpose'   : event.kitText,
             'KitID'     : event.kitId
         };
-
         $.post("{{ URL::route('book_kit.update_booking') }}", json)
             .success(function(resp){
-                console.log(resp);
+                console.log(JSON.stringify(resp));
                 setBookingFeedback('Updated');
             })
            .fail(function(){

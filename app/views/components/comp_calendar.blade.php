@@ -87,7 +87,6 @@
 		shadowObjects = [];
 		for (var i in shadowDays) {
 			var shadowDay = shadowDays[i];
-			console.log(shadowDay);
 			var today = moment(shadowDay.HolidayDate + " 00:00:00");
 			var tomorrow = moment(today).add(1, 'd');
 			var title = [
@@ -121,7 +120,7 @@
 		return false;
 	}
 
-	function addCalendarKits(bookings) {
+	function addCalendarKits(bookings, UserID) {
 		// this needs work
 		$('#calendar').fullCalendar('removeEventSource', oldKitObjects);
 		oldKitObjects = [];
@@ -129,13 +128,12 @@
 			var e = bookings[i];
 
 			if (!existsInNewBookings(e)) {
-				console.log('you shall pass');
 				var title = generateEventTitle(e.Purpose, 
 					moment(e.StartDate), moment(e.EndDate));
-				var booker = (e.Booker == 1);
+				var creator = (e.UserID === UserID);
 
 				oldKitObjects.push({
-					bookID: e.ID,
+					bookID: e.BookingID,
 					objID: 'other',
 					objState: 'old',
 					kitText: e.Purpose,
@@ -146,10 +144,10 @@
 					stick: true,
 					start: moment(e.ShadowStartDate),
 					end: moment(e.ShadowEndDate),
-					editable: booker,		
+					editable: creator,		
 					className: 'shadow-day-effect',
 					borderColor: '#555',
-					backgroundColor: booker ? '#0033CC' :'#ccc',
+					backgroundColor: creator ? '#0033CC' :'#ccc',
 					textColor: '#fff'
 				});	
 			}	
@@ -357,7 +355,6 @@
 		else
 			console.log("function not defined: " + target);
 	}
-
 	$(document).ready(function() {
 		newKitObjects = [];
 
@@ -471,5 +468,21 @@
     	$("#book_kit").click(function () {
     		$("#booking_dialog").dialog('open');
 		});
+
+    	// delete feature coming
+		$("#calendarTrash").droppable({
+	        tolerance: 'pointer',
+	        drop: function(event, ui) { 
+	            if ( dragged && ui.helper && ui.helper[0] === dragged[0] ) {
+	                var event = dragged[1];
+	                var answer = confirm("Delete Event?")
+	                if (answer)
+	                {
+
+	                }
+	            }
+	        }
+	    });
 	});
+
 </script>
