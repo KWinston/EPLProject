@@ -50,6 +50,7 @@ class LogsController extends BaseController
                 array_unshift($filters, $logType->ID);
             }
         }
+        // print dd($clause);
         $logs = Logs::whereraw($clause)->get();
         $kTyp = KitTypes::find($LogKey1);
         $title = "Log for all " . $kTyp->Name;

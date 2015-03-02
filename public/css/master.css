@@ -257,7 +257,7 @@ input.log-filter
     float: right;
 
 }
-.inventoryTitle
+.inventory-title
 {
     border: 2px solid #000;
     padding: 2px;
@@ -267,13 +267,16 @@ input.log-filter
     font-size: 20px;
     color: white;
 }
-.kitBlock
+.kit-block
 {
     margin-top: 5px;
     line-height: 20%;
     border: 5px solid black;
     padding-left: 10px;
     font-size: 20px;
+    width: 30%;
+    display: inline-block;
+}
 
 .click-select-logs-msg
 {

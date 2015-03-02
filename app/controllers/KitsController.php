@@ -60,9 +60,8 @@ class KitsController extends BaseController
 
             if (isset($kit[$key]) && ($kit[$key] != $inp[$key]))
             {
-                print "Change " . $key . " from:". $kit[$key] . " -> " . $value . "<br/.>";
                 $kit[$key] = $value;
-                Logs::KitEdit($id, $key, $kit[$key], $value);
+                Logs::KitEdit($kit->KitType, $kit->ID, $key, $kit[$key], $value);
             }
         }
         $kit->save();
@@ -73,9 +72,10 @@ class KitsController extends BaseController
 
     public function destroy($kitID)
     {
-        print "Destroying " .$kitID;
-        Kits::destroy($kitID);
-        Logs::KitDelete($kitID);
+
+        $kit = Kits::find($kitID);
+        Logs::KitDelete($kit->KitType, $kit->ID);
+        $kit->delete();
     }
 
     public function create()
@@ -88,7 +88,7 @@ class KitsController extends BaseController
             'Name' => "New Kit Name",
             'KitDesc' => "Place a description of the contents of this kit here. "
             ));
-        Logs::KitCreated($kit->ID);
+        Logs::KitCreated($kit->KitType, $kit->ID);
 
         $res = $this->makeJTreeKitRecord($kit);
         return $res;
