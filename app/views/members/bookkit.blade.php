@@ -41,18 +41,19 @@
 
 
 <script type="text/javascript">
-    function homeMenuCallback(kitID, kitText, kitType) {
+    function homeMenuCallback(kitID, kitText, kitType, eventBookID) {
+        console.log(kitID + ', ' + kitText + ', ' +  kitType + ', ' + eventBookID);
         $('#current_kit').text("Selected Kit is: " + kitText);
         json = {
             'ID' : kitID
         };
-        console.log(json);
+
         if (RegExp('kit', 'i').test(kitType)) {
             setBookingKit(kitID, kitText, kitType);
             $.post("{{ URL::route('book_kit.get_kit_bookings') }}", json)
                 .success(function(resp){
-                    console.log(resp);
-                    addCalendarKits(resp);
+                    //console.log(JSON.stringify(resp));
+                    addCalendarKits(resp, '{{ Auth::id(); }}');
                 })
                .fail(function(){
                     console.log("error on insert");
@@ -61,7 +62,7 @@
         else {
             $.post("{{ URL::route('book_kit.get_type_overlaps') }}", json)
                 .success(function(resp){
-                    console.log(resp);
+                    //console.log(resp);
                     //addCalendarKits(resp);
                 })
                .fail(function(){
@@ -94,7 +95,7 @@
 
         $.post("{{ URL::route('book_kit.insert_booking') }}", json)
             .success(function(resp){
-                console.log(resp);
+                //console.log(resp);
                 event.bookID = resp.insert_id;
 
                 setBookingFeedback('Created');
@@ -118,10 +119,9 @@
             'Purpose'   : event.kitText,
             'KitID'     : event.kitId
         };
-
         $.post("{{ URL::route('book_kit.update_booking') }}", json)
             .success(function(resp){
-                console.log(resp);
+                console.log(JSON.stringify(resp));
                 setBookingFeedback('Updated');
             })
            .fail(function(){
