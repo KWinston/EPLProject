@@ -14,6 +14,7 @@ class Branches extends Eloquent
      * @var string
      */
     protected $table = 'Branches';
+    protected $primaryKey = 'ID';
 
     /**
      * The attributes excluded from the model's JSON form.

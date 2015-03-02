@@ -24,27 +24,27 @@
 
         <div class="menu">
             <div class="options">
-                <div class="option left">
-                    <a href="{{ route('home.index'); }}">HOME</a>
+                <div class="option left main-menu-home">
+                    <a class="main-menu" href="{{ route('home.index', array('$selected_menu' => 'main-menu-home')); }}">HOME</a>
                 </div>
                 @if(Auth::check())
-                    <div class="option left">
-                        <a href="{{ route('book_kit.index'); }}">BOOK KIT</a>
+                    <div class="option left main-menu-book" >
+                        <a href="{{ route('book_kit.index', array('$selected_menu' => 'main-menu-book')); }}">BOOK KIT</a>
                     </div>
-                    <div class="option left">
-                        <a href="{{ route('receive_kit.index'); }}">RECEIVE KIT</a>
+                    <div class="option left main-menu-receive">
+                        <a href="{{ route('receive_kit.index', array('$selected_menu' => 'main-menu-receive')); }}">RECIEVE KIT</a>
                     </div>
-                    <div class="option left">
-                        <a href="{{ route('ship_kit.index'); }}">SHIP KIT</a>
+                    <div class="option left main-menu-ship">
+                        <a href="{{ route('ship_kit.index', array('$selected_menu' => 'main-menu-ship')); }}">SHIP KIT</a>
                     </div>
-                    <div class="option left">
-                        <a href="{{ route('overview_kit.index'); }}">OVERVIEW</a>
+                    <div class="option left main-menu-overview">
+                        <a href="{{ route('overview_kit.index', array('$selected_menu' => 'main-menu-overview')); }}">OVERVIEW</a>
                     </div>
                 @endif
 
                 @if(Auth::check() && Auth::user()->is_admin == 1)
-                    <div class="option left">
-                        <a href="{{ route('admin.index'); }}">ADMINISTRATOR</a>
+                    <div class="option left main-menu-administration">
+                        <a href="{{ route('admin.index', array('$selected_menu' => 'main-menu-administration')); }}">ADMINISTRATOR</a>
                     </div>
                 @endif
 
@@ -84,14 +84,18 @@
 
             </div>
         </div>
-        <div class="content">
-                @yield('content')
-        </div>
-        <div class="menu" style="float: bottom;">
-            <div class="options">
-                <p style="text-align: right;">Ian, Robert, Winston and Wilson</p>
+        @if (!isset($nested))
+            <div class="content">
+        @endif
+        @yield('content')
+        @if (!isset($nested))
             </div>
-        </div>
+            <div class="menu" style="float: bottom;">
+                <div class="options" id="footer_credits">
+                    <p style="text-align: right;"> Ian, Robert, Winston and Wilson</p>
+                </div>
+            </div>
+        @endif
 
         {{ HTML::script('plugins/chosen_1_3_0_dropdown/chosen.jquery.min.js',
             array('type' => 'text/javascript')) }}
@@ -100,8 +104,14 @@
             array('type' => 'text/javascript')) }}
 
         <script type="text/javascript">
-            $(".branch-select").load("{{ URL::route('master.branches') }}", function(){
+            @if (isset($selected_menu))
+                $(".{{$selected_menu}}").addClass("menu-selected");
+            @else
+                $(".main-menu-home").addClass("menu-selected");
+            @endif
 
+            $(".branch-select").load("{{ URL::route('master.branches') }}", function()
+            {
                 for (var selector in config)
                 {
                     $(selector).chosen(config[selector]);

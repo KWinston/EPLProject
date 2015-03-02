@@ -12,7 +12,7 @@ class HomeController extends BaseController {
 				$branch_name = $branch->Name;
 		}
 		$kits = DB::table('Kits')->get();
-		return View::make('home')->with(array('kits' =>$kits,'branch_name' =>$branch_name));
+		return View::make('home', array('kits' =>$kits,'branch_name' =>$branch_name, 'selected_menu' => 'main-menu-home'));
 	}
 
 }

@@ -14,6 +14,7 @@ class Kits extends Eloquent
      * @var string
      */
     protected $table = 'Kits';
+    protected $primaryKey = 'ID';
 
     /**
      * The attributes excluded from the model's JSON form.

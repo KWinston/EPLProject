@@ -63,6 +63,11 @@ html, body
     border: none;
 }
 
+.menu-selected
+{
+    background:green;
+}
+
 .menu input[type="submit"]:hover
 {
     color: rgb(255, 255, 0);
@@ -269,4 +274,78 @@ input.log-filter
     border: 5px solid black;
     padding-left: 10px;
     font-size: 20px;
+
+.click-select-logs-msg
+{
+    left: 30%;
+    padding-top: 15%;
+    position: relative;
+}
+
+
+.kit-table-area
+{
+    width: 50%;
+    height:100%;
+}
+.kit-components-area
+{
+    width: 50%;
+    height:100%;
+    border: 2px solid black;
+
+}
+.kit-detail-form
+{
+    padding: 20px;
+    height: 100%;
+    width: 90%;
+}
+.kit-detail-form td label
+{
+    float: right;
+    padding-right: 5px;
+}
+.kit-detail-form tr
+{
+    vertical-align: center;
+}
+.kit-detail-form tr td
+{
+    padding-top: 5px;
+}
+.form-singleline-text
+{
+    width: 100%;
+}
+.form-multiline-text
+{
+    width: 100%;
+}
+.form-checkbox-text
+{
+    width: 90%;
+}
+.form-select
+{
+    width: 100%;
+}
+.form-checkbox
+{
+
+}
+.form-apply
+{
+
+}
+.form-input-changed
+{
+    border: 1px solid black;
+    background: rgba(0, 255, 0, 0.28);
+}
+.destroy-kit
+{
+    color: black !important;
+    background: red !important;
+    float: left;
 }

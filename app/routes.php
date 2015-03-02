@@ -19,6 +19,11 @@ Route::resource('receive_kit', 'ReceiveKitController');
 Route::resource('ship_kit', 'ShipKitController');
 Route::resource('overview_kit', 'OverviewKitController');
 Route::resource('admin', 'AdminController');
+Route::resource('branches', 'BranchesController');
+Route::resource('kits', 'KitsController');
+Route::resource('kitTypes', 'KitTypesController');
+
+
 
 
 // **************** authentication *************************

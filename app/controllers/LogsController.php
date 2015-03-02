@@ -53,7 +53,7 @@ class LogsController extends BaseController
         $logs = Logs::whereraw($clause)->get();
         $kTyp = KitTypes::find($LogKey1);
         $title = "Log for all " . $kTyp->Name;
-        return CheckIfAuthenticated('Logs.show',['logs' => $logs, 'logTitle' => $title, 'logTypes' => LogType::all(), 'filters' => $filters], 'home.index', [], true);
+        return CheckIfAuthenticated('Logs.show',['ID' => null ,'logs' => $logs, 'logTitle' => $title, 'logTypes' => LogType::all(), 'filters' => $filters], 'home.index', [], true);
     }
 
     // ---------------------------------------------------------------------------------------------------
@@ -70,7 +70,7 @@ class LogsController extends BaseController
         }
         else
         {
-            foreach(LogType::all as $logType)
+            foreach(LogType::all() as $logType)
             {
                 array_unshift($filters, $logType->ID);
             }
@@ -89,6 +89,6 @@ class LogsController extends BaseController
         {
             $title = $title . ' + ' . $kit->SecializedName;
         }
-        return CheckIfAuthenticated('Logs.show',['logs' => $logs, 'logTitle' => $title, 'logTypes' => LogType::all(), 'filters' => $filters], 'home.index', [], true);
+        return CheckIfAuthenticated('Logs.show',['ID' => $LogKey2, 'logs' => $logs, 'logTitle' => $title, 'logTypes' => LogType::all(), 'filters' => $filters], 'home.index', [], true);
     }
 }
