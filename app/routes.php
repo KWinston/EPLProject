@@ -80,7 +80,5 @@ Route::get('logs.show2.{LogKey1}.{LogKey2?}', array(
     'uses' => "LogsController@show2"
 ));
 
-Route::get('/', function()
-{
-	return View::make('home');
-});
+Route::get('/', 'HomeController@home');
+

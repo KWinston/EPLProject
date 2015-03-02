@@ -2,22 +2,17 @@
 
 class HomeController extends BaseController {
 
-	/*
-	|--------------------------------------------------------------------------
-	| Default Home Controller
-	|--------------------------------------------------------------------------
-	|
-	| You may wish to use controllers instead of, or in addition to, Closure
-	| based routes. That's great! Here is an example controller method to
-	| get you started. To route to this controller, just add the route:
-	|
-	|	Route::get('/', 'HomeController@showWelcome');
-	|
-	*/
-
-	public function index()
+	public function home()
 	{
-		return View::make('home');
+		$current_branch = Session::get('branch');
+		$branches = DB::table('Branches')->get();
+		$branch_name = "";
+		foreach ($branches as $branch){
+			if ($branch->ID == $current_branch)
+				$branch_name = $branch->Name;
+		}
+		$kits = DB::table('Kits')->get();
+		return View::make('home')->with(array('kits' =>$kits,'branch_name' =>$branch_name));
 	}
 
 }
