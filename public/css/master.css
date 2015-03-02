@@ -351,3 +351,9 @@ input.log-filter
     background: red !important;
     float: left;
 }
+.welcomeMessage
+{
+    text-align: center;
+    line-height: 400px;
+    vertical-align: middle;
+}
