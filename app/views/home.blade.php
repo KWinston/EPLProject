@@ -15,7 +15,7 @@
 	<div class="branchInventory">
 
 		{{--write function in controller to match branch name with number--}}
-		<p>Kits Currently at {{ $branch_name }}:</p>
+		<p class='inventoryTitle'>Kits Currently at {{ $branch_name }}:</p>
 
 				@foreach ($kits as $kit)
 				@if($kit->AtBranch == Session::get('branch') )
