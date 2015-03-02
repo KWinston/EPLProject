@@ -66,7 +66,8 @@ class BookKitController extends BaseController {
         ), 200);
     }
 
-    public function getKitBookings() {
+    public function getKitBookings() 
+    {
         if(!Request::ajax())
             return "not a json request";
 
@@ -79,7 +80,8 @@ class BookKitController extends BaseController {
             ->get();
     }  
 
-    public function getTypeOverlaps() {
+    public function getTypeOverlaps() 
+    {
         if(!Request::ajax())
             return "not a json request";
 
