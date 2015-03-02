@@ -32,7 +32,8 @@
 	var _kitID = "";
 	var _kitText = "";
 	var shadowObjects;
-	var kitObjects;
+	var oldKitObjects;
+	var newKitObjects;
 	
 	function setBookingKit(kitID, kitText, kitType) {
 		if(kitID == null || kitType == null) {
@@ -110,35 +111,50 @@
 		$('#calendar').fullCalendar('addEventSource', shadowObjects);
 	}
 
+	function existsInNewBookings(booking) {
+		for(var i in newKitObjects) { 
+			if (parseInt(booking.BookingID, 10) === 
+				parseInt(newKitObjects[i].bookID, 10)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	function addCalendarKits(bookings) {
 		// this needs work
-		$('#calendar').fullCalendar('removeEventSource', kitObjects);
-		kitObjects = [];
+		$('#calendar').fullCalendar('removeEventSource', oldKitObjects);
+		oldKitObjects = [];
 		for (var i in bookings) {
 			var e = bookings[i];
-			var title = generateEventTitle(e.Purpose, 
-				moment(e.StartDate), moment(e.EndDate));
-			var booker = e.Booker == 1;
 
-			kitObjects.push({
-				bookID: e.ID,
-				objID: 'other',
-				kitText: e.Purpose,
-				kitId: e.KitID,
-				title: title,
-				kitForBranch: e.ForBranch,
-				allDay: true,
-				stick: true,
-				start: moment(e.ShadowStartDate),
-				end: moment(e.ShadowEndDate),
-				editable: booker,		
-				className: 'shadow-day-effect',
-				borderColor: '#555',
-				backgroundColor: booker ? '#0033CC' :'#ccc',
-				textColor: '#fff'
-			});	
+			if (!existsInNewBookings(e)) {
+				console.log('you shall pass');
+				var title = generateEventTitle(e.Purpose, 
+					moment(e.StartDate), moment(e.EndDate));
+				var booker = (e.Booker == 1);
+
+				oldKitObjects.push({
+					bookID: e.ID,
+					objID: 'other',
+					objState: 'old',
+					kitText: e.Purpose,
+					kitId: e.KitID,
+					title: title,
+					kitForBranch: e.ForBranch,
+					allDay: true,
+					stick: true,
+					start: moment(e.ShadowStartDate),
+					end: moment(e.ShadowEndDate),
+					editable: booker,		
+					className: 'shadow-day-effect',
+					borderColor: '#555',
+					backgroundColor: booker ? '#0033CC' :'#ccc',
+					textColor: '#fff'
+				});	
+			}	
 		}
-		$('#calendar').fullCalendar('addEventSource', kitObjects);
+		$('#calendar').fullCalendar('addEventSource', oldKitObjects);
 	}
 
 	var count = 0;
@@ -161,6 +177,7 @@
 		created.data('event', {
 			id: (count++).toString(),
 			objID: 'kit',
+			objState: 'new',
 			kitForBranch: $('#branchMenu option:selected').text(), 
 			kitText: _kitText,
 			kitId: _kitID,
@@ -190,7 +207,6 @@
 					console.log("function not defined: " + target);
 			}
 		});
-
 	}
 
 	function insertKitDB(event) {
@@ -248,21 +264,32 @@
 		// compare to to kit current bookings
 		endDay.add(1, 'd');
 		var isConflict = false;
-		for (var i in kitObjects)
+		for (var i in oldKitObjects)
 		{
-			var kit = kitObjects[i];
+			var kit = oldKitObjects[i];
 
-			if (endDay.diff(kit.start, 'd') > 0 && 
-				endDay.diff(kit.end, 'd') < 0) {
-				isConflict = true;
-				break;
+			if (parseInt(event.bookID, 10) !== parseInt(kit.bookID, 10)) {
+				isConflict = checkEventsOverlap({
+					'start': startDay,
+					'end': endDay
+				}, kit);
 			}
+			if (isConflict)
+				break;
+		}
 
-			if (moment(kit.end).subtract(1, 'd').diff(startDay, 'd') > 0 && 
-				moment(kit.start).add(1, 'd').diff(startDay, 'd') < 0) { 				
-				isConflict = true;
-				break;
+		for (var i in newKitObjects)
+		{
+			var kit = newKitObjects[i];
+
+			if (parseInt(event.bookID, 10) !== parseInt(kit.bookID, 10)) {
+				isConflict = checkEventsOverlap({
+					'start': startDay,
+					'end': endDay
+				}, kit);
 			}
+			if (isConflict)
+				break;
 		}
 
 		if (!isConflict)
@@ -292,10 +319,51 @@
 		return !isConflict;
 	}
 
+	function checkEventsOverlap(eventActive, eventInactive) {
+		var activeStart = moment(
+			eventActive.start.format('YYYY-MM-DD') + ' 00:00:00').add(1, 'd');
+		var activeEnd	= moment(
+			eventActive.end.format('YYYY-MM-DD') + ' 00:00:00').subtract(1, 'd');
+		var inactiveStart = moment(
+			eventInactive.start.format('YYYY-MM-DD')  + ' 00:00:00');
+		var inactiveEnd	  = moment(
+			eventInactive.end.format('YYYY-MM-DD') + ' 00:00:00');
+
+		// encompassing events
+		if (activeEnd > inactiveEnd && inactiveStart > activeStart) {
+			return true;
+		}
+		else if (activeEnd < inactiveEnd && inactiveStart < activeStart) {
+			return true;
+		}
+		
+		// ends overlap
+		if (activeEnd > inactiveEnd) {
+			if (activeStart < inactiveEnd) { return true; }
+		}
+		else {
+			if (inactiveStart < activeEnd) { return true; }
+		}
+		return false;
+	}
+
+	function getKitUpdates(event) {
+		var target = "{{ $kitChange }}";
+		var fn = window[target];
+		if(typeof fn === 'function') {
+			console.log(event);
+			fn(event.kitId, event.kitText, 'kit', event.bookID);
+		}
+		else
+			console.log("function not defined: " + target);
+	}
+
 	$(document).ready(function() {
+		newKitObjects = [];
+
     	$('#calendar').fullCalendar({
     		defaultView: 'month',
-    		height: 350,
+    		height: 450,
     		header: {
 				left: 'prev,next today',
 				center: 'title'
@@ -304,26 +372,17 @@
 			windowResize: function(view) {
 				$('#calendar').fullCalendar('rerenderEvents'); 
     		},
-			eventOverlap: function(stillEvent, movingEvent) {
-
-				if (stillEvent.objID == 'holiday' && 
-					movingEvent.objID == 'kit') {
-					return true;
-				}
-
-				if(movingEvent.end > stillEvent.end &&				
-					stillEvent.end <= moment(movingEvent.start).add(1, 'd')) {
-						return true;
-				}
-				else if	(stillEvent.start >= moment(movingEvent.end).subtract(1, 'd')) {
-					return true;
-				}	
-
-				return false;
-			},
+			eventOverlap: true,
     		fixedWeekCount: false,
         	eventClick: function(event, jsEvent, view) {
-        		alert('test popup');
+        		if (RegExp('new', 'i').test(event.objState)) {
+        			getKitUpdates(event);
+        		}
+        	},
+        	eventDragStart: function(event, jsEvent, ui, view) {
+        		if (RegExp('new', 'i').test(event.objState)) {
+        			getKitUpdates(event);
+        		}
         	},
         	eventMouseover: function(event, jsEvent, view) {
         		var tooltip = [
@@ -377,6 +436,7 @@
 			eventReceive: function(event) {
 				if (adjustForShadowDays(event)) {
 					insertKitDB(event);
+					newKitObjects.push(event);
 				}
 				else {
 					$('#calendar').fullCalendar('removeEvents', event.id);

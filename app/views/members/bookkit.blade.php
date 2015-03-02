@@ -41,17 +41,18 @@
 
 
 <script type="text/javascript">
-    function homeMenuCallback(kitID, kitText, kitType) {
+    function homeMenuCallback(kitID, kitText, kitType, eventBookID) {
+        console.log(kitID + ', ' + kitText + ', ' +  kitType + ', ' + eventBookID);
         $('#current_kit').text("Selected Kit is: " + kitText);
         json = {
             'ID' : kitID
         };
-        console.log(json);
+
         if (RegExp('kit', 'i').test(kitType)) {
             setBookingKit(kitID, kitText, kitType);
             $.post("{{ URL::route('book_kit.get_kit_bookings') }}", json)
                 .success(function(resp){
-                    console.log(resp);
+                    console.log(JSON.stringify(resp));
                     addCalendarKits(resp);
                 })
                .fail(function(){
@@ -61,7 +62,7 @@
         else {
             $.post("{{ URL::route('book_kit.get_type_overlaps') }}", json)
                 .success(function(resp){
-                    console.log(resp);
+                    //console.log(resp);
                     //addCalendarKits(resp);
                 })
                .fail(function(){
