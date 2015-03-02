@@ -110,7 +110,7 @@ html, body
 
 .option.right
 {
-    /* float: right; */
+    float: right;
     color: white;
     text-align: right;
     border-left: 2px solid #fff;
