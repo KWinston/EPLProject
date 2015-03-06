@@ -26,6 +26,7 @@
                     </p>
                     <p class="kit-black-contents">Description: {{ $kit->KitDesc }}</p>
                     <p class="kit-black-state">Kit is currently: {{ $kit->state->StateName}}</p>
+                    <p class="kit-black-state">Pending Activity: None</p>
                 </div>
             @endforeach
 

@@ -8,7 +8,12 @@ class KitsController extends BaseController
     public function index()
     {
         return CheckIfAuthenticated('kit.kitManagment',
-                                    ['selected_menu' => 'main-menu-administration', 'selected_admin_menu' => 'admin-menu-manage-kits'],
+                                    ['selected_menu' => 'main-menu-administration',
+                                     'selected_admin_menu' => 'admin-menu-manage-kits',
+                                     'kitTypes' => KitTypes::all(),
+                                     'branches' => Branches::all(),
+                                     'kitStates' => KitState::all()
+                                     ],
                                     'home.index',
                                     [],
                                     true);
@@ -16,67 +21,87 @@ class KitsController extends BaseController
     }
 
     // ---------------------------------------------------------------------------------------------------
-    // Show the The Kit Edit form
+    // Return the kit and the contents as a json encoded object
     public function show($kitID)
     {
-        return "Show Kit edit form";
-    }
-
-    public function edit($kitID)
-    {
         $kit = Kits::find($kitID);
-        $kitTypes = array();
-        foreach (KitTypes::all() as $row)
+        $data = $kit->toArray();
+
+        $contents = array();
+        $i = 0;
+        foreach($kit->contents as $item)
         {
-            $kitTypes[$row->ID] = $row->Name;
+            $d = array();
+            $d["ID"]            = $item->ID;
+            $d["KitID"]         = $item->KitID;
+            $d["Name"]          = $item->Name;
+            $d["SerialNumber"]  = $item->SerialNumber;
+            $d["Damaged"]       = $item->Damaged;
+            $d["Missing"]       = $item->Missing;
+
+            $d["status"] = 0;// unmodified Record
+            $contents[$i] = $d;
+            $i += 1;
         }
-        $kitStates = array();
-        foreach (KitState::all() as $row)
-        {
-            $kitStates[$row->ID] = $row->StateName;
-        }
-        $branches = array();
-        foreach (Branches::all() as $row)
-        {
-            $branches[$row->ID] = $row->BranchID . " - " . $row->Name;
-        }
-        return View::make('kit.kitEdit', array('kit'=>$kit, 'kitTypes'=>$kitTypes, 'kitStates' => $kitStates, 'branches'=>$branches));
+        $data["contents"] = $contents;
+        return json_encode($data);
     }
 
-
+    // ---------------------------------------------------------------------------------------------------
+    // Receive the json encoded kit and contents data in the input, and then pars it applying updates to
+    // kit, and a CRUD update to the content records.
     public function store()
     {
         $inp = Input::all();
+        // print dd($inp);
+
         $id = $inp['ID'];
+        $kit = Kits::findOrFail($id);
+
         if (!isset($inp['Available']))
         {
             $inp['Available'] = 0;
         }
-        $kit = Kits::find($id);
-        $t = json_encode($kit);
-        // Check boxes are only sent if checked, so we set them to false, and if they are in the input then we update them.
-        foreach($inp as $key => $value)
+        $kit->fill($inp);
+        $kit->save();
+        if (isset($inp["contents"]))
         {
-
-            if (isset($kit[$key]) && ($kit[$key] != $inp[$key]))
+            foreach($inp["contents"] as $idx => $item)
             {
-                $kit[$key] = $value;
-                Logs::KitEdit($kit->KitType, $kit->ID, $key, $kit[$key], $value);
+                if ($item["status"] == 1) // CRUD, 1 == create
+                {
+                    $content = KitContents::create($item);
+                    $content->save();
+                }
+                else if ($item["status"] == 3) // CRUD, 3 == update
+                {
+                    $content = KitContents::findOrFail($item["ID"]);
+                    $content->fill($item);
+                    $content->save();
+                }
+
+                if ($item["status"] == 4 && $item["ID"] != "***NEW***")
+                {
+                    // delete the kitContent
+                    $content = KitContents::destroy($item["ID"]);
+                }
             }
         }
-        $kit->save();
-        // Format a record for a individual
-        $res = $this->makeJTreeKitRecord($kit);
-        return $res;
+        return "OK";
     }
 
+    // ---------------------------------------------------------------------------------------------------
+    // Destroy the the kit and all it's contents.
     public function destroy($kitID)
     {
         $kit = Kits::find($kitID);
-        Logs::KitDelete($kit->KitType, $kit->ID);
-        $kit->delete();
+        foreach($kit->contents as $content)
+            KitContents::destroy($content->ID);
+        Kits::destroy($kitID);
     }
 
+    // ---------------------------------------------------------------------------------------------------
+    // Create a new kit.
     public function create()
     {
         $kit = Kits::create(array(
@@ -87,7 +112,6 @@ class KitsController extends BaseController
             'Name' => "New Kit Name",
             'KitDesc' => "Place a description of the contents of this kit here. "
             ));
-        Logs::KitCreated($kit->KitType, $kit->ID);
 
         $res = $this->makeJTreeKitRecord($kit);
         return $res;
@@ -109,7 +133,7 @@ class KitsController extends BaseController
                       'KitID' => $kit->ID,
                       'KitTypeID' => $kit->type->ID,
                       'text' => $n,
-                      'parent' => $key,
+                      'parent' => "#",
                       'state' => array( 'opened' => false, 'disabled' => false, 'selected' => false),
                       'children' => array()
                     );

@@ -34,6 +34,8 @@ class BookKitController extends BaseController {
                 'EndDate' => $post['EndDate']
             ));
 
+        // Logs::BookingRequestEdited($post['BookingID'], $post['KitID'], $post['StartDate'], $post['EndDate']);
+
         return Response::json(array(
             'success' => $stat = 1 ? true : false
         ), 200);
@@ -61,6 +63,7 @@ class BookKitController extends BaseController {
         ));
         $bookingDetail->save();
 
+        Logs::BookingRequestCreated($booking->ID, $post['KitID'], $post['ForBranch'], $post['StartDate'], $post['EndDate']);
         return Response::json(array(
             'success' => true,
             'insert_id' => $booking->ID

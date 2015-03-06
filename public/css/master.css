@@ -301,7 +301,7 @@ input.log-filter
 {
     padding: 20px;
     height: 100%;
-    width: 90%;
+    width: 95%;
 }
 .kit-detail-form td label
 {
@@ -311,10 +311,12 @@ input.log-filter
 .kit-detail-form tr
 {
     vertical-align: center;
+    /* height: 13px !important; */
+
 }
 .kit-detail-form tr td
 {
-    padding-top: 5px;
+    /* padding-top: 5px; */
 }
 .form-singleline-text
 {
@@ -338,7 +340,7 @@ input.log-filter
 }
 .form-apply
 {
-
+    /* float: left; */
 }
 .form-input-changed
 {
@@ -349,11 +351,87 @@ input.log-filter
 {
     color: black !important;
     background: red !important;
-    float: left;
+    float: right;
 }
 .welcomeMessage
 {
     text-align: center;
     line-height: 400px;
     vertical-align: middle;
+}
+
+
+.kit-content-form
+{
+
+}
+.kit-content-row
+{
+
+}
+.kit-content-row.green
+{
+    background: green;
+}
+.kit-content-form-name
+{
+
+}
+.kit-content-form-serial-number
+{
+
+}
+.kit-content-form-damaged
+{
+
+}
+.kit-content-form-missing
+{
+
+}
+td.kit-content-form-name
+{
+    width: 50%;
+    align-content: center;
+    vertical-align: middle;
+    padding: 3px;
+    margin: 3px;
+}
+td.kit-content-form-serial-number
+{
+    width: 30%;
+    align-content: center;
+    vertical-align: middle;
+    padding: 3px;
+    margin: 3px;
+
+}
+td.kit-content-form-damaged
+{
+    width: 10%;
+    align-content: center;
+    vertical-align: middle;
+    padding: 3px;
+    margin: 3px;
+    padding-left: 4%;
+}
+td.kit-content-form-missing
+{
+    width: 10%;
+    align-content: center;
+    vertical-align: middle;
+    padding: 3px;
+    margin: 3px;
+    padding-left: 4%;
+}
+td.kit-content-form-remove
+{
+    width: 1%;
+}
+.checkbox
+{
+}
+.text-singleline
+{
+    width:99%;
 }

@@ -23,7 +23,51 @@ class Kits extends Eloquent
      */
     protected $hidden = array();
 
-    protected $fillable = array('KitType', 'Name', 'AtBranch', 'Available', 'KitState', 'KitDesc', 'Specialized', 'SecializedName', 'updated_at', 'created_at');
+    protected $fillable = array('KitType', 'Name', 'AtBranch', 'Available', 'KitState', 'KitDesc', 'Specialized', 'SpecializedName');
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(function($record)
+        {
+            $kitTypeID = $record->KitType;
+            $kitID = $record->ID;
+            Logs::LogMsg(4, $kitTypeID, $kitID, null, "Created Kit: " . $record->Name);
+            return true;
+        });
+
+        static::updating(function($record)
+        {
+
+            $kitTypeID = $record->KitType;
+            $kitID = $record->ID;
+            $dirty = $record->getDirty();
+            foreach ($dirty as $field => $newdata)
+            {
+                $olddata = $record->getOriginal($field);
+                if ($olddata != $newdata)
+                {
+                    Logs::LogMsg(5, $kitTypeID, $kitID, null, "Changed Kit field: ". $field . " From:" . $olddata . " To:" . $newdata);
+                }
+            }
+            return true;
+        });
+
+        static::deleting(function($record)
+        {
+            $kitTypeID = $record->KitType;
+            $kitID = $record->ID;
+            Logs::LogMsg(6, $kitTypeID, $kitID, null, "Deleted Kit: " . $record->Name);
+            return true;
+        });
+
+        static::deleted(function($record)
+        {
+            return true;
+        });
+    }
+
 
     public function atBranch()
     {

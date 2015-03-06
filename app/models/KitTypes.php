@@ -23,7 +23,7 @@ class KitTypes extends Eloquent
      */
     protected $hidden = array();
 
-    protected $fillable = array('Name');
+    protected $fillable = array('Name', 'TypeDescription');
 
     public function kits()
     {

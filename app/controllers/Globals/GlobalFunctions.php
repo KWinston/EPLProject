@@ -37,7 +37,7 @@ function GetKitTypeTreeData()
             $n = $kit->Name;
             if (((int)$kit->Specialized) == 1)
             {
-                $n = $n . ' + ' . $kit->SecializedName;
+                $n = $n . ' + ' . $kit->SpecializedName;
             }
             array_unshift($childNodes, array('type' => 'KIT', 'id' => 'kit_' . $kit->ID, 'KitID' => $kit->ID, 'KitTypeID' => $kitType->ID ,'text' => $n , 'parent' => $key, 'state' => $nodeState, 'children' =>array()));
         }
@@ -61,4 +61,3 @@ function xmlToJSON ($url) {
 
     return $json;
 }
-

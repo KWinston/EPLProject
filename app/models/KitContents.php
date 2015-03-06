@@ -16,6 +16,43 @@ class KitContents extends Eloquent
     protected $table = 'KitContents';
     protected $primaryKey = 'ID';
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(function($record)
+        {
+            $kitTypeID = $record->kit->KitType;
+            $kitID = $record->kit->ID;
+            Logs::LogMsg(10, $kitTypeID, $kitID, $record->ID, "Added content: " . $record->Name);
+            return true;
+        });
+
+        static::updating(function($record)
+        {
+            $kitTypeID = $record->kit->KitType;
+            $kitID = $record->kit->ID;
+            $dirty = $record->getDirty();
+            foreach ($dirty as $field => $newdata)
+            {
+                $olddata = $record->getOriginal($field);
+                if ($olddata != $newdata)
+                {
+                    Logs::LogMsg(11, $kitTypeID, $kitID, $record->ID, "Changed ". $field . " From:" . $olddata . " To:" . $newdata);
+                }
+            }
+            return true;
+        });
+
+        static::deleting(function($record)
+        {
+            $kitTypeID = $record->kit->KitType;
+            $kitID = $record->kit->ID;
+            Logs::LogMsg(12, $kitTypeID, $kitID, $record->ID, "Removed Contents: " . $record->Name);
+            return true;
+        });
+    }
+
     /**
      * The attributes excluded from the model's JSON form.
      *
@@ -29,4 +66,5 @@ class KitContents extends Eloquent
     {
         return $this->hasOne('Kits', 'ID', 'KitID');
     }
+
 }

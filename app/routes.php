@@ -12,7 +12,7 @@
 */
 
 // add resources
-Route::resource('home', 'HomeController@home');
+Route::resource('home', 'HomeController@index');
 
 Route::resource('book_kit', 'BookKitController');
 Route::resource('recieve_kit', 'RecieveKitController');
@@ -21,6 +21,7 @@ Route::resource('overview_kit', 'OverviewKitController');
 Route::resource('admin', 'AdminController');
 Route::resource('branches', 'BranchesController');
 Route::resource('kits', 'KitsController');
+Route::resource('kit_contents', 'KitContentsController');
 Route::resource('kitTypes', 'KitTypesController');
 
 
@@ -62,6 +63,12 @@ Route::post('book_kit.insert_booking', array(
 Route::post('book_kit.update_booking', array(
 	'as'   => 'book_kit.update_booking',
 	'uses' => "BookKitController@updateBooking"
+));
+
+// **************** general ********************************
+Route::get('kit_contents.contents.{KitID}', array(
+    'as'   => 'kit_contents.contents',
+    'uses' => "KitContentsController@contents"
 ));
 
 // **************** general ********************************
