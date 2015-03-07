@@ -435,3 +435,63 @@ td.kit-content-form-remove
 {
     width:99%;
 }
+/*This is the css for the kit type management*/
+.kit-type-name
+{
+    list-style: none;
+
+    -webkit-margin-start: -2em;
+    -webkit-margin-before: 0em;
+    cursor: default;
+}
+
+.kit-type-name.selected
+{
+    background: #CCCCCC;
+}
+label.kit-type
+{
+    /* width:25%; */
+    float: right;
+}
+input.kit-type
+{
+
+}
+textarea.kit-type
+{
+
+
+}
+td.form-label
+{
+    width: 10%;
+
+}
+td.form-value
+{
+    /* width: 89%; */
+
+}
+.kit-type-destroy
+{
+    float: right;
+    background: red !important;
+    color: black !important;
+}
+.kit-type-buttons
+{
+    border: none !important;
+}
+
+#kit-type-edit
+{
+    margin-left: 14px;
+    height: 100%;
+    width: 98%;
+}
+
+.kit-type-kit-stat
+{
+    color: #cccccc;
+}

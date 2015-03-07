@@ -25,9 +25,57 @@ class Booking extends Eloquent
 
     protected $fillable = array('KitID', 'ForBranch', 'StartDate', 'EndDate', 'ShadowStartDate', 'ShadowEndDate', 'Purpose', 'updated_at', 'created_at');
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(function($record)
+        {
+            Logs::LogMsg(13,
+                $record->kit->KitType,
+                $record->kit->ID,
+                $record->branch->ID,
+                "Booking for:" . $record->branch->BranchID . " from:" . $record->StartDate . " To:". $record->EndDate
+            );
+            return true;
+        });
+
+        static::updating(function($record)
+        {
+
+            $dirty = $record->getDirty();
+            foreach ($dirty as $field => $newdata)
+            {
+                $olddata = $record->getOriginal($field);
+                if ($olddata != $newdata)
+                {
+                    Logs::LogMsg(15,
+                        $record->kit->KitType,
+                        $record->kit->ID,
+                        $record->branch->ID,
+                        "Changed booking ". $field . " From:" . $olddata . " To:" . $newdata
+                    );
+                }
+            }
+            return true;
+        });
+
+        static::deleting(function($record)
+        {
+            Logs::LogMsg(14,
+                $record->kit->KitType,
+                $record->kit->ID,
+                $record->branch->ID,
+                "Booking Deleted by:" . Auth::user()->username);
+            return true;
+        });
+
+    }
+
+
     public function branch()
     {
-        return $this->hasOne('Branch', 'ID', 'ForBranch');
+        return $this->hasOne('Branches', 'ID', 'ForBranch');
     }
 
     public function kit()

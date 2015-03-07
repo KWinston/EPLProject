@@ -70,25 +70,6 @@ class Logs extends Eloquent
         // Logs::LogMsg(3, $KitID, $ContentsID, $Message);
     }
     // --------------------------------------------------------------
-    // Make a log entry for LogType '4','Kit Created'
-    public static function KitCreated($KitType, $KitID)
-    {
-        // Logs::LogMsg(4, $KitType, $KitID, "A new Kit was created");
-    }
-
-    // --------------------------------------------------------------
-    // Make a log entry for LogType '5','Kit Edit'
-    public static function KitEdit($KitType, $KitID, $field, $from, $to)
-    {
-        // Logs::LogMsg(5, $KitType, $KitID,  "Changed ". $field . " From:" . $from . " To:" . $to);
-    }
-    // --------------------------------------------------------------
-    // Make a log entry for LogType '6','Kit Deleted'
-    public static function KitDelete($KitType, $KitID)
-    {
-        // Logs::LogMsg(6, $KitType, $KitID, "Kit was deleted");
-    }
-    // --------------------------------------------------------------
     // Make a log entry for LogType '7','Kit Type Created'
     public static function KitTypeCreated($KitTypeID)
     {
@@ -105,43 +86,6 @@ class Logs extends Eloquent
     public static function KitTypeDelete($KitTypeID)
     {
         // Logs::LogMsg(9, $KitTypeID, NULL, "Kit Type created");
-    }
-    // --------------------------------------------------------------
-    // Make a log entry for LogType '10','Kit Contents added'
-    public static function KitContentsAdded($KitID, $ContentsID, $Name)
-    {
-        // Logs::LogMsg(10, $KitID, $ContentsID, "Added:" . $Name);
-    }
-
-    // --------------------------------------------------------------
-    // Make a log entry for LogType '11','Kit Contents Editied'
-    public static function KitContentsEdited($KitID, $ContentsID, $field, $from, $to)
-    {
-        // Logs::LogMsg(11, $KitTypeID, $ContentsID, "Changed ". $field . "From:" . $from . " To:" . $to);
-    }
-    // --------------------------------------------------------------
-    // Make a log entry for LogType '12','Kit Contents Removed'
-    public static function KitContentsDeleted($KitID, $ContentsID, $Name)
-    {
-        // Logs::LogMsg(12, $KitID, $ContentsID, "Deleted:" . $Name);
-    }
-    // --------------------------------------------------------------
-    // Make a log entry for LogType '13','Booking Request'
-    public static function BookingRequestCreated($BookingID, $KitID, $At, $From, $To)
-    {
-        // Logs::LogMsg(13, $BookingID, $KitID, "Booking:" . $At . " from:" . $from . " To:". $To);
-    }
-    // --------------------------------------------------------------
-    // Make a log entry for LogType '14','Booking Canceled'
-    public static function BookingRequestCanceled($BookingID, $KitID)
-    {
-        // Logs::LogMsg(14, $BookingID, $KitID, "Booking Canceled");
-    }
-    // --------------------------------------------------------------
-    // Make a log entry for LogType '15','Booking Edited'
-    public static function BookingRequestEdited($BookingID, $KitID, $from, $to)
-    {
-        // Logs::LogMsg(15, $BookingID, $KitID, "Changed booking dates". "From:" . $from . " To:" . $to);
     }
 
     // --------------------------------------------------------------

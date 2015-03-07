@@ -96,7 +96,6 @@
                 treeMenu.jstree().select_node(treeMenu.jstree().get_node(data.id));
 
                 LoadKit(data.KitID);
-                console.log("Create " + data + "  " + data.parent);
             }
         });
     }
@@ -291,7 +290,7 @@
                     </tr>
                     <tr>
                         <td> <label for="KitDesc">Description:</label> </td>
-                        <td> <textarea class="kit-data form-multiline-text" name="KitDesc" cols="50" rows="10" id="KitDesc">A kit of 6 ipad 2&#039;s with ESL programs</textarea> </td>
+                        <td> <textarea class="kit-data form-multiline-text" name="KitDesc" cols="50" rows="10" id="KitDesc"></textarea> </td>
                     </tr>
                     <tr>
                     </tr>

@@ -62,10 +62,6 @@ class Kits extends Eloquent
             return true;
         });
 
-        static::deleted(function($record)
-        {
-            return true;
-        });
     }
 
 
