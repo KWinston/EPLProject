@@ -23,8 +23,51 @@ class KitTypes extends Eloquent
      */
     protected $hidden = array();
 
-    protected $fillable = array('Name');
+    protected $fillable = array('Name', 'TypeDescription');
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(function($record)
+        {
+            Logs::LogMsg(7,
+                $record->ID,
+                null, null,
+                "Type Created"
+            );
+            return true;
+        });
+
+        static::updating(function($record)
+        {
+
+            $dirty = $record->getDirty();
+            foreach ($dirty as $field => $newdata)
+            {
+                $olddata = $record->getOriginal($field);
+                if ($olddata != $newdata)
+                {
+                    Logs::LogMsg(19,
+                        $record->ID,
+                        null, null,
+                        $field . " changed From:" . $olddata . " To:" . $newdata
+                    );
+                }
+            }
+            return true;
+        });
+
+        static::deleting(function($record)
+        {
+            Logs::LogMsg(20,
+                $record->ID,
+                null, null,
+                "Kit type deleted by:" . Auth::user()->username);
+            return true;
+        });
+
+    }
     public function kits()
     {
         return $this->hasMany('Kits', 'KitType', "ID");

@@ -10,32 +10,32 @@
 
 .shadow-day-effect.fc-start.fc-end
 {
-	background-image: 
-		url('/public/images/shadow.png'),
-		url('/public/images/shadow.png');
+	background-image:
+		url('images/shadow.png'),
+		url('images/shadow.png');
     background-repeat: no-repeat, no-repeat !important;
     background-position: left, right !important;
-    text-align: center; 
+    text-align: center;
 }
 
 .shadow-day-effect.fc-start
 {
-	background-image: 
-		url('/public/images/shadow.png');
+	background-image:
+		url('images/shadow.png');
     background-repeat: no-repeat !important;
-    background-position: left !important; 
+    background-position: left !important;
 }
 
 .shadow-day-effect.fc-end
 {
-	background-image: 
-		url('/public/images/shadow.png');
+	background-image:
+		url('images/shadow.png');
     background-repeat: no-repeat !important;
-    background-position: right !important; 
+    background-position: right !important;
     text-align: right;
 }
 
-.fc-event 
+.fc-event
 {
 	margin: 2px 0px;
 	height: 40px;
@@ -44,10 +44,10 @@
 
 .bookings
 {
-	width: 20%; 
-	vertical-align: top; 
+	width: 20%;
+	vertical-align: top;
 	text-align: center;
-	border-right: 2px solid #aaa; 
+	border-right: 2px solid #aaa;
 }
 
 .bookings p

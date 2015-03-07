@@ -8,18 +8,18 @@ class MasterController extends BaseController {
         $password = Input::get('password');
         if (Auth::attempt(array('username' => $username, 'password' => $password)))
         {
-            return Redirect::action('HomeController@home', []);
+            return Redirect::action('HomeController@index', []);
         }
         $branches = Branches::all();
 
-        return View::make("HomeContoller@home", []);
+        return View::make("HomeContoller@index", []);
     }
 
     public function logout()
     {
         Auth::logout();
         Session::flush();
-        return Redirect::action('HomeController@home');
+        return Redirect::action('HomeController@index');
     }
 
     public function select_branch()
@@ -29,7 +29,7 @@ class MasterController extends BaseController {
 
         $data = Input::all();
         Session::put('branch', $data['branch']);
-        Redirect::action('HomeController@home');
+        Redirect::action('HomeController@index');
         return $data['branch'];
     }
 
