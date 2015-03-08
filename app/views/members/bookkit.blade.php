@@ -27,6 +27,7 @@
             @include('components.comp_calendar', array(
                 'updateMethod' => "updateBooking",
                 'insertMethod' => "insertBooking",
+                'deleteMethod' => "deleteBooking",
                 'kitChange'    => "homeMenuCallback"
             ))
             <div id="bookingStatus" style="font-size: 16px; width: 100%;
@@ -53,7 +54,6 @@
             $.post("{{ URL::route('book_kit.get_kit_bookings') }}", json)
                 .success(function(resp){
                     console.log("-------- Got bookings" + resp);
-                    //console.log(JSON.stringify(resp));
                     addCalendarKits(resp, '{{ Auth::id(); }}');
                 })
                .fail(function(){
@@ -69,7 +69,6 @@
                .fail(function(){
                     console.log("error on insert");
                 });
-
         }
     }
 
@@ -89,16 +88,15 @@
             'EndDate'   : endBooking,
             'ShadowStartDate' : event.start.format('YYYY-MM-DD'),
             'ShadowEndDate'   : event.end.format('YYYY-MM-DD'),
-            'ForBranch' : event.kitForBranch,
+            'ForBranch' : parseInt(event.kitForBranch, 10),
             'Purpose'   : event.kitText,
-            'KitID'     : event.kitId
+            'KitID'     : parseInt(event.kitId, 10)
         };
 
+        console.log(json);
         $.post("{{ URL::route('book_kit.insert_booking') }}", json)
             .success(function(resp){
-                //console.log(resp);
                 event.bookID = resp.insert_id;
-
                 setBookingFeedback('Created');
             })
            .fail(function(){
@@ -116,9 +114,9 @@
             'EndDate'   : endBooking,
             'ShadowStartDate' : event.start.format('YYYY-MM-DD'),
             'ShadowEndDate'   : event.end.format('YYYY-MM-DD'),
-            'ForBranch' : event.kitForBranch,
+            'ForBranch' : parseInt(event.kitForBranch, 10),
             'Purpose'   : event.kitText,
-            'KitID'     : event.kitId
+            'KitID'     : parseInt(event.kitId, 10)
         };
         $.post("{{ URL::route('book_kit.update_booking') }}", json)
             .success(function(resp){
@@ -127,6 +125,21 @@
             })
            .fail(function(){
                 console.log("error on update");
+            });
+    }
+
+    function deleteBooking(event) {
+        var json = {
+           'BookID': event.bookID
+        };
+
+        console.log(json);
+        $.post("{{ URL::route('book_kit.delete_booking') }}", json)
+            .success(function(resp){
+                setBookingFeedback('Deleted');
+            })
+           .fail(function(){
+                console.log("error on delete");
             });
     }
 

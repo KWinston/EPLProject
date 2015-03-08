@@ -110,8 +110,7 @@
                 $(".main-menu-home").addClass("menu-selected");
             @endif
 
-            $(".branch-select").load("{{ URL::route('master.branches') }}", function()
-            {
+            $("#branchMenu").load("{{ URL::route('master.branches') }}", function() {  
                 for (var selector in config)
                 {
                     $(selector).chosen(config[selector]);

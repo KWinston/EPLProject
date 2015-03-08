@@ -45,7 +45,7 @@ class Logs extends Eloquent
         $log->LogType = $LogType;
         $log->LogKey1 = $KitTypeID;
         $log->LogKey2 = $KitID;
-        $log->LogKey3 = $ContentsID;
+        //$log->LogKey3 = $ContentsID;
         $log->LogUserID = Auth::user()->id;
         $log->LogMessage = $Message;
         $log->save();

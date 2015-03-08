@@ -24,6 +24,7 @@ class Branches extends Eloquent
     protected $hidden = array();
 
     protected $fillable = array('BranchMangerID', 'BranchID', 'Name', 'EPLAddress', 'PhoneNumber', 'Latitude', 'Longitude', 'updated_at', 'created_at');
+    
     public function kits()
     {
         return $this->hasMany('Kits', 'AtBranch', 'ID');
