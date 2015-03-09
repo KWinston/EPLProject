@@ -23,6 +23,7 @@ Route::resource('branches', 'BranchesController');
 Route::resource('kits', 'KitsController');
 Route::resource('kit_contents', 'KitContentsController');
 Route::resource('kitTypes', 'KitTypesController');
+Route::resource('users', 'UsersController');
 
 
 
