@@ -21,6 +21,9 @@
                 <div class="option left admin-menu-manage-branches">
                     <a href="{{ route('branches.index'); }}">Manage Branches</a>
                 </div>
+                <div class="option left admin-menu-manage-users">
+                    <a href="{{ route('users.index'); }}">Manage Users</a>
+                </div>
             </div>
         </div>
     @endif
