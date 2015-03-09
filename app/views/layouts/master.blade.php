@@ -34,6 +34,7 @@
                     <div class="option left main-menu-receive">
                         <a href="{{ route('recieve_kit.index', array('selected_menu' => 'main-menu-receive')); }}">RECIEVE KIT</a>
                     </div>
+                    <div class="option left main-menu-ship">
                         <a href="{{ route('ship_kit.index', array('selected_menu' => 'main-menu-ship')); }}">SHIP KIT</a>
                     </div>
                     <div class="option left main-menu-overview">
