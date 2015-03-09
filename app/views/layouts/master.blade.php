@@ -36,10 +36,13 @@
                     </div>
                     <div class="option left main-menu-ship">
                         <a href="{{ route('ship_kit.index', array('$selected_menu' => 'main-menu-ship')); }}">SHIP KIT</a>
-                    </div>
+                    </div>                  
                     <div class="option left main-menu-overview">
                         <a href="{{ route('overview_kit.index', array('$selected_menu' => 'main-menu-overview')); }}">VIEW BOOKINGS</a>
                     </div>
+                    <div class="option left main-menu-ship">
+                        <a href="{{ route('browse_kit.index', array('$selected_menu' => 'main-menu-ship')); }}">BROWSE KITS</a>
+                    </div>  
                 @endif
 
                 @if(Auth::check() && Auth::user()->is_admin == 1)

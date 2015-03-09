@@ -13,7 +13,6 @@
 
 // add resources
 Route::resource('home', 'HomeController@index');
-
 Route::resource('book_kit', 'BookKitController');
 Route::resource('recieve_kit', 'RecieveKitController');
 Route::resource('ship_kit', 'ShipKitController');
@@ -23,6 +22,7 @@ Route::resource('branches', 'BranchesController');
 Route::resource('kits', 'KitsController');
 Route::resource('kit_contents', 'KitContentsController');
 Route::resource('kitTypes', 'KitTypesController');
+Route::resource('browse_kit', 'BrowseKitController@index');
 
 
 

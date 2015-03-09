@@ -3,8 +3,6 @@
 @stop
 
 
-
-
 @section('content')
 
 {{--check if user is logged on to determine what to display--}}
@@ -16,6 +14,9 @@
 
         {{--write function in controller to match branch name with number--}}
         <p class='inventory-title'>Kits Currently at {{ $branch_name }}:</p>
+            @if ($kits == NULL)
+                <p class="kit-no-inventory">There are currently no kits at this branch</p>
+            @endif
 
             @foreach ($kits as $kit)
                 <div class="kit-block">
@@ -30,11 +31,6 @@
                 </div>
             @endforeach
 
-            {{--
-            @else
-                <p class="kit-no-inventory">There are currently no kits at this branch</p>
-            @endif
-            --}}
     </div>
 
 @else {{--display page if user has not logged in --}}
