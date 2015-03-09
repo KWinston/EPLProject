@@ -13,7 +13,7 @@
     <div class="branchInventory">
 
         {{--write function in controller to match branch name with number--}}
-        <p class='inventory-title'>Kits Currently at {{ $branch_name }}:</p>
+        <p class='home-title'>Kits Currently at {{ $branch_name }}:</p>
             @if ($kits == NULL)
                 <p class="kit-no-inventory">There are currently no kits at this branch</p>
             @endif
@@ -32,6 +32,28 @@
             @endforeach
 
     </div>
+
+    <div class="branchInventory">
+        <p class='home-title'>Kits Arriving:</p>
+            @foreach ($arrive_today as $arrive)
+                <div class="kit-block">
+                    <p class="kit-block-arrive"> {{ $arrive->ShadowEndDate }} </p>
+                </div>
+            @endforeach
+    </div>
+
+    <div class="branchInventory">
+        <p class='home-title'>Kits Departing:</p>
+            @foreach ($arrive_today as $arrive)
+                <div class="kit-block">
+                    <p class="kit-block-arrive"> {{ $arrive->ShadowEndDate }} </p>
+                </div>
+            @endforeach
+    </div>    
+
+
+
+
 
 @else {{--display page if user has not logged in --}}
     <h1 class='welcome-message'>Welcome to the EPL Kit Manager</h1>
