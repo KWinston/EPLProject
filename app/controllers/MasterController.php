@@ -39,7 +39,7 @@ class MasterController extends BaseController {
         $res = "";
         foreach ($branches as $branch)
         {
-            $res = $res . "<option value=\"" . $branch->ID . "\">" . $branch->BranchID . "</option>";
+            $res = $res."<option value=\"".$branch->ID."\">".$branch->BranchID."</option>";
         }
         return $res;
     }

@@ -65,6 +65,11 @@ Route::post('book_kit.update_booking', array(
 	'uses' => "BookKitController@updateBooking"
 ));
 
+Route::post('book_kit.delete_booking', array(
+	'as'   => 'book_kit.delete_booking',
+	'uses' => "BookKitController@deleteBooking"
+));
+
 // **************** general ********************************
 Route::get('kit_contents.contents.{KitID}', array(
     'as'   => 'kit_contents.contents',

@@ -18,13 +18,6 @@ class BookKitController extends BaseController {
         $post = Input::except('ID');
         $index = Input::get('ID');
 
-        $branchID = Branches::select('ID')
-            ->where('BranchID', '=', $post['ForBranch'])
-            ->first();
-
-        $post['KitID'] = intval($post['KitID']);
-        $post['ForBranch'] = intval($branchID['ID']);
-
         $stat = DB::table('Booking')
             ->where('id', $index)
             ->update(array(
@@ -48,8 +41,6 @@ class BookKitController extends BaseController {
 
         $post = Input::all();
 
-        $post['KitID'] = intval($post['KitID']);
-
         $booking = new Booking;
         $booking->fill($post);
         $booking->save();
@@ -58,16 +49,37 @@ class BookKitController extends BaseController {
         $bookingDetail->fill(array(
             'BookingID' => $booking->ID,
             'UserID' => Auth::user()->id,
-            'Email' =>  Auth::user()->Email,
+            'Email' =>  Auth::user()->email,
             'Booker' => 1
         ));
         $bookingDetail->save();
 
-        Logs::BookingRequestCreated($booking->ID, $post['KitID'], $post['ForBranch'], $post['StartDate'], $post['EndDate']);
+        /*
+        Logs::BookingRequestCreated(
+            $booking->ID, 
+            $post['KitID'], 
+            $post['ForBranch'], 
+            $post['StartDate'], 
+            $post['EndDate']
+        );
+        */
+
         return Response::json(array(
             'success' => true,
             'insert_id' => $booking->ID
         ), 200);
+    }
+
+    public function deleteBooking()
+    {
+        if(!Request::ajax())
+            return "not a json request";
+
+        $post = Input::all();
+
+        BookingDetails::where('BookingID', '=', $post['BookID'])
+            ->delete();
+        Booking::destroy($post['BookID']);
     }
 
     public function getKitBookings()
