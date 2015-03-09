@@ -24,5 +24,6 @@
         <td class="form-value"> {{Form::button('Delete Type & all kits of type', array('class' => 'kit-type-destroy'))}} </td>
     </tr>
 </table>
+{{Form::close();}}
 <p class="kit-type-kit-stat">Number of kits for type: {{count($kitType->kits)}}</p>
 <p class="kit-type-kit-stat">Number of log entries for type: {{Logs::where('LogKey1', '=', $kitType->ID)->count()}}</p>

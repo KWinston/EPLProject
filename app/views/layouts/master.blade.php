@@ -25,29 +25,29 @@
         <div class="menu">
             <div class="options">
                 <div class="option left main-menu-home">
-                    <a class="main-menu" href="{{ route('home.index', array('$selected_menu' => 'main-menu-home')); }}">HOME</a>
+                    <a class="main-menu" href="{{ route('home.index', array('selected_menu' => 'main-menu-home')); }}">HOME</a>
                 </div>
                 @if(Auth::check())
                     <div class="option left main-menu-book" >
-                        <a href="{{ route('book_kit.index', array('$selected_menu' => 'main-menu-book')); }}">BOOK KIT</a>
+                        <a href="{{ route('book_kit.index', array('selected_menu' => 'main-menu-book')); }}">BOOK KIT</a>
                     </div>
                     <div class="option left main-menu-receive">
-                        <a href="{{ route('recieve_kit.index', array('$selected_menu' => 'main-menu-receive')); }}">RECIEVE KIT</a>
+                        <a href="{{ route('recieve_kit.index', array('selected_menu' => 'main-menu-receive')); }}">RECIEVE KIT</a>
                     </div>
                     <div class="option left main-menu-ship">
-                        <a href="{{ route('ship_kit.index', array('$selected_menu' => 'main-menu-ship')); }}">SHIP KIT</a>
-                    </div>                  
+                        <a href="{{ route('ship_kit.index', array('selected_menu' => 'main-menu-ship')); }}">SHIP KIT</a>
+                    </div>
                     <div class="option left main-menu-overview">
-                        <a href="{{ route('overview_kit.index', array('$selected_menu' => 'main-menu-overview')); }}">VIEW BOOKINGS</a>
+                        <a href="{{ route('overview_kit.index', array('selected_menu' => 'main-menu-overview')); }}">VIEW BOOKINGS</a>
                     </div>
                     <div class="option left main-menu-ship">
                         <a href="{{ route('browse_kit.index', array('$selected_menu' => 'main-menu-ship')); }}">BROWSE KITS</a>
-                    </div>  
+                    </div>
                 @endif
 
                 @if(Auth::check() && Auth::user()->is_admin == 1)
                     <div class="option left main-menu-administration">
-                        <a href="{{ route('admin.index', array('$selected_menu' => 'main-menu-administration')); }}">ADMINISTRATOR</a>
+                        <a href="{{ route('admin.index', array('selected_menu' => 'main-menu-administration')); }}">ADMINISTRATOR</a>
                     </div>
                 @endif
 
@@ -113,7 +113,7 @@
                 $(".main-menu-home").addClass("menu-selected");
             @endif
 
-            $("#branchMenu").load("{{ URL::route('master.branches') }}", function() {  
+            $("#branchMenu").load("{{ URL::route('master.branches') }}", function() {
                 for (var selector in config)
                 {
                     $(selector).chosen(config[selector]);
