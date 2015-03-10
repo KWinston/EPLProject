@@ -41,7 +41,7 @@
                         <a href="{{ route('overview_kit.index', array('selected_menu' => 'main-menu-overview')); }}">VIEW BOOKINGS</a>
                     </div>
                     <div class="option left main-menu-ship">
-                        <a href="{{ route('browse_kit.index', array('$selected_menu' => 'main-menu-ship')); }}">BROWSE KITS</a>
+                        <a href="{{ route('browse_kit.index', array('selected_menu' => 'main-menu-ship')); }}">BROWSE KITS</a>
                     </div>
                 @endif
 
