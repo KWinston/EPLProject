@@ -23,6 +23,7 @@ Route::resource('kits', 'KitsController');
 Route::resource('kit_contents', 'KitContentsController');
 Route::resource('kitTypes', 'KitTypesController');
 Route::resource('browse_kit', 'BrowseKitController@index');
+Route::resource('users', 'UsersController');
 
 
 

@@ -545,3 +545,150 @@ tr.receive-table-row:nth-child(2n-2)
 {
     background: #FFFFFF;
 }
+.users-list
+{
+
+}
+.users-list tr
+{
+    cursor: pointer;
+
+}
+.users-list tr:nth-child(2n+1)
+{
+    background: aliceblue;
+}
+.users-list tr:hover
+{
+    background-color: navy;
+    color: white;
+}
+.users-list th
+{
+    background: bisque;
+    text-align: center;
+}
+.users-list td
+{
+}
+
+th.users-list-id
+{
+    width: 2%;
+    background: bisque;
+    text-align: center;
+}
+th.users-list-username
+{
+    width: 10%;
+    background: bisque;
+    text-align: center;
+}
+th.users-list-realname
+{
+    width: 10%;
+    background: bisque;
+    text-align: center;
+}
+th.users-list-email
+{
+    width: 10%;
+    background: bisque;
+    text-align: center;
+}
+th.users-list-homebranch
+{
+    width: 10%;
+    background: bisque;
+    text-align: center;
+}
+th.users-list-isadmin
+{
+    width: 2%;
+}
+
+td.users-list-id
+{
+    text-align: center;
+}
+
+td.users-list-username
+{
+}
+td.users-list-realname
+{
+}
+td.users-list-email
+{
+}
+td.users-list-homebranch
+{
+}
+td.users-list-isadmin
+{
+    text-align: center;
+}
+
+
+table.kit-status
+{
+    width: 100%;
+
+}
+tr.kit-status
+{
+    /* width: 100%; */
+
+}
+tr.kit-status:nth-child(2n+1) td
+{
+    background: aliceblue;
+}
+th.kit-status
+{
+    background: bisque;
+    text-align: center;
+}
+td.kit-status
+{
+
+}
+.kit-status.kit-type
+{
+    width: 20%;
+
+}
+.kit-status.kit-name
+{
+    width: 25%;
+
+}
+.kit-status.branch-id
+{
+    width: 8%;
+
+    text-align: center;
+}
+.kit-status.kit-state
+{
+    width: 10%;
+
+    text-align: center;
+}
+.kit-status.start-date
+{
+    width: 15%;
+
+    text-align: center;
+}
+.kit-status.branch-name
+{
+    width: 10%;
+
+    text-align: center;
+}
+.kit-status.booking-count
+{
+    text-align: center;
+
+}
