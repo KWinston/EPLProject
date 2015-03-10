@@ -495,3 +495,53 @@ td.form-value
 {
     color: #cccccc;
 }
+
+.pagination{
+margin:10px 0 ;
+padding:10px 0 10px 0px;
+}
+
+.pagination ul{
+margin: 0;
+padding: 0;
+text-align: center;
+}
+
+.pagination li{
+display: inline;
+padding: 2px 5px;
+text-align: left;
+margin: 0 2px;
+background: none;
+}
+
+.receive-table-area
+{
+    width:100%;
+    padding: 5px 10px;
+    vertical-align: top;
+}
+
+table.receive-table
+{
+    width:100%;
+    background: #AAAAAA;
+    /*position: fixed;*/
+    /*display: inline-block*/
+}
+
+tr.receive-table-row
+{
+    height: 15px;
+    display: table-row;
+}
+
+tr.receive-table-row:nth-child(2n-1)
+{
+    background: #CCCCCC;
+}
+
+tr.receive-table-row:nth-child(2n-2)
+{
+    background: #FFFFFF;
+}

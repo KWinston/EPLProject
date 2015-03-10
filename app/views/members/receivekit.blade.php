@@ -1,124 +1,43 @@
 @extends('layouts.master')
 
 @section('head')
-
 @stop
 
 @section('content')
-<style type="text/css">
-.tg  {border-collapse:collapse;border-spacing:0;}
-.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
-.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
-.tg .tg-c7d0{background-color:#bbdaff}
-</style>
-<br>
-<p> Dell Laptop Kit #1 </p>
-<table class="tg">
-  <tr>
-    <th class="tg-c7d0">Item</th>
-    <th class="tg-c7d0">Serial Number</th>
-    <th class="tg-c7d0">Comments</th>
-    <th class="tg-c7d0">Damaged</th>
-    <th class="tg-c7d0">Missing</th>
-  </tr>
-  <tr>
-    <td class="tg-031e">Dell Laptop #1</td>
-    <td class="tg-031e">1234ABCD</td>
-    <td class="tg-031e">The spacebar is loose on one of the laptops</td>
-    <td class="tg-031e"></td>
-    <td class="tg-031e">One mouse is missing</td>
-  </tr>
-  <tr>
-    <td class="tg-031e">Dell Laptop #2</td>
-    <td class="tg-031e">2134DDEB</td>
-    <td class="tg-031e"></td>
-    <td class="tg-031e"></td>
-    <td class="tg-031e"></td>
-  </tr>
-  <tr>
-    <td class="tg-031e">Dell Laptop #3</td>
-    <td class="tg-031e">4312ABDE</td>
-    <td class="tg-031e"></td>
-    <td class="tg-031e"></td>
-    <td class="tg-031e"></td>
-  </tr>
-  <tr>
-    <td class="tg-031e"></td>
-    <td class="tg-031e"></td>
-    <td class="tg-031e"></td>
-    <td class="tg-031e"></td>
-    <td class="tg-031e"></td>
-  </tr>
-  <tr>
-    <td class="tg-031e"></td>
-    <td class="tg-031e"></td>
-    <td class="tg-031e"></td>
-    <td class="tg-031e"></td>
-    <td class="tg-031e"></td>
-  </tr>
-</table>
+<div>
+<h2> Receiving Branch</h2>
 
-       </td>
+<table cellpadding = "0" class = "receive-table">
+    <tr class = "receive-table-row">
+        <th class = "receive-table-heading"> Booking ID</th>
+        <th class = "receive-table-heading"> Type of Kit</th>
+        <th class = "receive-table-heading"> Location</th>
+        <th class = "receive-table-heading"> Next Destination</th>
+        <th class = "receive-table-heading"> Previous Destinations</th>
+        <th class = "receive-table-heading"> Start of Booking</th>
+        <th class = "receive-table-heading"> End of Booking</th>
+        <th class = "receive-table-heading"> Purpose</th>
+        <th class = "receive-table-heading"> Status</th>
+        <th class = "receive-table-heading"> Option</th>
     </tr>
+    @foreach ($receiveKits as $receiveKit)
+    <tr class = "receive-table-row">
+        <td class = "receive-table-bookid">{{$receiveKit->ID}}</td>
+        <td class = "receive-table-kittype">{{$receiveKit->KitID}}</td> 
+        <td class = "receive-table-location">{{$receiveKit->KitID}}</td>
+        <td class = "receive-table-nextdest">{{$receiveKit->KitID}}</td>
+        <td class = "receive-table-prevdests">{{$receiveKit->KitID}}</td>
+        <td class = "receive-table-startdate">{{$receiveKit->StartDate}}</td>
+        <td class = "receive-table-enddate">{{$receiveKit->EndDate}}</td>
+        <td class = "receive-table-purpose">{{$receiveKit->Purpose}}</td>
+        <td class = "receive-table-kitstatus">{{$receiveKit->KitID}}</td>
+        <td class = "receive-table-confirm">{{ Form::submit('Verify') }}
 
-</tr>
-</table>
-<br>
-<INPUT TYPE = "Submit" Name = "SubmitBtn" Value = "Confirm Kit is Received">
-
-<br>
-<br>
-<p> Dell Laptop Kit #2 </p>
-<table class="tg">
-  <tr>
-    <th class="tg-c7d0">Item</th>
-    <th class="tg-c7d0">Serial Number</th>
-    <th class="tg-c7d0">Comments</th>
-    <th class="tg-c7d0">Damaged</th>
-    <th class="tg-c7d0">Missing</th>
-  </tr>
-  <tr>
-    <td class="tg-031e">Dell Laptop #1</td>
-    <td class="tg-031e">1234OTCD</td>
-    <td class="tg-031e"></td>
-    <td class="tg-031e"></td>
-    <td class="tg-031e"></td>
-  </tr>
-  <tr>
-    <td class="tg-031e">Dell Laptop #2</td>
-    <td class="tg-031e">2134DEEJ</td>
-    <td class="tg-031e"></td>
-    <td class="tg-031e"></td>
-    <td class="tg-031e"></td>
-  </tr>
-  <tr>
-    <td class="tg-031e">Dell Laptop #3</td>
-    <td class="tg-031e">4312AFDE</td>
-    <td class="tg-031e"></td>
-    <td class="tg-031e"></td>
-    <td class="tg-031e"></td>
-  </tr>
-  <tr>
-    <td class="tg-031e"></td>
-    <td class="tg-031e"></td>
-    <td class="tg-031e"></td>
-    <td class="tg-031e"></td>
-    <td class="tg-031e"></td>
-  </tr>
-  <tr>
-    <td class="tg-031e"></td>
-    <td class="tg-031e"></td>
-    <td class="tg-031e"></td>
-    <td class="tg-031e"></td>
-    <td class="tg-031e"></td>
-  </tr>
-</table>
-
-       </td>
-    </tr>
-
-</tr>
-</table>
-<br>
-<INPUT TYPE = "Submit" Name = "SubmitBtn" Value = "Confirm Kit is Received">
+        </tr>
+    @endforeach
+    </table>
+</div>
+<div class = "pagination">
+{{ $receiveKits->links() }}
+</div>
 @stop
