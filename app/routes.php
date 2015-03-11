@@ -99,3 +99,25 @@ Route::get('logs.show2.{LogKey1}.{LogKey2?}', array(
 ));
 
 Route::get('/', 'HomeController@index');
+
+// **************** receive and ship kit ****************
+
+Route::get('ship_kit.findKit.{theKitID}', array(
+	'as'   => 'ship_kit.findKit',
+	'uses' => 'ShipKitController@findKit'
+));
+
+Route::get('ship_kit.shipOut', array(
+	'as'   => 'ship_kit.shipOut',
+	'uses' => 'ShipKitController@shipOut'
+));
+
+Route::get('recieve_kit.findKit.{theKitID}', array(
+	'as'   => 'recieve_kit.findKit',
+	'uses' => 'RecieveKitController@findKit'
+));
+
+Route::get('recieve_kit.confirmReceive', array(
+	'as'   => 'recieve_kit.confirmReceive',
+	'uses' => 'RecieveKitController@confirmReceive'
+));
