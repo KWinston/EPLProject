@@ -35,18 +35,32 @@
 
     <div class="branchInventory">
         <p class='home-title'>Kits Arriving:</p>
-            @foreach ($arrive_today as $arrive)
+            @foreach ($arrivals as $kit)
                 <div class="kit-block">
-                    <p class="kit-block-arrive"> {{ $arrive->ShadowEndDate }} </p>
+                    <p class="kit-block-name">{{ $kit->type->Name }} - {{ $kit->Name }}
+                        @if ($kit->Specialized)
+                        + {{ $kit->SecializedName}}
+                        @endif
+                    </p>
+                    <p class="kit-black-contents">Description: {{ $kit->KitDesc }}</p>
+                    <p class="kit-black-state">Kit is currently: {{ $kit->state->StateName}}</p>
+                    <p class="kit-black-state">Pending Activity: None</p>
                 </div>
             @endforeach
     </div>
 
     <div class="branchInventory">
         <p class='home-title'>Kits Departing:</p>
-            @foreach ($arrive_today as $arrive)
+            @foreach ($departures as $kit)
                 <div class="kit-block">
-                    <p class="kit-block-arrive"> {{ $arrive->ShadowEndDate }} </p>
+                    <p class="kit-block-name">{{ $kit->type->Name }} - {{ $kit->Name }}
+                        @if ($kit->Specialized)
+                        + {{ $kit->SecializedName}}
+                        @endif
+                    </p>
+                    <p class="kit-black-contents">Description: {{ $kit->KitDesc }}</p>
+                    <p class="kit-black-state">Kit is currently: {{ $kit->state->StateName}}</p>
+                    <p class="kit-black-state">Pending Activity: None</p>
                 </div>
             @endforeach
     </div>    
