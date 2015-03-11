@@ -5,8 +5,14 @@ class BookKitController extends BaseController {
 
     public function index()
     {
+        $selected_id = Input::get("selected_id");
+        if (!isset($selected_id))
+        {
+            $selected_id = null;
+        }
         return CheckIfAuthenticated('members.bookkit',[
-            'selected_menu' => 'main-menu-book'
+            'selected_menu' => 'main-menu-book',
+            'selected_id' => $selected_id
             ], 'home.index', [], false);
     }
 
@@ -56,10 +62,10 @@ class BookKitController extends BaseController {
 
         /*
         Logs::BookingRequestCreated(
-            $booking->ID, 
-            $post['KitID'], 
-            $post['ForBranch'], 
-            $post['StartDate'], 
+            $booking->ID,
+            $post['KitID'],
+            $post['ForBranch'],
+            $post['StartDate'],
             $post['EndDate']
         );
         */

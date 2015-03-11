@@ -25,7 +25,6 @@ class Booking extends Eloquent
 
     protected $fillable = array('KitID', 'ForBranch', 'StartDate', 'EndDate', 'ShadowStartDate', 'ShadowEndDate', 'Purpose', 'updated_at', 'created_at');
 
-    /*
     public static function boot()
     {
         parent::boot();
@@ -72,7 +71,7 @@ class Booking extends Eloquent
         });
 
     }
-    */
+
 
     public function branch()
     {
