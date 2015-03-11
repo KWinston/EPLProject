@@ -34,7 +34,10 @@
     	treeMenu = $('#tree-menu').jstree({
     	  	"core" : {
     	    	"animation" : 250,
-    	    	"check_callback" : true,
+    	    	"check_callback" : function() {
+                    console.log('asdad');
+                    return true;
+                },
     	    	"themes" : {
     	    		"name" : "default",
     	    		"icons" : false
@@ -44,9 +47,26 @@
     	  	"plugins" : [
     	  		"themes",
     	  		"search",
-    	  		"wholerow"
+    	  		"wholerow",
+                'dnd'
     	    ]
     	});
+
+        /*
+        $(document).on('dnd_start.vakata', function(e, data) {
+            console.log('Started dragging node from jstree');
+        });
+        $(document).on('dnd_move.vakata', function(e, data) {
+            console.log('Moving node from jstree to div');
+        });
+        $(document).on('dnd_stop.vakata', function(e, data) {
+            console.log(e);
+            console.log(data);
+            if (data.event.target.id === 'calendar') {
+                console.log('drop on cal');
+            }
+        });
+        */
 
     	$('#tree-menu').on("changed.jstree", function (e, data) {
     		selected_node_value = data.instance.get_node(data.selected[0]);

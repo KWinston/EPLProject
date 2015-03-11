@@ -30,7 +30,7 @@ class BookKitController extends BaseController {
         // Logs::BookingRequestEdited($post['BookingID'], $post['KitID'], $post['StartDate'], $post['EndDate']);
 
         return Response::json(array(
-            'success' => $stat = 1 ? true : false
+            'success' => true
         ), 200);
     }
 
@@ -80,6 +80,10 @@ class BookKitController extends BaseController {
         BookingDetails::where('BookingID', '=', $post['BookID'])
             ->delete();
         Booking::destroy($post['BookID']);
+
+        return Response::json(array(
+            'success' => true
+        ), 200);
     }
 
     public function getKitBookings()
