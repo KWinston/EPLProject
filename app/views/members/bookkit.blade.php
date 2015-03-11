@@ -1,5 +1,5 @@
 @extends('layouts.master')
-
+     {{ HTML::style('css/bookkit.css') }}
 @section('head')
 @stop
 
@@ -11,11 +11,12 @@
 @section('content')
 <table cellpadding="0" style="height: 100%;" >
     <tr>
-        <td style="vertical-align: top;">
+        <td style="vertical-align: top;" align="center">
             @include('components.comp_menu', array(
                 'function' => 'homeMenuCallback',
-                'side_menu_class' => ''
+                'side_menu_class' => 'button-bar-visible'
             ))
+            <input type="button" id="book_kit" value="Book Kit Time" />
         </td>
         <td style="padding: 5px 10px; vertical-align: top; text-align: center;">
             <p id="current_kit" style="font-size: 18px; width: 100%;
@@ -79,7 +80,7 @@
         }, 2500);
     }
 
-    function insertBooking(event) {
+    function insertBooking(event, successCallback, failureCallback) {
         var startBooking = moment(event.start).add(1, 'd').format('YYYY-MM-DD');
         var endBooking = moment(event.end).subtract(1, 'd').format('YYYY-MM-DD');
 
@@ -93,18 +94,23 @@
             'KitID'     : parseInt(event.kitId, 10)
         };
 
-        console.log(json);
+        //console.log(json);
         $.post("{{ URL::route('book_kit.insert_booking') }}", json)
-            .success(function(resp){
-                event.bookID = resp.insert_id;
-                setBookingFeedback('Created');
+            .success(function(resp){  
+                setBookingFeedback('Created');   
+                if (successCallback !== undefined) {
+                    successCallback(resp.insert_id);
+                }
             })
            .fail(function(){
                 console.log("error on insert");
+                if (failureCallback !== undefined) {
+                    failureCallback();
+                }
             });
     }
 
-    function updateBooking(event) {
+    function updateBooking(event, successCallback, failureCallback) {
         var startBooking = moment(event.start).add(1, 'd').format('YYYY-MM-DD');
         var endBooking = moment(event.end).subtract(1, 'd').format('YYYY-MM-DD');
 
@@ -120,26 +126,35 @@
         };
         $.post("{{ URL::route('book_kit.update_booking') }}", json)
             .success(function(resp){
-                console.log(JSON.stringify(resp));
-                setBookingFeedback('Updated');
+                setBookingFeedback('Updated');         
+                if (successCallback !== undefined) {
+                    successCallback();
+                }
             })
            .fail(function(){
-                console.log("error on update");
+                if (failureCallback !== undefined) {
+                    failureCallback();
+                }
             });
     }
 
-    function deleteBooking(event) {
+    function deleteBooking(event, successCallback, failureCallback) {
         var json = {
            'BookID': event.bookID
         };
 
-        console.log(json);
         $.post("{{ URL::route('book_kit.delete_booking') }}", json)
-            .success(function(resp){
+            .success(function(resp) {
                 setBookingFeedback('Deleted');
+                if (successCallback !== undefined) {
+                    successCallback();
+                }
             })
            .fail(function(){
                 console.log("error on delete");
+                if (failureCallback !== undefined) {
+                    failureCallback();
+                }
             });
     }
 
@@ -161,6 +176,10 @@
             addHolidays("{{Session::get('branch', '*')}}");
         @endif
         setBookingKit(null);
+
+        $("#book_kit").click(function() {
+            openCreateBookingDialog();
+        });
     });
 </script>
 @stop

@@ -10,8 +10,8 @@
         {{ HTML::style('plugins/chosen_1_3_0_dropdown/chosen.css') }}
         {{ HTML::style('css/jquery-ui.css') }}
 
-        {{ HTML::script('plugins/jQuery_1_1_2/jquery-1.11.2.min.js', array('type' => 'text/javascript')) }}
-        {{ HTML::script('plugins/jQuery_1_1_2/jquery-ui.js', array('type' => 'text/javascript')) }}
+        {{ HTML::script('js/jquery.min.js', array('type' => 'text/javascript')) }}
+        {{ HTML::script('js/jquery-ui.js', array('type' => 'text/javascript')) }}
 
         @yield('head')
     </head>
