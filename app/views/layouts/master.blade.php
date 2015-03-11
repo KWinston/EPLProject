@@ -12,6 +12,7 @@
 
         {{ HTML::script('plugins/jQuery_1_1_2/jquery-1.11.2.min.js', array('type' => 'text/javascript')) }}
         {{ HTML::script('plugins/jQuery_1_1_2/jquery-ui.js', array('type' => 'text/javascript')) }}
+        {{ HTML::script('plugins/jquery.pulse.js', array('type' => 'text/javascript')) }}
 
         @yield('head')
     </head>

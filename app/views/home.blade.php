@@ -11,6 +11,40 @@
     {{-- use a for loop on each branch extracting out relavent kits based on their currently location --}}
     {{--populate div inventory with relevent data --}}
     <div class="branchInventory">
+        <p class='home-title'>Kits Arriving:</p>
+            @foreach ($arrive_today as $kit)
+                <div class="kit-block arriving" id="{{$kit->kit->ID}}">
+                    <p class="sign-in">{{$kit->ID}}</p>
+                    <p class="kit-block-name">{{-- $kit->type->Name --}} - {{ $kit->Name }}
+                        @if ($kit->Specialized)
+                        + {{ $kit->SecializedName}}
+                        @endif
+                    </p>
+                    <p class="kit-black-contents">Description: {{ $kit->KitDesc }}</p>
+                    <p class="kit-black-state">Kit is currently: {{-- $kit->state->StateName--}}</p>
+                    <p class="kit-black-state">Pending Activity: None</p>
+                </div>
+            @endforeach
+    </div>
+
+    <div class="branchInventory">
+        <p class='home-title'>Kits Departing:</p>
+            @foreach ($depart_today as $kit)
+                <div class="kit-block departing" id="{{$kit->kit->ID}}">
+                    <p class="sign-out">{{$kit->ID}}</p>
+                    <p class="kit-block-name">{{-- $kit->type->Name --}} - {{ $kit->Name }}
+                        @if ($kit->Specialized)
+                        + {{ $kit->SecializedName}}
+                        @endif
+                    </p>
+                    <p class="kit-black-contents">Description: {{ $kit->KitDesc }}</p>
+                    <p class="kit-black-state">Kit is currently: {{-- $kit->state->StateName--}}</p>
+                    <p class="kit-black-state">Pending Activity: None</p>
+                </div>
+            @endforeach
+    </div>
+
+    <div class="branchInventory">
 
         {{--write function in controller to match branch name with number--}}
         <p class='home-title'>Kits Currently at {{ $branch_name }}:</p>
@@ -19,44 +53,53 @@
             @endif
 
             @foreach ($kits as $kit)
-                <div class="kit-block">
-                    <p class="kit-block-name">{{ $kit->type->Name }} - {{ $kit->Name }}
+                <div class="kit-block storage" id="{{$kit->ID}}">
+                    <p class="on-self">{{$kit->ID}}</p>
+                    <p class="kit-block-name">{{-- $kit->type->Name --}} - {{ $kit->Name }}
                         @if ($kit->Specialized)
                         + {{ $kit->SecializedName}}
                         @endif
                     </p>
                     <p class="kit-black-contents">Description: {{ $kit->KitDesc }}</p>
-                    <p class="kit-black-state">Kit is currently: {{ $kit->state->StateName}}</p>
+                    <p class="kit-black-state">Kit is currently: {{-- $kit->state->StateName--}}</p>
                     <p class="kit-black-state">Pending Activity: None</p>
                 </div>
             @endforeach
 
     </div>
 
-    <div class="branchInventory">
-        <p class='home-title'>Kits Arriving:</p>
-            @foreach ($arrive_today as $arrive)
-                <div class="kit-block">
-                    <p class="kit-block-arrive"> {{ $arrive->ShadowEndDate }} </p>
-                </div>
-            @endforeach
-    </div>
-
-    <div class="branchInventory">
-        <p class='home-title'>Kits Departing:</p>
-            @foreach ($arrive_today as $arrive)
-                <div class="kit-block">
-                    <p class="kit-block-arrive"> {{ $arrive->ShadowEndDate }} </p>
-                </div>
-            @endforeach
-    </div>    
-
-
-
-
 
 @else {{--display page if user has not logged in --}}
     <h1 class='welcome-message'>Welcome to the EPL Kit Manager</h1>
 @endif
 
+<script type="text/javascript">
+$(function()
+{
+    $(".kit-block.pulse").pulse({
+        'background-color':'rgb(252, 133, 133)',
+    },
+    {
+        duration : 3250,
+        pulses   : -1,
+        interval : 800
+    });
+    $(".kit-block.arriving").click(function()
+    {
+        console.log("arriving " + this.id);
+        url = "{{ route('recieve_kit.index', array(':KITID')) }}";
+        window.location = url.replace(':KITID', this.id);
+    })
+    $(".kit-block.departing").click(function()
+    {
+        console.log("Departing " + this.id);
+        url = "{{ route('ship_kit.index', array(':KITID')) }}";
+        window.location = url.replace(':KITID', this.id);
+    })
+    $(".kit-block.storage").click(function()
+    {
+        window.location = "{{ route('book_kit.index', array('selected_id'=>'KITID')) }}".replace('KITID', this.id);
+    })
+});
+</script>
 @stop

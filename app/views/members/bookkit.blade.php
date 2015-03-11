@@ -14,7 +14,8 @@
         <td style="vertical-align: top;">
             @include('components.comp_menu', array(
                 'function' => 'homeMenuCallback',
-                'side_menu_class' => ''
+                'side_menu_class' => '',
+                'selectedNode' => $selected_id,
             ))
         </td>
         <td style="padding: 5px 10px; vertical-align: top; text-align: center;">
@@ -43,7 +44,7 @@
 
 <script type="text/javascript">
     function homeMenuCallback(kitID, kitText, kitType, eventBookID) {
-        console.log(kitID + ', ' + kitText + ', ' +  kitType + ', ' + eventBookID);
+        console.log("blaa" + kitID + ', ' + kitText + ', ' +  kitType + ', ' + eventBookID);
         $('#current_kit').text("Selected Kit is: " + kitText);
         json = {
             'ID' : kitID
@@ -71,7 +72,6 @@
                 });
         }
     }
-
     function setBookingFeedback(method) {
         $('#bookingStatus').html('Booking Status: ' + method);
         setTimeout(function(){

@@ -31,22 +31,28 @@
     }
 
     $(document).ready(function() {
-    	treeMenu = $('#tree-menu').jstree({
-    	  	"core" : {
-    	    	"animation" : 250,
-    	    	"check_callback" : true,
-    	    	"themes" : {
-    	    		"name" : "default",
-    	    		"icons" : false
-    	    	 },
-    	    	'data' : {{  GetKitTypeTreeData() }},
-    		},
-    	  	"plugins" : [
-    	  		"themes",
-    	  		"search",
-    	  		"wholerow"
-    	    ]
-    	});
+
+        treeMenu = $('#tree-menu').jstree({
+            "core" : {
+                "animation" : 250,
+                "check_callback" : true,
+                "themes" : {
+                    "name" : "default",
+                    "icons" : false
+                 },
+                'data' : {{  GetKitTypeTreeData() }},
+            },
+            "plugins" : [
+                "themes",
+                "search",
+                "wholerow"
+            ]
+        }).bind("loaded.jstree", function (event, data) {
+        @if(isset($selectedNode) && $selectedNode)
+            console.log('kit_{{$selectedNode}}' );
+            treeMenu.jstree(true).select_node('kit_{{$selectedNode}}');
+        @endif
+        });
 
     	$('#tree-menu').on("changed.jstree", function (e, data) {
     		selected_node_value = data.instance.get_node(data.selected[0]);
@@ -64,8 +70,8 @@
                     fn(val.KitID, selected_node_value.text, val.type, val);
                 }
             }
-        else
-            console.log("function not defined: " + target);
+            else
+                console.log("function not defined: " + target);
         });
 
         $('#tree-menu-search').keyup(function () {

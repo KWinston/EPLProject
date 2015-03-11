@@ -276,6 +276,36 @@ input.log-filter
     font-size: 20px;
     width:30%;
     display:inline-block;
+    cursor: pointer;
+}
+.kit-block p.sign-in
+{
+    height: 64px;
+    width: 64px;
+    background-image:url("images/sign-in.png");
+    background-size: 64px 64px;
+    background-repeat: no-repeat;
+}
+.kit-block p.sign-out
+{
+    height: 64px;
+    width: 64px;
+    background-image: url("images/sign-out.png");
+    background-size: contain;
+    -webkit-filter: grayscale(10%);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    filter: gray;
+    filter: grayscale(100%);
+}
+.kit-block p.on-self
+{
+    height: 64px;
+    width: 64px;
+    background-image: url("images/on-shelf.png");
+    background-size: contain;
+
 }
 .click-select-logs-msg
 {
@@ -690,5 +720,9 @@ td.kit-status
 .kit-status.booking-count
 {
     text-align: center;
+
+}
+.foo
+{
 
 }
