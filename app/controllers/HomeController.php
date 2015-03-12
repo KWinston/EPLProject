@@ -34,6 +34,7 @@ class HomeController extends BaseController
             array_unshift($kitIDs, $kit->ID);
         }
 
+
         $kitData = Kits::where('AtBranch', '=', $branch->ID)
             ->where('KitState', '=', '1')
             ->whereNotIn('ID', $kitIDs)

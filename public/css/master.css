@@ -275,8 +275,10 @@ input.log-filter
     padding-left: 10px;
     font-size: 20px;
     width:30%;
+    height:15%;
     display:inline-block;
     cursor: pointer;
+    overflow: auto;
 }
 .kit-block p.sign-in
 {
@@ -305,8 +307,8 @@ input.log-filter
     width: 64px;
     background-image: url("images/on-shelf.png");
     background-size: contain;
-
 }
+
 .click-select-logs-msg
 {
     left: 30%;
