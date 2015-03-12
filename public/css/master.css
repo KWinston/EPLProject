@@ -722,7 +722,32 @@ td.kit-status
     text-align: center;
 
 }
-.foo
+.boo {
+  position: relative;
+  width: 20em;
+  /* min-height: 10em; */
+  background: rgba(0,0,0,0) url("images/login.png");
+  transition: background-color 1s;
+  background-repeat: no-repeat;
+  height: 64px;
+  width: 64px;
+  background-size: contain;
+}
+.boo:hover
 {
-
+  /*background-color: rgba(0,0,0,.5);*/
+    background-repeat: no-repeat;
+    background: rgba(0,0,0,0.5) url("images/login.png");
+    height: 64px;
+    width: 64px;
+    background-size: contain;
+}
+.boo:before {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background-color: inherit;
+  content: ' ';
+  background-repeat: no-repeat;
+  /* background: rgba(0,0,0,0) url("images/logout.png"); */
+  background-size: contain;
 }

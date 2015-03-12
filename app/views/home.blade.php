@@ -13,7 +13,7 @@
     <div class="branchInventory">
         <p class='home-title'>Kits Arriving:</p>
             @foreach ($arrive_today as $kit)
-                <div class="kit-block arriving" id="{{$kit->kit->ID}}">
+                <div class="kit-block arriving" id="{{$kit->kit->ID}}" data="{{$kit->bookingID}}">
                     <p class="sign-in">{{$kit->ID}}</p>
                     <p class="kit-block-name">{{-- $kit->type->Name --}} - {{ $kit->Name }}
                         @if ($kit->Specialized)
@@ -30,7 +30,7 @@
     <div class="branchInventory">
         <p class='home-title'>Kits Departing:</p>
             @foreach ($depart_today as $kit)
-                <div class="kit-block departing" id="{{$kit->kit->ID}}">
+                <div class="kit-block departing" id="{{$kit->kit->ID}}" data="{{$kit->bookingID}}">
                     <p class="sign-out">{{$kit->ID}}</p>
                     <p class="kit-block-name">{{-- $kit->type->Name --}} - {{ $kit->Name }}
                         @if ($kit->Specialized)
@@ -87,14 +87,14 @@ $(function()
     $(".kit-block.arriving").click(function()
     {
         console.log("arriving " + this.id);
-        url = "{{ route('recieve_kit.findKit', array(':KITID')) }}";
-        window.location = url.replace(':KITID', this.id);
+        url = "{{ route('recieve_kit.findKit', array(':BOOKINGID')) }}";
+        window.location = url.replace(':BOOKINGID', this.data);
     })
     $(".kit-block.departing").click(function()
     {
         console.log("Departing " + this.id);
-        url = "{{ route('ship_kit.findKit', array(':KITID')) }}";
-        window.location = url.replace(':KITID', this.id);
+        url = "{{ route('ship_kit.findKit', array(':BOOKINGID')) }}";
+        window.location = url.replace(':BOOKINGID', this.data);
     })
     $(".kit-block.storage").click(function()
     {
