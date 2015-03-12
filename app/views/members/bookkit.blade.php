@@ -81,7 +81,6 @@
     }
 
     function insertBooking(event, successCallback, failureCallback) {
-        console.log('third lyer');
         var startBooking = moment(event.start).add(1, 'd').format('YYYY-MM-DD');
         var endBooking = moment(event.end).subtract(1, 'd').format('YYYY-MM-DD');
 

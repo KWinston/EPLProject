@@ -1,11 +1,11 @@
 {{ HTML::style("plugins/ashaw_2_2_7_calendar/fullcalendar.css") }}
 {{ HTML::style("css/comp-calendar.css") }}
 
-{{ HTML::script('js/moment-range.min.js', 
-	array('type' => 'text/javascript')) }}
 {{ HTML::script('plugins/ashaw_2_2_7_calendar/lib/moment.min.js',
 	array('type' => 'text/javascript')) }}
 {{ HTML::script('plugins/ashaw_2_2_7_calendar/fullcalendar.js',
+	array('type' => 'text/javascript')) }}
+{{ HTML::script('js/moment-range.min.js', 
 	array('type' => 'text/javascript')) }}
 
 <div id="booking_dialog">
