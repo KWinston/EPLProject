@@ -1,6 +1,8 @@
 {{ HTML::style("plugins/ashaw_2_2_7_calendar/fullcalendar.css") }}
 {{ HTML::style("css/comp-calendar.css") }}
 
+{{ HTML::script('js/moment-range.min.js', 
+	array('type' => 'text/javascript')) }}
 {{ HTML::script('plugins/ashaw_2_2_7_calendar/lib/moment.min.js',
 	array('type' => 'text/javascript')) }}
 {{ HTML::script('plugins/ashaw_2_2_7_calendar/fullcalendar.js',
@@ -52,10 +54,10 @@
         		</div>
         		<div id="booking_users">
 	        		<div id="booking_required" class="user-field required">
-	        			<div class="imgbtn"><img src="" /></div>
 	        			<div class="user">{{ Auth::user()->username }}</div>
 	        			<div class="email">{{ Auth::user()->email }}</div>
 	        			<div class="realname">{{ Auth::user()->realname }}</div>
+	        			<div class="imgbtn"><img src="css/images/lock_icon.png" /></div>
 	        		</div>
         		</div>
         	</td>
@@ -279,7 +281,7 @@
 		});
 	}
 
-	function createBookingByDateRange(kitID, kitText, forBranch, startDay, endDay) {
+	function createBookingByDateRange(kitID, kitText, forBranch, startDay, endDay, recipients) {
 		var borderColor = '#555';
 		var backgroundColor = '#006B00';
 		
@@ -292,6 +294,7 @@
 			objState: 'new',
 			isCreator: true,
 			bookID: '',
+			kitRecipients: recipients,
 			kitForBranch: forBranch, 
 			kitText: kitText,
 			kitId: kitID,
@@ -318,6 +321,8 @@
 			    newKitObjects.push(event);
 			    $('#calendar').fullCalendar('addEventSource', [event]);
                 $('#booking_dialog').dialog("close");
+            }, function(){
+            	console.log('error on insert');
             });
 		}
 	}
@@ -609,9 +614,24 @@
 			    	'click': function() {			    					    		
 		    			var bookingStart = $(this).find('#start_date_picker').datepicker('getDate');
 		    			var bookingEnd = $(this).find('#end_date_picker').datepicker('getDate');
-		    		
-		    			createBookingByDateRange(_kitID, _kitText, 
-		    				$('#branchMenu option:selected').val(), bookingStart, bookingEnd);
+		    			var recipients = [];		    			
+
+		    			$('#booking_users').find('.user-field.optional').each(function() {
+		    				recipients.push(
+		    					$(this).find('.email').html()
+		    				);
+		    				$(this).remove();
+		    			});	  			    			
+
+		    			console.log(recipients);
+		    			createBookingByDateRange(
+		    				_kitID, 
+		    				_kitText, 
+		    				$('#branchMenu option:selected').val(), 
+		    				bookingStart, 
+		    				bookingEnd,
+		    				recipients
+		    			);
 			    	}
 			    }
 		    ],
@@ -743,8 +763,35 @@
 		});
 
 		$('#booking_add_user').button().click(function(){
-			var userAdd = $('#booking_users').val();
+			var userAdd = $('#booking_users_options').val();
 			var userFields = userAdd.split(' | ');
+
+			$('<div>', {
+				'class' : 'user-field optional'
+			}).append(
+				$('<div>', {
+					'class' : 'user'
+				}).append(userFields[1])
+			).append(
+				$('<div>', {
+					'class' : 'email'
+				}).append(userFields[0])
+			).append(
+				$('<div>', {
+					'class' : 'realname'
+				}).append(userFields[2])
+			).append(
+				$('<div>', {
+					'class' : 'imgbtn'
+				}).append(
+					$('<img>', {
+						'src' : 'css/images/close_icon.png',
+						'class' : 'remove'
+					}).click(function() {
+						$(this).parent().parent().remove();
+					})
+				)
+			).appendTo('#booking_users');
 		});
 		
 	});

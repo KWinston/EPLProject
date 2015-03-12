@@ -39,7 +39,8 @@ class BookKitController extends BaseController {
         if(!Request::ajax())
             return "not a json request";
 
-        $post = Input::all();
+        $post = Input::except('Notifees');
+        $notifees = Input::get('Notifees');
 
         $booking = new Booking;
         $booking->fill($post);
@@ -51,8 +52,20 @@ class BookKitController extends BaseController {
             'UserID' => Auth::user()->id,
             'Email' =>  Auth::user()->email,
             'Booker' => 1
-        ));
-        $bookingDetail->save();
+        ))->save();
+
+        foreach ($notifees as $notifee)
+        {
+            $temp = User::where('email', $notifee)->first();
+            $bookingDetail = new BookingDetails;
+            $bookingDetail->fill(array(
+                'BookingID' => $booking->ID,
+                'UserID' => $temp->id,
+                'Email' =>  $temp->email,
+                'Booker' => 0
+            ));
+            $bookingDetail->save();
+        }
 
         /*
         Logs::BookingRequestCreated(
@@ -100,17 +113,18 @@ class BookKitController extends BaseController {
             ->get();
     }
 
-    public function getTypeOverlaps()
+    public function getTypeBookings()
     {
         if(!Request::ajax())
             return "not a json request";
 
-        $kitType = Input::get('Type');
+        $kitTypeID = Input::get('Type');
 
-        $kits = Kits::where('kitType', '=', $kitType)->get();
-        return $kits;
-        foreach ($kits as $value)
-        {}
+        return DB::table('Booking')
+            ->join('Kits',
+                'Booking.KitID', '=', 'Kits.ID')
+            ->where('Kits.KitType', $kitTypeID)
+            ->get();
     }
 
     public function getShadowDays()

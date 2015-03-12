@@ -121,16 +121,16 @@
 
 .user-field div
 {
-	display: inline-block;
+	display: table-row;
 	width: 20%;
 	height: 35px;
-	padding: 5px 10px;
+	padding: 5px 2px 5px 10px;
 }
 
 .user-field div.imgbtn
 {
-	float: left;
 	width: 35px;
+	display: table-cell;
 }
 
 .user-field div.imgbtn img
@@ -139,18 +139,43 @@
 	height: 25px;
 	background-color: #000;
 	border-radius: 4px;
+	right: 0;
+}
+
+.user-field div.imgbtn img.remove
+{
+	background-color: #aaa;
+	border-color: #ddd;
+}
+
+.user-field div.imgbtn img.remove:hover
+{
+	background-color: #fff;
+	border-color: #333;
+}
+
+.user-field div.user
+{
+	text-align: left;
+	vertical-align: middle;
+	display: table-cell;
+	width: 35%;
 }
 
 .user-field div.email
 {
-	float: center;
 	text-align: center;
+	vertical-align: middle;
+	display: table-cell;
+	width: 35%;
 }
 
 .user-field div.realname
 {
-	float: right;
 	text-align: right;
+	vertical-align: middle;
+	display: table-cell;
+	width: 35%;
 }
 
 

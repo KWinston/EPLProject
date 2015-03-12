@@ -81,7 +81,10 @@
                 else
                 {
                     var val = selected_node_value.original;
-                    fn(val.KitID, selected_node_value.text, val.type, val);
+                    if (val.type === "TYPE")
+                        fn(val.KitTypeID, selected_node_value.text, val.type, val);
+                    else
+                       fn(val.KitID, selected_node_value.text, val.type, val); 
                 }
             }
         else

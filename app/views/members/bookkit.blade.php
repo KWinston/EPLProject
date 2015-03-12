@@ -44,13 +44,11 @@
 
 <script type="text/javascript">
     function homeMenuCallback(kitID, kitText, kitType, eventBookID) {
-        console.log(kitID + ', ' + kitText + ', ' +  kitType + ', ' + eventBookID);
+        //onsole.log(kitID + ', ' + kitText + ', ' +  kitType + ', ' + eventBookID);
         $('#current_kit').text("Selected Kit is: " + kitText);
-        json = {
-            'ID' : kitID
-        };
 
         if (RegExp('kit', 'i').test(kitType)) {
+            json = { 'ID' : kitID };
             setBookingKit(kitID, kitText, kitType);
             $.post("{{ URL::route('book_kit.get_kit_bookings') }}", json)
                 .success(function(resp){
@@ -62,9 +60,11 @@
                 });
         }
         else {
-            $.post("{{ URL::route('book_kit.get_type_overlaps') }}", json)
+            json = { 'Type' : kitID };
+            console.log(json);
+            $.post("{{ URL::route('book_kit.get_type_bookings') }}", json)
                 .success(function(resp){
-                    //console.log(resp);
+                    console.log(resp);
                     //addCalendarKits(resp);
                 })
                .fail(function(){
@@ -81,12 +81,14 @@
     }
 
     function insertBooking(event, successCallback, failureCallback) {
+        console.log('third lyer');
         var startBooking = moment(event.start).add(1, 'd').format('YYYY-MM-DD');
         var endBooking = moment(event.end).subtract(1, 'd').format('YYYY-MM-DD');
 
         var json = {
             'StartDate' : startBooking,
             'EndDate'   : endBooking,
+            'Notifees'  : event.kitRecipients,
             'ShadowStartDate' : event.start.format('YYYY-MM-DD'),
             'ShadowEndDate'   : event.end.format('YYYY-MM-DD'),
             'ForBranch' : parseInt(event.kitForBranch, 10),
@@ -94,7 +96,6 @@
             'KitID'     : parseInt(event.kitId, 10)
         };
 
-        //console.log(json);
         $.post("{{ URL::route('book_kit.insert_booking') }}", json)
             .success(function(resp){  
                 setBookingFeedback('Created');   
