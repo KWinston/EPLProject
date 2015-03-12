@@ -87,13 +87,13 @@ $(function()
     $(".kit-block.arriving").click(function()
     {
         console.log("arriving " + this.id);
-        url = "{{ route('recieve_kit.index', array(':KITID')) }}";
+        url = "{{ route('recieve_kit.findKit', array(':KITID')) }}";
         window.location = url.replace(':KITID', this.id);
     })
     $(".kit-block.departing").click(function()
     {
         console.log("Departing " + this.id);
-        url = "{{ route('ship_kit.index', array(':KITID')) }}";
+        url = "{{ route('ship_kit.findKit', array(':KITID')) }}";
         window.location = url.replace(':KITID', this.id);
     })
     $(".kit-block.storage").click(function()
