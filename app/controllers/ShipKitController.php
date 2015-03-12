@@ -58,6 +58,7 @@ class ShipKitController extends BaseController {
             })
                         
             ->where('Booking.ForBranch', $index['branch'])
+            ->where('Booking.KitID', $theKitID)
             ->select('Booking.*', 'BookingDetails.*', 'Kits.AtBranch', 'Kits.KitState', 'Kits.KitDesc', 'KitState.StateName', 'KitTypes.Name', 'Branches.Name As BName')
             ->orderBy('Booking.StartDate')
             ->get();

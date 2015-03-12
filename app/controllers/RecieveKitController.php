@@ -47,7 +47,7 @@ class RecieveKitController extends BaseController {
             ->join('BookingDetails',
                 'Booking.ID', '=', 'BookingDetails.BookingID')
             ->join('Kits',
-                'Booking.KitID', '=', '$theKitID')
+                'Booking.KitID', '=', 'Kits.ID')
             ->join('KitState',
                 'KitState.ID', '=', 'Kits.KitState')
             ->join('KitTypes',
@@ -58,6 +58,7 @@ class RecieveKitController extends BaseController {
             })
                         
             ->where('Booking.ForBranch', $index['branch'])
+            ->where('Booking.KitID', $theKitID)
             ->select('Booking.*', 'BookingDetails.*', 'Kits.AtBranch', 'Kits.KitState', 'Kits.KitDesc', 'KitState.StateName', 'KitTypes.Name', 'Branches.Name As BName')
             ->orderBy('Booking.StartDate')
             ->get();
