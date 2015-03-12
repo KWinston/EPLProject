@@ -35,32 +35,23 @@
 
     <div class="branchInventory">
         <p class='home-title'>Kits Arriving:</p>
-            @foreach ($arrivals as $kit)
+            @foreach ($arrivals as $arrival)
                 <div class="kit-block">
-                    <p class="kit-block-name">{{ $kit->type->Name }} - {{ $kit->Name }}
-                        @if ($kit->Specialized)
-                        + {{ $kit->SecializedName}}
-                        @endif
-                    </p>
-                    <p class="kit-black-contents">Description: {{ $kit->KitDesc }}</p>
-                    <p class="kit-black-state">Kit is currently: {{ $kit->state->StateName}}</p>
-                    <p class="kit-black-state">Pending Activity: None</p>
+                    <p class="arrival-kit">ID: {{ $arrival->ID }}</p>
+                    <p class="arrival-ID">KitID: {{ $arrival->KitID}}</p>
+                    <p class="arrival-forbranch">Execpted at: {{$arrival->ForBranch}}</p>
+                    <p class="arrive-date">Expected by: {{ $arrival->StartDate }}</p>
                 </div>
             @endforeach
     </div>
-
     <div class="branchInventory">
         <p class='home-title'>Kits Departing:</p>
-            @foreach ($departures as $kit)
+            @foreach ($departures as $depart)
                 <div class="kit-block">
-                    <p class="kit-block-name">{{ $kit->type->Name }} - {{ $kit->Name }}
-                        @if ($kit->Specialized)
-                        + {{ $kit->SecializedName}}
-                        @endif
-                    </p>
-                    <p class="kit-black-contents">Description: {{ $kit->KitDesc }}</p>
-                    <p class="kit-black-state">Kit is currently: {{ $kit->state->StateName}}</p>
-                    <p class="kit-black-state">Pending Activity: None</p>
+                    <p class="depart-kit">ID: {{ $depart->ID}} </p>
+                    <p class="depart-ID">KitID: {{ $depart->KitID}} </p>
+                    <p class="depart-to">Going to: {{ $depart->ForBranch }}</p>
+                    <p class="depart-date">Send out on: {{ $depart->$ShadowStartDate }}
                 </div>
             @endforeach
     </div>    

@@ -16,23 +16,34 @@ class HomeController extends BaseController
         //$today = date("y-m-d 00:00:00");
 
         //test arrivals
-        //$today = "2015-03-21 00:00:00";
+        $today = "2015-03-21 00:00:00";
 
         //test departures
-        $today = "2015-03-11 00:00:00";
+        //$today = "2015-03-11 00:00:00";
 
         $bookings = Booking::get(); 
         $arrivals = array();
         $departures = array();
+        //return $bookings;
         foreach ($bookings as $booking) {
-            if ($booking->ShadowEndDate == $today){
-                array_push($arrivals, Kits::find($booking->KitID));
+            //display notice for arrive inbetween Start of Shadow and Start Date
+            if (strtotime($booking->ShadowStartDate) < time() && time () < strtotime($booking->StartDate))
+            {
+                //check if booking is related to branch on display
+                if(Session::get('branch') == $booking->ForBranch)
+                {
+                    array_push($arrivals, $booking);
+                }
             }
-            if ($booking->ShadowStartDate == $today){
-                array_push($departures, Kits::find($booking->KitID));
+            //2 day notice for departures
+            if (strtotime('-2 day', strtotime($booking->ShadowStartDate)) < time() && time() < strtotime($booking->ShadowStartDate))
+            {
+                    //require check for related departure branch 
+                    array_push($departures, $booking);
             }
+
         }
-        //return $bookings;   
+
 
         return View::make('home', array(
             'kits' => $branch->kits,
