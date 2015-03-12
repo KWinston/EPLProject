@@ -1,6 +1,6 @@
 <?php
 
-class BrowseKitController extends \BaseController {
+class BrowseKitController extends BaseController {
 
 
 	public function index()

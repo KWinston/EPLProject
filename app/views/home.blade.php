@@ -44,8 +44,6 @@
             @endforeach
     </div>
 
-    <div class="branchInventory">
-
         {{--write function in controller to match branch name with number--}}
         <p class='home-title'>Kits Currently at {{ $branch_name }}:</p>
             @if ($kits == NULL)
