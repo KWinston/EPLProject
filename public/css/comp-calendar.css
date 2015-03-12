@@ -35,49 +35,6 @@
     text-align: right;
 }
 
-.fc-event
-{
-	margin: 2px 0px;
-	height: 40px;
-	padding: 2px 5px;
-}
-
-.bookings
-{
-	width: 20%;
-	vertical-align: top;
-	text-align: center;
-	border-right: 2px solid #aaa;
-}
-
-.bookings p
-{
-	color: # 222;
-	font-size: 15px;
-	margin: 5px 0px 2px 0px;
-}
-
-.bookings input[type="button"]
-{
-	width: 90%;
-	height: 35px;
-	border: 1px solid #000;
-	box-shadow: none;
-	color: white;
-	background-color: #333;
-	border-radius: 5px;
-}
-
-.bookings input[type="button"]:hover
-{
-	background-color: #666;
-}
-
-.bookings input[type="button"]:disabled
-{
-	background-color: #ddd;
-}
-
 /*********** booking dialog *************************/
 #branch_booking_chosen
 {
@@ -87,6 +44,11 @@
 #booking_dialog p
 {
 	font-size: 12px;
+}
+
+#booking_dialog label
+{
+	margin: 2px 0px;
 }
 
 #booking_dialog .days
@@ -105,6 +67,118 @@
 {
 	border-top: 1px solid #000;
 }
+/*********** booking dialog *************************/
+
+#booking_users_options
+{
+	width: 85%;
+	height: 33px;
+	margin: 0px 0px;
+}
+/*********** booking dialog *************************/
+
+#booking_add_user
+{
+	float: right;
+}
+
+#booking_users
+{
+	border: 1px solid #000;
+	background-color: #ddd;
+	border-radius: 4px;
+	width: 99%;
+	height: 200px;
+	overflow-y: auto;
+	overflow-x: hidden; 
+	padding: 4px;
+}
+
+.user-field-label
+{
+	margin: 4px auto;
+}
+
+.user-field
+{
+	display: block;
+	vertical-align: center;
+	width: 99%;
+	height: 35px;
+	border: 2px solid #000;
+	border-radius: 4px;
+	color: #fff;	
+}
+
+.user-field.optional
+{
+	background-color: green;
+}
+
+.user-field.required
+{
+	background-color: blue;
+}
+
+.user-field div
+{
+	display: table-row;
+	width: 20%;
+	height: 35px;
+	padding: 5px 2px 5px 10px;
+}
+
+.user-field div.imgbtn
+{
+	width: 35px;
+	display: table-cell;
+}
+
+.user-field div.imgbtn img
+{
+	width: 25px;
+	height: 25px;
+	background-color: #000;
+	border-radius: 4px;
+	right: 0;
+}
+
+.user-field div.imgbtn img.remove
+{
+	background-color: #aaa;
+	border-color: #ddd;
+}
+
+.user-field div.imgbtn img.remove:hover
+{
+	background-color: #fff;
+	border-color: #333;
+}
+
+.user-field div.user
+{
+	text-align: left;
+	vertical-align: middle;
+	display: table-cell;
+	width: 35%;
+}
+
+.user-field div.email
+{
+	text-align: center;
+	vertical-align: middle;
+	display: table-cell;
+	width: 35%;
+}
+
+.user-field div.realname
+{
+	text-align: right;
+	vertical-align: middle;
+	display: table-cell;
+	width: 35%;
+}
+
 
 
 

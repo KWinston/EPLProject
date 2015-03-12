@@ -31,7 +31,6 @@
     }
 
     $(document).ready(function() {
-
         treeMenu = $('#tree-menu').jstree({
             "core" : {
                 "animation" : 250,
@@ -54,6 +53,22 @@
         @endif
         });
 
+        /*
+        $(document).on('dnd_start.vakata', function(e, data) {
+            console.log('Started dragging node from jstree');
+        });
+        $(document).on('dnd_move.vakata', function(e, data) {
+            console.log('Moving node from jstree to div');
+        });
+        $(document).on('dnd_stop.vakata', function(e, data) {
+            console.log(e);
+            console.log(data);
+            if (data.event.target.id === 'calendar') {
+                console.log('drop on cal');
+            }
+        });
+        */
+
     	$('#tree-menu').on("changed.jstree", function (e, data) {
     		selected_node_value = data.instance.get_node(data.selected[0]);
     		var target = "{{ $function }}";
@@ -67,7 +82,10 @@
                 else
                 {
                     var val = selected_node_value.original;
-                    fn(val.KitID, selected_node_value.text, val.type, val);
+                    if (val.type === "TYPE")
+                        fn(val.KitTypeID, selected_node_value.text, val.type, val);
+                    else
+                       fn(val.KitID, selected_node_value.text, val.type, val);
                 }
             }
             else
