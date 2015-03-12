@@ -10,17 +10,20 @@ class HomeController extends BaseController
         {
             $branch = Branches::find(0);
         }
+        // Need to filter for shadow range
         $arriveing = Booking::where('ForBranch', '=', $branch->ID)
             ->join('kits','kits.ID', '=', 'booking.KitID')
+            ->select('kits.ID as KitsID', "booking.ID as bookingID", "booking.*", "kits.ID")
             ->get();
+        // print dd($arriveing->toarray()[0]);
 
         $departing = Booking::where('booking.ShadowStartDate', '<=', '2015-03-10 00:00:00')
             ->where('booking.StartDate', '<=', '2015-03-13 00:00:00')
             ->join('kits','kits.ID', '=', 'booking.KitID')
             ->where('kits.AtBranch', '<>', $branch->ID)
             ->where('kits.KitState', '=', '1')
+            ->select('kits.ID as KitsID', "booking.ID as bookingID", "booking.*", "kits.ID")
             ->get();
-
         $kitIDs = array();
         foreach( $arriveing as $kit)
         {
@@ -30,6 +33,7 @@ class HomeController extends BaseController
         {
             array_unshift($kitIDs, $kit->ID);
         }
+
 
         $kitData = Kits::where('AtBranch', '=', $branch->ID)
             ->where('KitState', '=', '1')
