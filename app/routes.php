@@ -46,9 +46,9 @@ Route::post('book_kit.get_kit_bookings', array(
 	'uses' => "BookKitController@getKitBookings"
 ));
 
-Route::post('book_kit.get_type_overlaps', array(
-	'as'   => 'book_kit.get_type_overlaps',
-	'uses' => "BookKitController@getTypeOverlaps"
+Route::post('book_kit.get_type_bookings', array(
+	'as'   => 'book_kit.get_type_bookings',
+	'uses' => "BookKitController@getTypeBookings"
 ));
 
 Route::post('book_kit.get_shadow_days', array(
