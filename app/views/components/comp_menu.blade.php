@@ -77,15 +77,12 @@
             {
                 if (!selected_node_value)
                 {
-                    fn(null, null, null, null);
+                    fn(null);
                 }
                 else
                 {
                     var val = selected_node_value.original;
-                    if (val.type === "TYPE")
-                        fn(val.KitTypeID, selected_node_value.text, val.type, val);
-                    else
-                       fn(val.KitID, selected_node_value.text, val.type, val);
+                    fn(val); 
                 }
             }
             else

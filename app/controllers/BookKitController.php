@@ -60,17 +60,20 @@ class BookKitController extends BaseController {
             'Booker' => 1
         ))->save();
 
-        foreach ($notifees as $notifee)
+        if (count($notifees) > 0)
         {
-            $temp = User::where('email', $notifee)->first();
-            $bookingDetail = new BookingDetails;
-            $bookingDetail->fill(array(
-                'BookingID' => $booking->ID,
-                'UserID' => $temp->id,
-                'Email' =>  $temp->email,
-                'Booker' => 0
-            ));
-            $bookingDetail->save();
+            foreach ($notifees as $notifee)
+            {
+                $temp = User::where('email', $notifee)->first();
+                $bookingDetail = new BookingDetails;
+                $bookingDetail->fill(array(
+                    'BookingID' => $booking->ID,
+                    'UserID' => $temp->id,
+                    'Email' =>  $temp->email,
+                    'Booker' => 0
+                ));
+                $bookingDetail->save();
+            }
         }
 
         /*
@@ -116,6 +119,7 @@ class BookKitController extends BaseController {
             ->join('BookingDetails',
                 'Booking.id', '=', 'BookingDetails.BookingID')
             ->where('Booking.KitID', $index)
+            ->where('BookingDetails.Booker', 1)
             ->get();
     }
 
@@ -129,8 +133,35 @@ class BookKitController extends BaseController {
         return DB::table('Booking')
             ->join('Kits',
                 'Booking.KitID', '=', 'Kits.ID')
+            ->join('KitTypes',
+                'Kits.KitType', '=', 'KitTypes.ID')
             ->where('Kits.KitType', $kitTypeID)
             ->get();
+    }
+
+    public function getAvailableKit()
+    {
+        if(!Request::ajax())
+            return "not a json request";
+
+        $post = Input::all();
+
+        $kitsOfType = Kits::where('Available', '1')
+            ->where('KitType', $post['KitTypeID'])
+            ->orderBy('Specialized', 'asc')
+            ->get();
+
+        foreach($kitsOfType as $kit)
+        {
+            return $kit;
+            $bookings = Booking::where('KitID', $kit->ID)
+                ->where('StartDate', '<=', $post['StartDate'])
+                ->where('EndDate', '<=', $post['EndDate'])
+                ->count();
+            if ($bookings == 0)
+                return $kitsOfType;
+        }
+        return null;
     }
 
     public function getShadowDays()

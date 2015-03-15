@@ -51,6 +51,11 @@ Route::post('book_kit.get_type_bookings', array(
 	'uses' => "BookKitController@getTypeBookings"
 ));
 
+Route::post('book_kit.get_available_kit', array(
+	'as'   => 'book_kit.get_available_kit',
+	'uses' => "BookKitController@getAvailableKit"
+));
+
 Route::post('book_kit.get_shadow_days', array(
 	'as'   => 'book_kit.get_shadow_days',
 	'uses' => "BookKitController@getShadowDays"

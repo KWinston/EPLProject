@@ -75,7 +75,7 @@
         });
 
     }
-    function KitSelected(kitID, kitText, kitType, value)
+    function KitSelected(value)
     {
         $(".button-bar").addClass('hidden');
         gKitTypeID = value.KitTypeID;

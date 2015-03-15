@@ -44,34 +44,49 @@
 
 
 <script type="text/javascript">
-    function homeMenuCallback(kitID, kitText, kitType, eventBookID) {
-        $('#current_kit').text("Selected Kit is: " + kitText);
+    var getKitRepeater = null;  // interval timer
 
-        if (RegExp('kit', 'i').test(kitType)) {
-            json = { 'ID' : kitID };
-            setBookingKit(kitID, kitText, kitType);
-            $.post("{{ URL::route('book_kit.get_kit_bookings') }}", json)
-                .success(function(resp){
-                    console.log("-------- Got bookings" + resp);
-                    addCalendarKits(resp, '{{ Auth::id(); }}');
-                })
-               .fail(function(){
-                    console.log("error on insert");
-                });
+    function homeMenuCallback(kit) {
+        console.log(kit);
+        if(kit == null) {
+            $('#book_kit').prop('disabled', true);
         }
         else {
-            json = { 'Type' : kitID };
-            console.log(json);
-            $.post("{{ URL::route('book_kit.get_type_bookings') }}", json)
-                .success(function(resp){
-                    console.log(resp);
-                    //addCalendarKits(resp);
-                })
-               .fail(function(){
-                    console.log("error on insert");
-                });
+            $('#current_kit').text("Selected Kit is: " + kit.text);
+            $('#book_kit').prop('disabled', false);      
+            setBookingKit(kit);
+
+            getKitBookings(kit);
+            clearInterval(getKitRepeater);
+            getKitRepeater = setInterval(getKitBookings, 10000, kit);
         }
     }
+
+    function getKitBookings(kit) {
+        console.log('get kit bookings');
+        if (RegExp('kit', 'i').test(kit.type)) {
+                    json = { 'ID' : kit.KitID };
+                    $.post("{{ URL::route('book_kit.get_kit_bookings') }}", json)
+                        .success(function(resp){
+                            addCalendarKits(resp, '{{ Auth::id(); }}');
+                        })
+                       .fail(function(){
+                            console.log("error while getting kit bookings");
+                        });
+                }
+                else {
+                    json = { 'Type' : kit.KitTypeID };
+                    $.post("{{ URL::route('book_kit.get_type_bookings') }}", json)
+                        .success(function(resp) {
+                            var kitOverlaps = compareOverlapKitTypeBookings(resp);
+                            addCalendarKits(kitOverlaps);
+                        })
+                       .fail(function(){
+                            console.log("error while getting kit type bookings");
+                        });
+                }
+    }
+
     function setBookingFeedback(method) {
         $('#bookingStatus').html('Booking Status: ' + method);
         setTimeout(function(){
@@ -170,11 +185,59 @@
             });
     }
 
+    function compareOverlapKitTypeBookings(bookings)
+    {
+
+        var ranges = [];
+        for (var index in bookings) {
+            var start = new Date(bookings[index].ShadowStartDate).setHours(0);
+            var end = new Date(bookings[index].ShadowEndDate).setHours(0);
+
+            ranges.push(moment().range(start, end));
+        }
+        ranges.sort(function(r1, r2){ return r1.start > r2.start });
+
+        // intersect ranges and check overlapping areas
+        var intersectTypes = [];
+        var intersectType = ranges.shift(); // init intersect check
+        while(ranges.length > 0) {
+            var compareType = ranges.shift();
+            var overlap = false;
+            while(compareType !== undefined && intersectType.overlaps(compareType)) 
+            {
+                overlap = true;
+                intersectType = intersectType.intersect(compareType);
+                compareType = ranges.shift();
+            }
+            if (overlap) {
+                intersectTypes.push(intersectType);
+                intersectType = compareType;
+            }
+        }
+
+        var kitTypeBookings = intersectTypes.map(function(index) {
+            return {
+                'ShadowStartDate': index.start,
+                'ShadowEndDate'  : index.end,
+                'StartDate'      : index.start,
+                'EndDate'        : index.end,
+                'Purpose'        : bookings[0].Name,
+                'UserID'         : '*',
+                'BookingID'      : '*',
+                'KitID'          : '*',
+                'IsTypeKit'      : true
+            };
+        });
+
+        return kitTypeBookings;
+    }
+
     $(document).ready(function() {
         @if(Session::has('branch'))
             addHolidays("{{Session::get('branch', '*')}}");
         @endif
-        setBookingKit(null);
+
+        homeMenuCallback(null);
 
         $("#book_kit").click(function() {
             openCreateBookingDialog();

@@ -82,25 +82,22 @@
 	var count = 0;
 	var _kitID = "";
 	var _kitText = "";
+	var _isType = false;
 	var shadowObjects;
 	var oldKitObjects;
 	var newKitObjects;
 
-	function setBookingKit(kitID, kitText, kitType) {
-		if(kitID == null || kitType == null) {
-			$('#book_kit').prop('disabled', true);
+	function setBookingKit(kit) {
+		var reg = RegExp('kit', 'i');
+		if (reg.test(kit.type)) {
+			_kitID = kit.KitID;	
+			_isType = false;
 		}
 		else {
-			var reg = RegExp('kit', 'i');
-			if (reg.test(kitType)) {
-				_kitID = kitID;
-				_kitText = kitText;
-				$('#book_kit').prop('disabled', false);
-			}
-			else {
-				console.log('add code for type settings'); // to do
-			}
+			_isType = true;
 		}
+		_kitTypeID = kit.KitTypeID;
+		_kitText = kit.text;
 	}
 
 	function generateEventTitle(kitText, start, end) {
@@ -192,93 +189,46 @@
 	}
 
 	function addCalendarKits(bookings, UserID) {
-		// this needs work
 		$('#calendar').fullCalendar('removeEventSource', oldKitObjects);
 		oldKitObjects = [];
+
 		for (var i in bookings) {
 			var e = bookings[i];
 
 			if (!existsInNewBookings(e)) {
-				var title = generateEventTitle(e.Purpose,
-					moment(e.StartDate), moment(e.EndDate));
+				var title = generateEventTitle(
+					e.Purpose, 
+					moment(e.StartDate), 
+					moment(e.EndDate)
+				);
 				var creator = (e.UserID === UserID);
+				var isType = (e.IsTypeKit === true);
 
+				console.log(e.Purpose);
 				oldKitObjects.push({
 					bookID: e.BookingID,
-					objID: 'other',
-					objState: 'old',
-					isCreator: creator,
-					kitText: e.Purpose,
-					kitId: e.KitID,
-					title: title,
-					kitForBranch: e.ForBranch,
-					allDay: true,
-					stick: true,
-					start: moment(e.ShadowStartDate),
-					end: moment(e.ShadowEndDate),
-					editable: creator,
-					className: 'shadow-day-effect',
-					borderColor: '#555',
-					backgroundColor: creator ? '#0033CC' :'#ccc',
-					textColor: '#fff'
+					objID		 : 'other',
+					objState	 : 'old',
+					isCreator	 : creator,
+					isType 		 : isType,
+					kitText 	 : e.Purpose,
+					kitId 		 : e.KitID,
+					title 		 : title,
+					kitForBranch : e.ForBranch,
+					allDay 		 : true,
+					stick 		 : true,
+					start 		 : moment(e.ShadowStartDate),
+					end 		 : moment(e.ShadowEndDate),
+					editable	 : creator,
+					className	 : isType ? "" : 'shadow-day-effect',
+					borderColor  : '#555',
+					backgroundColor: 
+						isType ? '#111' : creator ? '#0033CC' : '#ccc',
+					textColor    : '#fff'
 				});
 			}
 		}
 		$('#calendar').fullCalendar('addEventSource', oldKitObjects);
-	}
-
-	// to be removed
-	function createBookingByDuration(kitID, kitText, forBranch, days) {
-		var borderColor = '#555';
-		var backgroundColor = '#006B00';
-		var created = $('<div/>',{
-			'kitid': kitID,			// val[0].value
-			'kittext': kitText,		// val[1].value
-			'kittype': 'kit',
-			'class': "fc-event ui-draggable ui-draggable-handle",
-			'html':  kitText + '<br> Duration: ' + days + ' days',
-			'style': [
-				'background-color: ' + backgroundColor + ';',
-				'border-color: ' + borderColor + ';'
-			].join('')
-		});
-
-		created.appendTo('#external-events').show('slow');
-		created.data('event', {
-			id: (count++).toString(),
-			objID: 'kit',
-			objState: 'new',
-			isCreator: true,
-			bookID: '',
-			kitForBranch: forBranch,
-			kitText: kitText,
-			kitId: kitID,
-			kitNotes: '',
-			title: $.trim(created.html().replace("<br>", "\n")),
-			allDay: true,
-			stick: true,
-			className: 'shadow-day-effect',
-			duration: { days: (2 + parseInt(days)), hours:0, minutes:0 },
-			borderColor: borderColor,
-			backgroundColor: backgroundColor
-		});
-
-		created.draggable({
-			zIndex: 999,
-			revert: true,      // will cause the event to go back to its
-			revertDuration: 0, //  original position after the drag,
-			start: function(event, ui) {
-				var target = "{{ $kitChange }}";
-				var fn = window[target];
-				if(typeof fn === 'function') {
-					console.log(ui.helper[0].attributes);
-					var val = ui.helper[0].attributes;
-					fn(val[0].value, val[1].value, 'kit');
-				}
-				else
-					console.log("function not defined: " + target);
-			}
-		});
 	}
 
 	function createBookingByDateRange(kitID, kitText, forBranch, startDay, endDay, recipients) {
@@ -454,8 +404,7 @@
 		var target = "{{ $kitChange }}";
 		var fn = window[target];
 		if(typeof fn === 'function') {
-			console.log(event);
-			fn(event.kitId, event.kitText, 'kit', event.bookID);
+			fn(event);
 		}
 		else
 			console.log("function not defined: " + target);
@@ -491,9 +440,10 @@
 			eventOverlap: true,
 			fixedWeekCount: false,
 	    	eventClick: function(event, jsEvent, view) {
-	    		//if (RegExp('new', 'i').test(event.objState)) {
-	    		//	getKitUpdates(event);
-	    		//}
+	    		if (RegExp('new', 'i').test(event.objState)) {
+	    			getKitUpdates(event);
+	    		}
+
 	    		var buttons = $('#booking_information').dialog('option', 'buttons');
 	    		console.log(buttons[0]);
 	    		if(!event.isCreator) {
@@ -614,7 +564,8 @@
 			    	'click': function() {
 		    			var bookingStart = $(this).find('#start_date_picker').datepicker('getDate');
 		    			var bookingEnd = $(this).find('#end_date_picker').datepicker('getDate');
-		    			var recipients = [];
+		    			var forBranch = $('#branch_booking option:selected').val();
+		    			var recipients = [];		    			
 
 		    			$('#booking_users').find('.user-field.optional').each(function() {
 		    				recipients.push(
@@ -623,15 +574,44 @@
 		    				$(this).remove();
 		    			});
 
-		    			console.log(recipients);
-		    			createBookingByDateRange(
-		    				_kitID,
-		    				_kitText,
-		    				$('#branchMenu option:selected').val(),
-		    				bookingStart,
-		    				bookingEnd,
-		    				recipients
-		    			);
+		    			if (_isType)
+		    			{
+		    				var json = {
+		    					'StartDate' : bookingStart,
+		    					'EndDate'   : bookingEnd,
+		    					'KitTypeID' : _kitTypeID
+		    				};
+
+			    			$.post("{{ URL::route('book_kit.get_available_kit') }}", json)
+			                    .success(function(resp){			                        
+			                        if (resp !== null) {
+				                        createBookingByDateRange(
+						    				resp.ID, 
+						    				resp.Name, 
+						    				forBranch, 
+						    				bookingStart, 
+						    				bookingEnd,
+						    				recipients
+						    			);
+			                    	}	
+			                    	else {
+			                    		console.log('No kits available at this time');
+			                    	}
+			                    })
+			                   .fail(function(){
+			                        console.log("error on kit search");
+			                    });
+		                }
+		                else {
+			    			createBookingByDateRange(
+			    				_kitID, 
+			    				_kitText, 
+			    				forBranch, 
+			    				bookingStart, 
+			    				bookingEnd,
+			    				recipients
+			    			);
+			    		}
 			    	}
 			    }
 		    ],
