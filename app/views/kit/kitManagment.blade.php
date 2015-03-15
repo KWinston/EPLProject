@@ -225,11 +225,11 @@
         }, "json");
     }
 
-    function KitSelected(kitID, kitText, kitType, value)
+    function KitSelected(value)
     {
         // If we get passed a null value or false(which the treedoes some times on delete of node) we return
-        if (kitID == null) return;
-        if (kitType == "KIT")
+        if (value.KitID == null) return;
+        if (value.type == "KIT")
         {
             LoadKit(value.KitID);
         }
