@@ -10,8 +10,9 @@ class MasterController extends BaseController {
         {
             return Redirect::action('HomeController@index', []);
         }
-        $branches = Branches::all();
-
+        // set the session variable to the current branch
+        $user = Auth::user();
+        Session::put('branch', $data[$user->home_branch]);
         return View::make("HomeContoller@index", []);
     }
 

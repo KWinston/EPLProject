@@ -270,36 +270,32 @@ input.log-filter
 .kit-block
 {
     margin-top: 5px;
-    line-height: 20%;
+    /* line-height: 20%; */
     border: 5px solid black;
     padding-left: 10px;
     font-size: 20px;
-    width:30%;
+    /* width:30%; */
+    /* min-width: 30%; */
     height:15%;
-    display:inline-block;
+    display: inline-flex;
     cursor: pointer;
     overflow: auto;
 }
 .kit-block p.sign-in
 {
-    height: 64px;
-    width: 64px;
+    min-height: 64px;
+    min-width: 64px;
     background-image:url("images/sign-in.png");
-    background-size: 64px 64px;
     background-repeat: no-repeat;
+    background-size: contain;
 }
 .kit-block p.sign-out
 {
-    height: 64px;
-    width: 64px;
+    min-height: 64px;
+    min-width: 64px;
     background-image: url("images/sign-out.png");
     background-size: contain;
-    -webkit-filter: grayscale(10%);
-    -moz-filter: grayscale(100%);
-    -ms-filter: grayscale(100%);
-    -o-filter: grayscale(100%);
-    filter: gray;
-    filter: grayscale(100%);
+    background-repeat: no-repeat;
 }
 .kit-block p.on-self
 {
@@ -307,8 +303,43 @@ input.log-filter
     width: 64px;
     background-image: url("images/on-shelf.png");
     background-size: contain;
+    background-repeat: no-repeat;
+}
+.kit-block.pending
+{
+    width: 96%;
+
+}
+.kit-block.inventory
+{
+}
+.kit-block.storage
+{
+    width: 45%;
+    margin-right: 6px;
+}
+.kit-block-icon
+{
+
 }
 
+.kit-block-name
+{
+
+}
+.kit-block-contents
+{
+
+}
+.kit-block-state
+{
+
+}
+.right-seperator
+{
+    border-right: 2px solid black;
+    min-width: 30%;
+}
 .click-select-logs-msg
 {
     left: 30%;
@@ -752,4 +783,19 @@ td.kit-status
   background-repeat: no-repeat;
   /* background: rgba(0,0,0,0) url("images/logout.png"); */
   background-size: contain;
+}
+
+td.pending
+{
+    width: 30%;
+
+    vertical-align: top;
+    /* border-left: 2px solid blue; */
+    /* border-right: 2px solid black; */
+}
+td.inventory
+{
+    height: 100%;
+
+    vertical-align: top;
 }
