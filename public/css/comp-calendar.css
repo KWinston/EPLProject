@@ -67,6 +67,11 @@
 {
 	border-top: 1px solid #000;
 }
+
+#booking_dialog #booking_message
+{
+	color: red;
+}
 /*********** booking dialog *************************/
 
 #booking_users_options
