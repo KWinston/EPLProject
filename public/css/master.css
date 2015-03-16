@@ -270,36 +270,32 @@ input.log-filter
 .kit-block
 {
     margin-top: 5px;
-    line-height: 20%;
+    /* line-height: 20%; */
     border: 5px solid black;
     padding-left: 10px;
     font-size: 20px;
-    width:30%;
-    height:15%;
-    display:inline-block;
+    width: 513px;
+    min-width: 30% !important;
+    /* height:15%; */
+    display: inline-flex;
     cursor: pointer;
     overflow: auto;
 }
 .kit-block p.sign-in
 {
-    height: 64px;
-    width: 64px;
-    background-image:url("images/sign-in.png");
-    background-size: 64px 64px;
+    min-height: 64px;
+    min-width: 64px;
+    background-image: url("images/login.png");
     background-repeat: no-repeat;
+    background-size: contain;
 }
 .kit-block p.sign-out
 {
-    height: 64px;
-    width: 64px;
-    background-image: url("images/sign-out.png");
+    min-height: 64px;
+    min-width: 64px;
+    background-image: url("images/logout.png");
     background-size: contain;
-    -webkit-filter: grayscale(10%);
-    -moz-filter: grayscale(100%);
-    -ms-filter: grayscale(100%);
-    -o-filter: grayscale(100%);
-    filter: gray;
-    filter: grayscale(100%);
+    background-repeat: no-repeat;
 }
 .kit-block p.on-self
 {
@@ -307,8 +303,86 @@ input.log-filter
     width: 64px;
     background-image: url("images/on-shelf.png");
     background-size: contain;
+    background-repeat: no-repeat;
+}
+.kit-block.pending
+{
+    width: 96%;
+}
+div.kit-block table
+{
+    padding-left: 10px;
+
+    width: 59%;
+}
+.kit-block.inventory
+{
+}
+.kit-block.storage
+{
+    /* width: 50%; */
+    margin-right: 6px;
+    background-color: gainsboro;
+    max-width: 45%;
+}
+div.kit-block-activity
+{
+    float: right;
+
+    width: 28%;
+    right: -6px;
+    position: relative;
+    text-align: center;
+    vertical-align: middle;
+}
+.kit-block.kit-shipping
+{
+    background-color: lightgreen;
+}
+.kit-block.kit-receiving
+{
+    background-color: lightblue;
 }
 
+.kit-block-icon
+{
+
+}
+
+.kit-block-name
+{
+
+}
+.kit-block-contents
+{
+
+}
+.kit-block-state
+{
+
+}
+table.tooltip-branch
+{
+    width: 100%;
+}
+table.tooltip-branch tr:nth-child(even)
+{
+    background: lightgrey;
+}
+.tooltip-branch td.tooltip-header
+{
+    text-align: right;
+    padding-right: 10px;
+}
+.tooltip-branch td.tooltip-value
+{
+
+}
+.right-seperator
+{
+    border-right: 2px solid black;
+    min-width: 30%;
+}
 .click-select-logs-msg
 {
     left: 30%;
@@ -752,4 +826,19 @@ td.kit-status
   background-repeat: no-repeat;
   /* background: rgba(0,0,0,0) url("images/logout.png"); */
   background-size: contain;
+}
+
+td.pending
+{
+    width: 30%;
+
+    vertical-align: top;
+    /* border-left: 2px solid blue; */
+    /* border-right: 2px solid black; */
+}
+td.inventory
+{
+    height: 100%;
+
+    vertical-align: top;
 }

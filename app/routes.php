@@ -27,6 +27,10 @@ Route::resource('users', 'UsersController');
 
 
 
+Route::get('home.getInventory', array(
+    'as' => 'home.getInventory',
+    'uses' => 'HomeController@getInventory'
+    ));
 
 // **************** authentication *************************
 Route::post("master.login", array(
