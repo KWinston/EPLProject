@@ -62,6 +62,11 @@
         		</div>
         	</td>
         </tr>
+        <tr>
+        	<td colspan="3">
+        		<label id="booking_message"></label>
+        	</td>
+        </tr>
 	</table>
 </div>
 
@@ -147,8 +152,8 @@
 			var kit = currentKits[i];
 
 			// determine if of same kit type or comparing to self
-			if (parseInt(newKit.bookID, 10) !== parseInt(kit.bookID, 10) &&
-				parseInt(newKit.kitId) === parseInt(kit.kitId)) {
+			if (parseInt(newKit.BookID, 10) !== parseInt(kit.BookID, 10) &&
+				parseInt(newKit.KitID) === parseInt(kit.KitID)) {
 				isConflict = checkEventsOverlap({
 					'start': startDay,
 					'end': endDay
@@ -204,17 +209,16 @@
 				var creator = (e.UserID === UserID);
 				var isType = (e.IsTypeKit === true);
 
-				console.log(e.Purpose);
 				oldKitObjects.push({
-					bookID: e.BookingID,
+					BookID       : e.BookingID,
 					objID		 : 'other',
 					objState	 : 'old',
 					isCreator	 : creator,
 					isType 		 : isType,
-					kitText 	 : e.Purpose,
-					kitId 		 : e.KitID,
+					text 	     : e.Purpose,
+					KitID 		 : e.KitID,
 					title 		 : title,
-					kitForBranch : e.ForBranch,
+					ForBranch    : e.ForBranch,
 					allDay 		 : true,
 					stick 		 : true,
 					start 		 : moment(e.ShadowStartDate),
@@ -231,7 +235,7 @@
 		$('#calendar').fullCalendar('addEventSource', oldKitObjects);
 	}
 
-	function createBookingByDateRange(kitID, kitText, forBranch, startDay, endDay, recipients) {
+	function createBookingByDateRange(kitID, kitTypeID, kitText, forBranch, startDay, endDay, recipients) {
 		var borderColor = '#555';
 		var backgroundColor = '#006B00';
 
@@ -243,11 +247,12 @@
 			objID: 'kit',
 			objState: 'new',
 			isCreator: true,
-			bookID: '',
+			BookID: '',
 			kitRecipients: recipients,
-			kitForBranch: forBranch,
-			kitText: kitText,
-			kitId: kitID,
+			ForBranch: forBranch,
+			text: kitText,
+			KitID: kitID,
+			KitTypeID: kitTypeID,
 			kitNotes: '',
 			title: '',
 			allDay: true,
@@ -263,7 +268,7 @@
 		if(stat.status) {
 			event.start.add(stat.diffStart, 'd');
 			event.end.add(stat.diffEnd, 'd');
-			event.title = generateEventTitle(event.kitText,
+			event.title = generateEventTitle(event.text,
 				moment(event.start).add(1, 'd'), moment(event.end).subtract(1, 'd'));
 
 			insertKitDB(event, function(id) {
@@ -275,6 +280,7 @@
             	console.log('error on insert');
             });
 		}
+		return stat.status;
 	}
 
 	function insertKitDB(event, successCallback, failureCallback) {
@@ -423,6 +429,13 @@
         });
 	}
 
+	function dialogMessage(text) {
+		$('#booking_message').html(text);
+		setTimeout(function(){ 
+			$('#booking_message').html('');
+		}, 2500);
+	}
+
 	$(document).ready(function() {
 		newKitObjects = [];
 
@@ -491,7 +504,7 @@
 				if(stat.status) {
 					event.start.add(stat.diffStart, 'd');
 					event.end.add(stat.diffEnd, 'd');
-					event.title = generateEventTitle(event.kitText,
+					event.title = generateEventTitle(event.text,
 						moment(event.start).add(1, 'd'), moment(event.end).subtract(1, 'd'));
 
 					$('#calendar').fullCalendar('updateEvent', event);
@@ -510,7 +523,7 @@
 				if(stat.status) {
 					event.start.add(stat.diffStart, 'd');
 					event.end.add(stat.diffEnd, 'd');
-					event.title = generateEventTitle(event.kitText,
+					event.title = generateEventTitle(event.text,
 						moment(event.start).add(1, 'd'), moment(event.end).subtract(1, 'd'));
 
 					$('#calendar').fullCalendar('updateEvent', event);
@@ -521,6 +534,7 @@
 				}
 			},
 			// external changes (insert)
+			/*
 			drop: function(date, jsEvent, ui) {
 				$(this).remove();					// remove dropped object
 			},
@@ -542,6 +556,7 @@
 					$('#calendar').fullCalendar('removeEvents', event.id);
 				}
 			},
+			*/
 			eventAfterRender: function(event, element) {
 				setEventShadow(event, element[0]);
 			}
@@ -554,7 +569,7 @@
 		    'draggable': true,
 		    'show': "fade",
 		    'width': 600,
-		    'height': 480,
+		    'height': 550,
 		    'buttons': [
 			    {
 			    	'text': "Okay",
@@ -583,18 +598,21 @@
 		    				};
 
 			    			$.post("{{ URL::route('book_kit.get_available_kit') }}", json)
-			                    .success(function(resp){			                        
-			                        if (resp !== null) {
+			                    .success(function(resp){		
+			                    	console.log(resp);	                        
+			                        if (resp !== "") {
 				                        createBookingByDateRange(
-						    				resp.ID, 
+						    				resp.ID,
+						    				_kitTypeID, 
 						    				resp.Name, 
 						    				forBranch, 
-						    				bookingStart, 
-						    				bookingEnd,
+						    				moment(bookingStart).format('YYYY-MM-DD'), 
+						    				moment(bookingEnd).format('YYYY-MM-DD'),
 						    				recipients
 						    			);
 			                    	}	
 			                    	else {
+			                    		dialogMessage('No kit available at this time');
 			                    		console.log('No kits available at this time');
 			                    	}
 			                    })
@@ -603,14 +621,17 @@
 			                    });
 		                }
 		                else {
-			    			createBookingByDateRange(
-			    				_kitID, 
+			    			if (!createBookingByDateRange(
+			    				_kitID,
+			    				_kitTypeID, 
 			    				_kitText, 
 			    				forBranch, 
 			    				bookingStart, 
 			    				bookingEnd,
 			    				recipients
-			    			);
+			    			)) {
+			    				dialogMessage('This kit is not available at this time');
+			    			}
 			    		}
 			    	}
 			    }
@@ -710,7 +731,7 @@
 					new Date(moment($("#start_date_picker").datepicker('getDate')).add(13, 'd').format())
 				);
 			}
-		}).datepicker('setDate', new Date());
+		}).datepicker('setDate', new Date().setDate(new Date().getDate() + 1));
 
 		$( "#end_date_picker" ).datepicker({
 			'showOtherMonths': true,
@@ -724,7 +745,7 @@
 			new Date(moment($("#start_date_picker").datepicker('getDate')).format())
 		).datepicker('option', 'maxDate',
 			new Date(moment($("#start_date_picker").datepicker('getDate')).add(13, 'd').format())
-		);
+		).datepicker('setDate', new Date().setDate(new Date().getDate() + 1));
 
 		$('#booking_duration').on('change', function() {
 			var days = $(this).val();
@@ -773,6 +794,5 @@
 				)
 			).appendTo('#booking_users');
 		});
-
 	});
 </script>

@@ -101,6 +101,7 @@ class BookKitController extends BaseController {
 
         BookingDetails::where('BookingID', '=', $post['BookID'])
             ->delete();
+            
         Booking::destroy($post['BookID']);
 
         return Response::json(array(
@@ -136,6 +137,8 @@ class BookKitController extends BaseController {
             ->join('KitTypes',
                 'Kits.KitType', '=', 'KitTypes.ID')
             ->where('Kits.KitType', $kitTypeID)
+            ->orderBy('Booking.KitID', 'asc')
+            ->orderBy('Booking.StartDate', 'asc')
             ->get();
     }
 
@@ -153,15 +156,21 @@ class BookKitController extends BaseController {
 
         foreach($kitsOfType as $kit)
         {
-            return $kit;
             $bookings = Booking::where('KitID', $kit->ID)
-                ->where('StartDate', '<=', $post['StartDate'])
-                ->where('EndDate', '<=', $post['EndDate'])
+                ->where(function($query) use ($post) 
+                {
+                    $range = array($post['StartDate'], $post['EndDate']);
+                    $query->whereBetween('StartDate', $range)
+                        ->orWhereBetween('EndDate', $range);
+                })
                 ->count();
+            
             if ($bookings == 0)
-                return $kitsOfType;
+            {
+                return $kit;
+            }
         }
-        return null;
+        return "";
     }
 
     public function getShadowDays()
