@@ -25,40 +25,41 @@ class HomeController extends BaseController
             $branch = Branches::find(0);
         }
         $data = DB::select('SELECT
-                              K.ID AS KitID, K.KitType, K.Name AS KitName, K.AtBranch, K.KitState, K.KitDesc, K.Specialized,  K.SpecializedName,
+                              K.ID AS KitID, K.KitType, K.Name AS KitName, K.AtBranch, K.KitState, K.BarcodeNumber, K.Specialized,  K.SpecializedName,
                               B.ID as BookingID, B.ForBranch, B.StartDate, B.EndDate, B.ShadowStartDate, B.ShadowEndDate, B.Purpose,
                               KS.StateName,
                               KT.Name AS KitTypeName, KT.TypeDescription as KitTypeDesc
                               FROM Booking AS B
                                 INNER JOIN Kits as K ON (K.ID = B.KitID)
                                   INNER JOIN KitTypes AS KT ON (KT.ID = K.KitType)
-                                INNER JOIN KitSTate AS KS ON (KS.ID = K.KitState)
-                             WHERE now() BETWEEN B.ShadowStartDate -1 AND B.ShadowEndDate
+                                  INNER JOIN KitSTate AS KS ON (KS.ID = K.KitState)
+                             WHERE now() BETWEEN DATE_ADD(B.ShadowStartDate, INTERVAL -1 DAY) AND B.ShadowEndDate
                                    AND B.ForBranch = ?
                                    AND B.ForBranch <> K.AtBranch
                             UNION
                             SELECT
-                              K.ID AS KitID, K.KitType, K.Name AS KitName, K.AtBranch, K.KitState, K.KitDesc, K.Specialized,  K.SpecializedName,
+                              K.ID AS KitID, K.KitType, K.Name AS KitName, K.AtBranch, K.KitState, K.BarcodeNumber, K.Specialized,  K.SpecializedName,
                               B.ID as BookingID, B.ForBranch, B.StartDate, B.EndDate, B.ShadowStartDate, B.ShadowEndDate, B.Purpose,
                               KS.StateName,
                               KT.Name AS KitTypeName, KT.TypeDescription as KitTypeDesc
                               FROM Booking AS B
                                 INNER JOIN Kits as K ON (K.ID = B.KitID)
                                   INNER JOIN KitTypes AS KT ON (KT.ID = K.KitType)
-                                INNER JOIN KitSTate AS KS ON (KS.ID = K.KitState)
-                             WHERE now() BETWEEN B.ShadowStartDate -1 AND B.ShadowEndDate
+                                  INNER JOIN KitSTate AS KS ON (KS.ID = K.KitState)
+                             WHERE now() BETWEEN DATE_ADD(B.ShadowStartDate, INTERVAL -1 DAY) AND B.ShadowEndDate
                                    AND K.AtBranch = ?
+                                   AND K.KitState = 1
                                    AND B.ForBranch <> K.AtBranch
                             UNION
                             SELECT
-                              K.ID AS KitID, K.KitType, K.Name AS KitName, K.AtBranch, K.KitState, K.KitDesc, K.Specialized,  K.SpecializedName,
+                              K.ID AS KitID, K.KitType, K.Name AS KitName, K.AtBranch, K.KitState, K.BarcodeNumber, K.Specialized,  K.SpecializedName,
                               "", "", "", "", "", "", "",
                               KS.StateName,
                               KT.Name AS KitTypeName, KT.TypeDescription as KitTypeDesc
                               FROM Kits AS K
-                                LEFT JOIN Booking AS B ON (B.KitID = K.ID AND now() BETWEEN B.ShadowStartDate -1 AND B.ShadowEndDate)
-                                  INNER JOIN KitTypes AS KT ON (KT.ID = K.KitType)
+                                INNER JOIN KitTypes AS KT ON (KT.ID = K.KitType)
                                 INNER JOIN KitSTate AS KS ON (KS.ID = K.KitState)
+                                LEFT JOIN Booking AS B ON (B.KitID = K.ID AND now() BETWEEN DATE_ADD(B.ShadowStartDate, INTERVAL -1 DAY) AND B.ShadowEndDate)
                              WHERE  B.ID is null
                                     AND K.KitState = 1
                                     AND K.AtBranch = ?

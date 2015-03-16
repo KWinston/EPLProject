@@ -23,7 +23,7 @@ class Kits extends Eloquent
      */
     protected $hidden = array();
 
-    protected $fillable = array('KitType', 'Name', 'AtBranch', 'Available', 'KitState', 'KitDesc', 'Specialized', 'SpecializedName');
+    protected $fillable = array('KitType', 'Name', 'AtBranch', 'Available', 'KitState', 'BarcodeNumber', 'KitDesc', 'Specialized', 'SpecializedName');
 
     public static function boot()
     {

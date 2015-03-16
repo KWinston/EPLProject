@@ -1,44 +1,118 @@
 @extends('layouts.master')
 @section('head')
+<style>
+.ui-tooltip
+{
+    width:500px;
+    min-width:500px;
+}
+.ui-tooltip-content
+{
+}
+</style>
 <script type="text/javascript">
 var branchID;
 var branches;
 var inventory; // this is the inventory returned from the server.
+
+function makeBranchTooltip(branchID)
+{
+    str = "<table class='tooltip-branch'>";
+    str += "<tr>";
+    str += "<td class='tooltip-header'>Name</td>";
+    str += "<td class='tooltip-value'>" + branches[branchID].Name + "</td>";
+    str += "</tr>";
+    str += "<tr>";
+    str += "<td class='tooltip-header'>Address</td>";
+    str += "<td class='tooltip-value'>" + branches[branchID].Address + "</td>";
+    str += "</tr>";
+    str += "<tr>";
+    str += "<td class='tooltip-header'>Phone</td>";
+    str += "<td class='tooltip-value'>" + branches[branchID].PhoneNumber + "</td>";
+    str += "</tr>";
+    str += "</table>";
+    return str;
+}
 function makeKitBlock(kit, cls, selIcon)
 {
-    // K.ID AS KitID, K.KitType, K.Name AS KitName, K.AtBranch, K.KitState, K.KitDesc, K.Specialized,  K.SpecializedName,
-    // B.ID as BookingID, B.ForBranch, B.StartDate, B.EndDate, B.ShadowStartDate, B.ShadowEndDate, B.Purpose,
-    // KS.StateName,
-    // KT.Name AS KitTypeName, KT.TypeDescription as KitTypeDesc
+    var tooltipStr = "";
 
-    console.log(kit);
+    // Make The div block
     var d = $('<div>', { 'class': cls, 'id': kit.KitID});
-    d.append($('<p>', {'class': 'kit-block-icon ' + selIcon}).html(kit.KitID));
+    d.prop("data", kit.BookingID);
+    d.append($('<p>', {'class': 'kit-block-icon ' + selIcon}).html(" "));
+
     var kitName = kit.KitTypeName + " - " + kit.KitName;
     if (kit.Specialized == "1")
     {
         kitName = kitName + " + " + kit.SpecializedName;
     }
+
     var t = $('<table>');
-    t.append($('<tr>', {'class': 'kit-block-name'}).html(kitName));
-    t.append($('<tr>', {'class': 'kit-block-contents'}).html(kit.KitDesc));
-    t.append($('<tr>', {'class': 'kit-block-state'}).html(kit.StateName));
+    d.append(t);
+
+    // First row is kit name
+    t.append($('<tr>', {'class': 'kit-block-name'}).html("<b>" + kitName + "</b>"));
+    // the barcode below it.
+    t.append($('<tr>', {'class': 'kit-block-contents'}).html(kit.BarcodeNumber));
+
+    // Display the state information
+    if (kit.KitState == "1")
+    {
+        if (kit.StartDate)
+        {
+            var startDate = new Date(kit.StartDate);
+            var dateOptions = {weekday: "short",  month:"short", day:"numeric" };
+            t.append($('<tr>', {'class': 'kit-block-book-date'}).html("Booked For: " + startDate.toLocaleDateString("en-US", dateOptions)));
+        }
+        t.append($('<tr>', {'class': 'kit-block-state'}).append($("<td>").html("Located at: " + branches[kit.AtBranch].BranchID )));
+    }
+    else if (kit.KitState == "2")
+    {
+        t.append($('<tr>', {'class': 'kit-block-state'}).append($("<td>").html("In Transit")));
+    }
+
+    // Add action button
     if (selIcon == "sign-out")
     {
-        t.append($('<tr>', {'class': 'kit-block-activity'}).html("Shipping to " + branches[kit.ForBranch].BranchID));
+        // t.append($('<tr>', {'class': 'kit-shipping kit-block-activity', 'id': kit.KitID})
+        d.append($("<div>", {'class': 'kit-shipping kit-block-activity', 'id': kit.KitID}).html("Ship Kit to<br/>" + branches[kit.ForBranch].BranchID));
+        d.addClass("kit-shipping");
+        tooltipStr = makeBranchTooltip(kit.ForBranch);
     }
-    if (selIcon == "sign-in")
+    else if (selIcon == "sign-in")
     {
-        t.append($('<tr>', {'class': 'kit-block-activity'}).html("Receiving from " + branches[kit.AtBranch].BranchID));
+        d.append($('<div>', {'class': 'kit-receiving kit-block-activity', 'id': kit.KitID}).html("Receiving Kit"));
+        d.addClass("kit-receiving");
+        tooltipStr = makeBranchTooltip(kit.AtBranch);
     }
-    d.append(t);
+    else
+    {
+        d.append($('<div>', {'class': 'kit-booking kit-block-activity', 'id': kit.KitID}).html("Create Booking"));
+        d.addClass("kit-booking");
+    }
+
+    // If we are in the shadow date, then we are priority flashing the kit.
+    var shadowStart = new Date(kit.ShadowStartDate);
+    var now = new Date();
+    if (now >= shadowStart)
+    {
+        d.addClass('pulse');
+    }
+
+    d.prop("title", tooltipStr);
     return d;
 }
 function loadInventory()
 {
+    // Erase the storage rows.
+    $(".kit-blocks.inventory").html("");
+    $(".kit-blocks.pending").html("");
+
     for (var i in inventory)
     {
         var kit = inventory[i];
+
         var sel = ".kit-blocks.inventory";
         var selClass = 'kit-block storage';
         var selIcon = 'on-self';
@@ -56,7 +130,6 @@ function loadInventory()
                     sel = ".kit-blocks.inventory";
                 }
             }
-            console.info("at " + kit.AtBranch + "  " + branchID);
             if (kit.AtBranch == branchID)
             {
                 selIcon = 'sign-out';
@@ -71,9 +144,25 @@ function loadInventory()
         {
             // inventory
         }
-        console.log("Sel: " +sel + "   SELClass: " + selClass + "  Sel Icon" + selIcon);
         $(sel).append(makeKitBlock(kit, selClass, selIcon));
     }
+}
+function doShipping()
+{
+    console.log("ship IT! " + this.data);
+    url = "{{ route('ship_kit.findKit', array(':BOOKINGID')) }}";
+    window.location = url.replace(':BOOKINGID', this.data);
+}
+function doReceiving()
+{
+    console.log("Receive IT! " + this.data);
+    url = "{{ route('recieve_kit.findKit', array(':BOOKINGID')) }}";
+    window.location = url.replace(':BOOKINGID', this.data);
+}
+function doBooking()
+{
+    console.log("Receive IT! " + this.id);
+    window.location = "{{ route('book_kit.index', array('selected_id'=>'KITID')) }}".replace('KITID', this.id);
 }
 </script>
 @stop
@@ -89,12 +178,8 @@ function loadInventory()
             <th>Branch Inventory</th>
         </tr>
         <tr>
-            <td class="pending right-seperator">
-                <div class="kit-blocks pending"></div>
-            </td>
-            <td class="inventory">
-                <div class="kit-blocks inventory"></div>
-            </td>
+            <td class="kit-blocks pending right-seperator"></td>
+            <td class="kit-blocks inventory"></td>
         </tr>
     </table>
 
@@ -113,6 +198,21 @@ $(function()
         console.log(data);
         inventory = data.data;
         loadInventory();
+        $("div.kit-block-activity.kit-shipping").button();
+        $("div.kit-block-activity.kit-receiving").button();
+        $("div.kit-block-activity.kit-booking").button();
+        $("div.kit-shipping").click(doShipping);
+        $("div.kit-receiving").click(doReceiving);
+        $("div.kit-booking").click(doBooking);
+
+        $(".kit-block.pulse").pulse({
+            'background-color':'rgb(252, 133, 133)',
+        },
+        {
+            duration : 3250,
+            pulses   : -1,
+            interval : 1500
+        });
     });
 
 });

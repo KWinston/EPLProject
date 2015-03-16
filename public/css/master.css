@@ -274,9 +274,9 @@ input.log-filter
     border: 5px solid black;
     padding-left: 10px;
     font-size: 20px;
-    /* width:30%; */
-    /* min-width: 30%; */
-    height:15%;
+    width: 513px;
+    min-width: 30% !important;
+    /* height:15%; */
     display: inline-flex;
     cursor: pointer;
     overflow: auto;
@@ -285,7 +285,7 @@ input.log-filter
 {
     min-height: 64px;
     min-width: 64px;
-    background-image:url("images/sign-in.png");
+    background-image: url("images/login.png");
     background-repeat: no-repeat;
     background-size: contain;
 }
@@ -293,7 +293,7 @@ input.log-filter
 {
     min-height: 64px;
     min-width: 64px;
-    background-image: url("images/sign-out.png");
+    background-image: url("images/logout.png");
     background-size: contain;
     background-repeat: no-repeat;
 }
@@ -308,16 +308,42 @@ input.log-filter
 .kit-block.pending
 {
     width: 96%;
+}
+div.kit-block table
+{
+    padding-left: 10px;
 
+    width: 59%;
 }
 .kit-block.inventory
 {
 }
 .kit-block.storage
 {
-    width: 45%;
+    /* width: 50%; */
     margin-right: 6px;
+    background-color: gainsboro;
+    max-width: 45%;
 }
+div.kit-block-activity
+{
+    float: right;
+
+    width: 28%;
+    right: -6px;
+    position: relative;
+    text-align: center;
+    vertical-align: middle;
+}
+.kit-block.kit-shipping
+{
+    background-color: lightgreen;
+}
+.kit-block.kit-receiving
+{
+    background-color: lightblue;
+}
+
 .kit-block-icon
 {
 
@@ -332,6 +358,23 @@ input.log-filter
 
 }
 .kit-block-state
+{
+
+}
+table.tooltip-branch
+{
+    width: 100%;
+}
+table.tooltip-branch tr:nth-child(even)
+{
+    background: lightgrey;
+}
+.tooltip-branch td.tooltip-header
+{
+    text-align: right;
+    padding-right: 10px;
+}
+.tooltip-branch td.tooltip-value
 {
 
 }
