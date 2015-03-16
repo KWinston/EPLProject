@@ -5,23 +5,16 @@
 
 @section('content')
 
-<script>
-/*
-    function confirmReceive(event) {
-        
-    }
-*/
-    $(function() {
-        $("#filter").click(function(){
-        alert('clicked!');
+<script type="text/javascript">
+    function confirmReceive(theKitID, theForBranch) {
+
         var json = {
-            'ID' : event.bookID,
-            'ForBranch' : parseInt(event.kitForBranch, 10),
-            'AtBranch'   : event.ForBranch,
-            'KitID'     : parseInt(event.kitId, 10)
+            'KitID'     : parseInt(theKitID, 10),
+            'ForBranch' : parseInt(theForBranch, 10)
         };
-    });
-});
+        alert(JSON.stringify(json));
+        $.post("{{ URL::route('recieve_kit.confirmReceive') }}", json)
+    };
 </script>
 
 <div>
@@ -41,15 +34,15 @@
     </tr>
     @foreach ($receiveKits as $receiveKit)
     <tr class = "receive-table-row">
-        <td class = "receive-table-bookid"> {{$receiveKit->ID}}</td>
+        <td class = "receive-table-bookid"> {{$receiveKit->BookingID}}</td>
         <td class = "receive-table-kittype"> {{$receiveKit->Name}}</td> 
         <td class = "receive-table-kitdesc" title="<p>{{$receiveKit->KitDesc}}</p>"> {{ HTML::image('images/viewdetails.gif') }}</td>
-        <td class = "receive-table-location"> {{$receiveKit->BName}}</td>
+        <td class = "receive-table-location" title="<p>{{$receiveKit->KitDesc}}</p>"> {{$receiveKit->BName}}</td>
         <td class = "receive-table-prevdests">{{$receiveKit->KitID}}</td>
         <td class = "receive-table-startdate"> {{ date("D d-F-Y",strtotime($receiveKit->StartDate)) }}</td>
         <td class = "receive-table-enddate"> {{ date("D d-F-Y",strtotime($receiveKit->EndDate)) }}</td>
         <td class = "receive-table-kitstatus"> {{$receiveKit->StateName}}</td>
-        <td class = "receive-table-confirm"><input type="button" id="filter" name="filter" value="Confirm Kit #{{$receiveKit->KitID}} Received" /></td>
+        <td class = "receive-table-confirm"><input type="button" onclick="confirmReceive('{{ $receiveKit->KitID }}' , '{{ Session::get('branch') }} ')" value="Confirm Kit #{{$receiveKit->KitID}} Received" /></td>
         </tr>
     @endforeach
     </table>        

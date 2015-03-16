@@ -24,7 +24,8 @@ class RecieveKitController extends BaseController {
             })
                         
             ->where('Booking.ForBranch', $index['branch'])
-            ->select('Booking.*', 'BookingDetails.*', 'Kits.AtBranch', 'Kits.KitState', 'Kits.KitDesc', 'KitState.StateName', 'KitTypes.Name', 'Branches.Name As BName')
+            ->select('Booking.*', 'BookingDetails.*', 'Kits.AtBranch', 'Kits.KitState', 'Kits.KitDesc',
+                'KitState.StateName', 'KitTypes.Name', 'Branches.Name As BName')
             ->orderBy('Booking.StartDate')
             ->orderBy('BookingID')
             ->get();
@@ -34,10 +35,11 @@ class RecieveKitController extends BaseController {
         $pagedData = array_slice($receiveKits, $currentPage * $perPage, $perPage);
         $data = Paginator::make($pagedData, count($receiveKits), $perPage);
         
-		return CheckIfAuthenticated('members.receivekit',[ 'branch_name' => $branch->Name, 'selected_menu' => 'main-menu-receive', 'receiveKits' => $data], 'home.index', [], false);
+		return CheckIfAuthenticated('members.receivekit',[ 'branch_name' => $branch->Name,
+                'selected_menu' => 'main-menu-receive', 'receiveKits' => $data], 'home.index', [], false);
 	}
 
-    public function findKit($theKitID)
+    public function findKit($bookingID)
     {
         $index = Session::All();
         $post = Input::except('ID');
@@ -58,9 +60,10 @@ class RecieveKitController extends BaseController {
             })
                         
             ->where('Booking.ForBranch', $index['branch'])
-            ->where('Booking.KitID', $theKitID)
-            ->select('Booking.*', 'BookingDetails.*', 'Kits.AtBranch', 'Kits.KitState', 'Kits.KitDesc', 'KitState.StateName', 'KitTypes.Name', 'Branches.Name As BName')
-            ->orderBy('Booking.StartDate')
+            ->where('Booking.ID', $bookingID)
+            ->select('Booking.ID As BookingID', 'Booking.StartDate', 'Booking.EndDate', 'Booking.KitID As KitID',
+                'BookingDetails.*', 'Kits.AtBranch', 'Kits.KitState', 'Kits.KitDesc', 'KitState.StateName',
+                'KitTypes.Name', 'Branches.Name As BName', 'Branches.ID As BranchesID')
             ->get();
 
         $perPage = 5;
@@ -68,7 +71,8 @@ class RecieveKitController extends BaseController {
         $pagedData = array_slice($receiveKits, $currentPage * $perPage, $perPage);
         $data = Paginator::make($pagedData, count($receiveKits), $perPage);
 
-        return CheckIfAuthenticated('members.receivekit',[ 'branch_name' => $branch->Name, 'selected_menu' => 'main-menu-receive', 'receiveKits' => $data], 'home.index', [], false);
+        return CheckIfAuthenticated('members.receivekit',[ 'branch_name' => $branch->Name,
+                'selected_menu' => 'main-menu-receive', 'receiveKits' => $data], 'home.index', [], false);
     }
 
     public function confirmReceive()
@@ -79,12 +83,11 @@ class RecieveKitController extends BaseController {
         $post = Input::except('ID');
         $index = Input::get('ID');
 
-        $stat = DB::table('Booking')
-            ->where('id', $index)
+        $stat = DB::table('Kits')
+            ->where('id', $post['KitID'])
             ->update(array(
-                'KitID' => $post['KitID'],
-                'AtBranch' => $post['AtBranch'],
-                'KitStatus' => $post['KitStatus'],
+                'AtBranch' => $post['ForBranch'],
+                'KitState' => '1',
             ));
 
         return Response::json(array(
