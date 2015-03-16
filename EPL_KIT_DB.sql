@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:8889
--- Generation Time: Mar 16, 2015 at 04:17 PM
+-- Generation Time: Mar 16, 2015 at 09:07 PM
 -- Server version: 5.5.38-log
 -- PHP Version: 5.6.2
 
@@ -40,7 +40,7 @@ CREATE TABLE `Booking` (
   `Purpose` tinytext,
   `updated_at` varchar(45) DEFAULT NULL,
   `created_at` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
 --
 -- Truncate table before insert `Booking`
@@ -52,14 +52,14 @@ TRUNCATE TABLE `Booking`;
 --
 
 INSERT INTO `Booking` (`ID`, `KitID`, `ForBranch`, `StartDate`, `EndDate`, `ShadowStartDate`, `ShadowEndDate`, `Purpose`, `updated_at`, `created_at`) VALUES
-(14, 10, 3, '2015-03-13 00:00:00', '2015-03-16 00:00:00', '2015-03-12 00:00:00', '2015-03-17 00:00:00', 'aaa', '2015-03-02 17:59:56', '2015-03-02 17:59:56'),
+(14, 10, 3, '2015-03-18 00:00:00', '2015-03-21 00:00:00', '2015-03-17 00:00:00', '2015-03-22 00:00:00', 'aaa', '2015-03-02 17:59:56', '2015-03-02 17:59:56'),
 (15, 16, 3, '2015-03-05 00:00:00', '2015-03-09 00:00:00', '2015-03-04 00:00:00', '2015-03-10 00:00:00', 'Kit #3', '2015-03-02 18:07:06', '2015-03-02 18:07:06'),
 (16, 16, 3, '2015-03-27 00:00:00', '2015-03-30 00:00:00', '2015-03-26 00:00:00', '2015-03-31 00:00:00', 'Kit #3', '2015-03-02 18:13:10', '2015-03-02 18:13:10'),
 (17, 2, 3, '2015-03-12 00:00:00', '2015-03-13 00:00:00', '2015-03-11 00:00:00', '2015-03-14 00:00:00', 'Kit #2', '2015-03-02 18:19:51', '2015-03-02 18:19:51'),
 (18, 16, 3, '2015-03-19 00:00:00', '2015-03-20 00:00:00', '2015-03-18 00:00:00', '2015-03-21 00:00:00', 'Kit #3', '2015-03-02 19:38:49', '2015-03-02 19:38:49'),
 (19, 1, 3, '2015-03-13 00:00:00', '2015-03-20 00:00:00', '2015-03-10 00:00:00', '2015-03-21 00:00:00', 'Kit #1 + ESL Tutor', '2015-03-02 19:42:29', '2015-03-02 19:42:29'),
 (21, 10, 0, '2015-03-05 00:00:00', '2015-03-06 00:00:00', '2015-03-04 00:00:00', '2015-03-07 00:00:00', 'aaa', '2015-03-11 20:02:37', '2015-03-11 20:02:37'),
-(23, 10, 0, '2015-03-14 00:00:00', '0000-00-00 00:00:00', '2015-03-13 00:00:00', '0000-00-00 00:00:00', 'aaa', '2015-03-15 13:46:42', '2015-03-15 13:46:42'),
+(23, 10, 0, '2015-03-14 00:00:00', '2015-03-15 00:00:00', '2015-03-13 00:00:00', '2015-03-16 00:00:00', 'aaa', '2015-03-15 13:46:42', '2015-03-15 13:46:42'),
 (25, 13, 3, '2015-03-16 00:00:00', '2015-03-18 00:00:00', '2015-03-13 00:00:00', '2015-03-19 00:00:00', 'testing', '2015-03-15 13:46:42', '2015-03-15 13:46:42'),
 (26, 36, 0, '2015-03-16 00:00:00', '2015-03-18 00:00:00', '2015-03-13 00:00:00', '2015-03-19 00:00:00', 'leaving', '2015-03-15 13:46:42', NULL);
 
@@ -246,9 +246,9 @@ INSERT INTO `Kits` (`ID`, `KitType`, `Name`, `AtBranch`, `Available`, `KitState`
 (1, 1, 'Kit #1', 1, 1, 1, 'A kit of 6 ipad 2''s with ESL programs', '31221', 1, 'ESL Tutor', '2015-03-01 12:30:10', '2015-03-01 12:30:10'),
 (2, 1, 'Kit #2 the best', 3, 1, 2, 'A Kit of 6 Ipad ''2ss', '31221', 0, '', '2015-03-06 21:04:05', '2015-03-01 12:30:10'),
 (3, 2, 'Kit #1', 3, 1, 1, '6Laptops with 15" screens', '31221', 0, NULL, '2015-03-01 12:30:10', '2015-03-01 12:30:10'),
-(10, 3, 'aaa', 0, 0, 1, 'Place a description of the contents of this kit here. ', '31221', 0, NULL, '2015-03-01 13:17:51', '2015-02-28 17:33:51'),
+(10, 3, 'aaa', 0, 0, 1, 'Place a description of the contents of this kit here. ', '31221678901234', 0, NULL, '2015-03-01 13:17:51', '2015-02-28 17:33:51'),
 (12, 2, 'Kit # 1234', 7, 1, 1, 'This is the alst Frigging kit i am going to make, what are they doing with them? feeding them to germelins in the stacks?', '31221', 1, 'laced with cyanide. ', '2015-03-01 13:59:09', '2015-02-28 17:39:31'),
-(13, 2, 'HP Lap', 7, 1, 1, 'This is a sample lap for testing laptops. ', '31221', 1, 'aa', '2015-03-01 14:09:02', '2015-02-28 17:40:49'),
+(13, 2, 'HP Lap', 7, 1, 2, 'This is a sample lap for testing laptops. ', '31221', 1, 'aa', '2015-03-01 14:09:02', '2015-02-28 17:40:49'),
 (16, 1, 'Kit #3 ', 0, 1, 1, 'eight Ipad 2 second generation. ', '31221', 0, '', '2015-03-06 21:20:27', '2015-03-01 14:14:21'),
 (36, 1, 'Ipad Pro', 3, 1, 1, 'this is the descriptiona', '31221', 1, 'EASL', '2015-03-06 19:38:08', '2015-03-01 15:02:12'),
 (47, 1, 'What am i thinking?', 0, 0, 1, 'Place a description of the contents of this kit here. ', '31221', 0, '', '2015-03-06 21:26:59', '2015-03-06 21:26:45'),
@@ -452,7 +452,7 @@ CREATE TABLE `users` (
   `email` tinytext,
   `home_branch` int(11) DEFAULT '0',
   `is_admin` tinyint(1) NOT NULL DEFAULT '0',
-  `rememberToken` text,
+  `remember_token` text,
   `updated_at` tinytext NOT NULL,
   `created_at` tinytext NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
@@ -466,7 +466,7 @@ TRUNCATE TABLE `users`;
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `realname`, `email`, `home_branch`, `is_admin`, `rememberToken`, `updated_at`, `created_at`) VALUES
+INSERT INTO `users` (`id`, `username`, `password`, `realname`, `email`, `home_branch`, `is_admin`, `remember_token`, `updated_at`, `created_at`) VALUES
 (1, 'user', '$2y$10$yKhkFzxkvhrgMY7DCXCdAOA2lNIIMDEYw4qnKCTxnpPXplZV7KzgG', 'User', NULL, 3, 1, NULL, '', ''),
 (2, 'user2', '$2y$10$yKhkFzxkvhrgMY7DCXCdAOA2lNIIMDEYw4qnKCTxnpPXplZV7KzgG', 'User 2', '', 0, 0, NULL, '2015-03-09 19:30:23', ''),
 (3, 'user3', '$2y$10$yKhkFzxkvhrgMY7DCXCdAOA2lNIIMDEYw4qnKCTxnpPXplZV7KzgG', 'Users 3', 'adadaa', 0, 0, NULL, '2015-03-09 23:01:42', '');
@@ -549,7 +549,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `Booking`
 --
 ALTER TABLE `Booking`
-MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=27;
+MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=32;
 --
 -- AUTO_INCREMENT for table `BookingDetails`
 --
