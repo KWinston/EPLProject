@@ -261,6 +261,11 @@
                         </td>
                     </tr>
                     <tr>
+                        <td> <label for="BarcodeNumber">Bar Code:</label> </td>
+                        <td> <input class="kit-data form-singleline-text" name="BarcodeNumber" type="text" value="" id="BarcodeNumber"> </td>
+                    </tr>
+
+                    <tr>
                         <td> <label for="KitType">Kit Type:</label> </td>
                         <td> <select class="kit-data form-select" id="KitType" name="KitType">
                             @foreach($kitTypes as $kt)
