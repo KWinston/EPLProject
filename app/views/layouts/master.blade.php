@@ -51,12 +51,6 @@
 
                 @if(Auth::check())
                     <div class="option right">
-                        <a href="#" class="slideout-menu-toggle">
-                            <i class="fa fa-bars"></i>NOTIFICATIONS
-                        </a>
-                    </div>
-
-                    <div class="option right">
                         BRANCH&#58;
                         <select data-placeholder="Branch" id="branchMenu"
                             class="chosen-select branch-select" tabindex="2">

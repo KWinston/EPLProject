@@ -47,13 +47,13 @@
     var getKitRepeater = null;  // interval timer
 
     function homeMenuCallback(kit) {
-        console.log(kit);
         if(kit == null) {
             $('#book_kit').prop('disabled', true);
         }
         else {
             $('#current_kit').text("Selected Kit is: " + kit.text);
             $('#book_kit').prop('disabled', false);      
+            
             setBookingKit(kit);
 
             getKitBookings(kit);
@@ -64,27 +64,27 @@
 
     function getKitBookings(kit) {
         if (RegExp('kit', 'i').test(kit.type)) {
-                    json = { 'ID' : kit.KitID };
-                    $.post("{{ URL::route('book_kit.get_kit_bookings') }}", json)
-                        .success(function(resp){
-                            addCalendarKits(resp, '{{ Auth::id(); }}');
-                        })
-                       .fail(function(){
-                            console.log("error while getting kit bookings");
-                        });
-                }
-                else {
-                    json = { 'Type' : kit.KitTypeID };
-                    $.post("{{ URL::route('book_kit.get_type_bookings') }}", json)
-                        .success(function(resp) {
-                            //console.log(resp);
-                            var kitOverlaps = compareOverlapKitTypeBookings(resp);
-                            addCalendarKits(kitOverlaps);
-                        })
-                       .fail(function(){
-                            console.log("error while getting kit type bookings");
-                        });
-                }
+            json = { 'ID' : kit.KitID };
+            $.post("{{ URL::route('book_kit.get_kit_bookings') }}", json)
+                .success(function(resp){
+                    addCalendarKits(resp, '{{ Auth::id(); }}');
+                })
+               .fail(function(){
+                    console.log("error while getting kit bookings");
+                });
+        }
+        else {
+            json = { 'Type' : kit.KitTypeID };
+            $.post("{{ URL::route('book_kit.get_type_bookings') }}", json)
+                .success(function(resp) {
+                    //console.log(resp);
+                    var kitOverlaps = compareOverlapKitTypeBookings(resp);
+                    addCalendarKits(kitOverlaps);
+                })
+               .fail(function(){
+                    console.log("error while getting kit type bookings");
+                });
+        }
     }
 
     function setBookingFeedback(method) {
@@ -101,7 +101,7 @@
         var json = {
             'StartDate' : startBooking,
             'EndDate'   : endBooking,
-            'Notifees'  : event.kitRecipients,
+            'Notifees'  : event.KitRecipients,
             'ShadowStartDate' : event.start.format('YYYY-MM-DD'),
             'ShadowEndDate'   : event.end.format('YYYY-MM-DD'),
             'ForBranch' : parseInt(event.ForBranch, 10),
@@ -127,7 +127,7 @@
     function updateBooking(event, successCallback, failureCallback) {
         var startBooking = moment(event.start).add(1, 'd').format('YYYY-MM-DD');
         var endBooking = moment(event.end).subtract(1, 'd').format('YYYY-MM-DD');
-
+        console.log(event);
         var json = {
             'ID' : event.BookID,
             'StartDate' : startBooking,
@@ -136,8 +136,11 @@
             'ShadowEndDate'   : event.end.format('YYYY-MM-DD'),
             'ForBranch' : parseInt(event.ForBranch, 10),
             'Purpose'   : event.text,
-            'KitID'     : parseInt(event.KitID, 10)
+            'KitID'     : parseInt(event.KitID, 10),
+            'Notifees'  : event.KitRecipients
         };
+        console.log(json);
+
         $.post("{{ URL::route('book_kit.update_booking') }}", json)
             .success(function(resp){
                 setBookingFeedback('Updated');
@@ -213,8 +216,8 @@
     function compareOverlapKitTypeBookings(bookings) {
         var bookingsByID = {};
         for (var index in bookings) {
-            var start = new Date(bookings[index].ShadowStartDate).setHours(0);
-            var end = new Date(bookings[index].ShadowEndDate).setHours(0);
+            var start = new Date(bookings[index].ShadowStartDate);
+            var end = new Date(bookings[index].ShadowEndDate);
 
             var range = getDates(start, end);
 
@@ -248,6 +251,8 @@
             }
         }
 
+        console.log(intersectTypes);
+
         var ranges = [];
         var lastIndex = 0;
         for (var i = 0; i < intersectTypes.length - 1; i++) {
@@ -256,16 +261,19 @@
 
             if (Math.abs(prev.diff(next, 'd')) > 1) {
                 ranges.push({
-                    'start': moment(intersectTypes[lastIndex]), 
-                    'end'  : moment(intersectTypes[i])
+                    'start': moment(intersectTypes[lastIndex] + " 00:00:00"), 
+                    'end'  : moment(intersectTypes[i] + " 00:00:00").add(1, 'd')
                 });
                 lastIndex = i + 1;
             }   
         }
-        ranges.push({
-            'start': moment(intersectTypes[lastIndex]), 
-            'end'  : moment(intersectTypes[intersectTypes.length - 1])
-        });
+        if (lastIndex < intersectTypes.length - 1)
+        {
+            ranges.push({
+                'start': moment(intersectTypes[lastIndex] + " 00:00:00"), 
+                'end'  : moment(intersectTypes[intersectTypes.length - 1] + " 00:00:00").add(1, 'd')
+            });
+        }
 
         var kitTypeBookings = ranges.map(function(index) {
             return {

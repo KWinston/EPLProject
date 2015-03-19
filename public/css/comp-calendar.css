@@ -36,58 +36,62 @@
 }
 
 /*********** booking dialog *************************/
-#branch_booking_chosen
+#branch_insert_chosen
 {
 	width: 250px !important;
 }
 
-#booking_dialog p
+#branch_update_chosen
+{
+	width: 250px !important;
+}
+
+.booking-dialog p
 {
 	font-size: 12px;
 }
 
-#booking_dialog label
+.booking-dialog label
 {
 	margin: 2px 0px;
 }
 
-#booking_dialog .days
+.booking-dialog .days
 {
 	font-size: 16px;
 	display: inline-block;
 }
 
-#booking_dialog table td
+.booking-dialog table td
 {
 	border-bottom: 1px solid #000;
 	padding: 5px;
 }
 
-#booking_dialog table tr:first-child td
+.booking-dialog table tr:first-child td
 {
 	border-top: 1px solid #000;
 }
 
-#booking_dialog #booking_message
+.booking-dialog #booking_message
 {
 	color: red;
 }
 /*********** booking dialog *************************/
 
-#booking_users_options
+.booking-users-options
 {
 	width: 85%;
 	height: 33px;
 	margin: 0px 0px;
 }
-/*********** booking dialog *************************/
 
-#booking_add_user
+.booking-users-button
 {
 	float: right;
 }
 
-#booking_users
+.booking-users
 {
 	border: 1px solid #000;
 	background-color: #ddd;
