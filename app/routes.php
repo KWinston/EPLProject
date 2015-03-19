@@ -126,7 +126,7 @@ Route::get('recieve_kit.findKit.{theKitID}', array(
 	'uses' => 'RecieveKitController@findKit'
 ));
 
-Route::get('recieve_kit.confirmReceive', array(
+Route::post('recieve_kit.confirmReceive', array(
 	'as'   => 'recieve_kit.confirmReceive',
 	'uses' => 'RecieveKitController@confirmReceive'
 ));
