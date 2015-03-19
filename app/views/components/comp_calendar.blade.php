@@ -700,8 +700,14 @@
 		    				$(this).remove();
 		    			});
 			    		event.KitRecipients = recipients;
-			    		console.log(event);
-			    		updateKitDB(event);
+			    		updateKitDB(event, function(){
+			    			var kit = oldKitObjects.filter(function(e){
+			    				return parseInt(e.BookID, 10) === parseInt(event.BookID, 10);
+			    			});
+			    			kit.KitRecipients = recipients;
+			    			$('#booking_users_update_options').val('');
+			    		});
+			    	
 			    		$(this).dialog("close");
 			    	}
 			    },
