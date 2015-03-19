@@ -1,9 +1,20 @@
 @extends('layouts.master')
 @section('head')
-
+<style>
+.ui-tooltip
+{
+    width:500px;
+    min-width:500px;
+}
+</style>
 @stop
 
 @section('content')
+
+<!-- function makeBranchTooltip(branchID)
+{
+}
+ -->
 <table class="kit-status">
     <tr class="kit-status">
         <th class="kit-status kit-type">Kit Type</th>
@@ -24,7 +35,10 @@
             <td class="kit-status kit-type"></td>
         @endif
         <td class="kit-status kit-name" title="<p>{{$row->KitDescription}}<p>">{{$row->KitName}}</td>
-        <td class="kit-status branch-id" title="<p>{{$row->BranchName}}</p><br/><p>Phone: {{$row->BranchPhone}}</p>">{{$row->BranchID}}</td>
+        <td class="kit-status branch-id" title="<table class='tooltip-branch'><tr><td class='tooltip-header'>Name</td><td class='tooltip-value'> {{$row->BranchName}}</td></tr><tr>
+            <td class='tooltip-header'>Address</td><td class='tooltip-value'>{{$row->BranchAddress}}</td></tr><tr>
+            <td class='tooltip-header'>Phone</td><td class='tooltip-value'>{{$row->ForBranchPhone}}</td></tr></table>
+            ">{{$row->BranchID}}</td>
         <td class="kit-status kit-state">{{$row->KitState}}</td>
         @if(isset($row->StartDate))
             <td class="kit-status start-date" title="{{'<p>Booked By:' . $row->UserName . '</p><p>Email:' . $row->UserEmail . '</p>'}}">{{ date("D d-F-Y",strtotime($row->StartDate)) }}</td>

@@ -14,6 +14,7 @@ clASs OverviewKitCONtroller extends BaseController {
                                 B.BranchID AS BranchID,
                                 B.Name AS BranchName,
                                 B.PhoneNumber AS BranchPhone,
+                                B.EPLAddress AS BranchAddress,
                                 KS.StateName AS KitState,
                                 BK.ID AS BookingID,
                                 BK.StartDate,
