@@ -6,6 +6,7 @@
         <title>EPL Kit Manager</title>
         <style> @import url(//fonts.googleapis.com/css?family=Lato:700);</style>
         {{ HTML::style('css/master.css') }}
+        {{ HTML::style('css/help.css') }}
         {{ HTML::style('css/notifications-menu.css') }}
         {{ HTML::style('plugins/chosen_1_3_0_dropdown/chosen.css') }}
         {{ HTML::style('css/jquery-ui.css') }}
@@ -14,10 +15,32 @@
         {{ HTML::script('js/jquery-ui.js', array('type' => 'text/javascript')) }}
         {{ HTML::script('plugins/jquery.pulse.js', array('type' => 'text/javascript')) }}
 
+
+        <script type="text/javascript">
+        // Help system, this will be the code that handles all anchors within a help page.
+        var helpTopic;
+        var helpDialog;
+        function DisplayHelp(topic)
+        {
+            url = "{{ route('help.page', array('topic' => ':TOPIC')); }}";
+            $("#help-dialog").load(url.replace(':TOPIC', topic), function()
+            {
+                helpDialog.dialog("open");
+                $("#help-dialog a").click(function()
+                {
+                    DisplayHelp(this.id);
+                    return false;
+                })
+                $("td.help-index-cell #"+topic).addClass("help-selected");
+            })
+        }
+        </script>
         @yield('head')
     </head>
 
     <body>
+        <div id="help-dialog"> </div>
+
         <div class="slideout-menu">
             <h3>NOTIFICATIONS</h3>
             <a href="#" class="slideout-menu-toggle">&times;</a>
@@ -82,6 +105,9 @@
                     </div>
 
                 @endif
+                <div class="option right">
+                    <a href="#" id="help-button">HELP</a>
+                </div>
 
             </div>
         </div>
@@ -106,8 +132,10 @@
 
         <script type="text/javascript">
             @if (isset($selected_menu))
+                helpTopic = "{{$selected_menu}}";
                 $(".{{$selected_menu}}").addClass("menu-selected");
             @else
+                helpTopic = "index";
                 $(".main-menu-home").addClass("menu-selected");
             @endif
 
@@ -133,7 +161,32 @@
                     @endif
                 }
             });
-            $(function(){
+            $(function()
+            {
+                helpDialog = $("#help-dialog").dialog(
+                {
+                    autoOpen: false,
+                    // buttons: [
+                    // {
+                    //   text: "close",
+                    //   click: function()
+                    //   {
+                    //     $( this ).dialog( "close" );
+                    //   }
+                    // }],
+                    draggable: false,
+                    modal: true,
+                    height: window.innerHeight * 0.8,
+                    width: window.innerWidth * 0.8,
+                    resizable: false,
+                    title: "Help"
+
+                });
+                $("#help-button").click(function()
+                {
+                    DisplayHelp(helpTopic);
+                })
+
                 $(document).tooltip(
                 {
                     content: function ()
@@ -142,6 +195,8 @@
                     }
                 });
             });
+        @yield('master-script')
+
         </script>
 
         @yield('foot')

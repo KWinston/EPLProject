@@ -1,0 +1,86 @@
+#help-dialog.ui-dialog-content
+{
+    background-color: lightyellow;
+}
+table.help-table
+{
+    height :100%;
+    width:100%;
+}
+
+.help-selected
+{
+    background-color: chartreuse;
+}
+
+.help-table tr
+{
+    height :100%;
+    width:100%;
+    vertical-align: top;
+}
+
+.help-index-cell
+{
+    margin: 0px auto;
+    vertical-align: top;
+
+    background-color: lightyellow;
+    width: 20%;
+}
+
+.help-topic-cell
+{
+    margin: 0px auto;
+    vertical-align: top;
+
+}
+
+.help-topic-cell h1
+{
+
+    text-align: center;
+}
+
+.help-topic-cell h2
+{
+
+    color: brown;
+
+    text-align: center;
+}
+.help-topic-cell h3
+{
+
+    text-align: center;
+}
+
+.help-topic-cell table.help-definition-table
+{
+    border: 1px solid lightgray;
+
+    width: 100%;
+}
+.help-topic-cell table.help-definition-table tr
+{
+
+}
+.help-topic-cell table.help-definition-table tr:nth-child(2n-2)
+{
+    background-color: rgb(224, 224, 183);
+}
+
+.help-topic-cell table.help-definition-table th
+{
+
+}
+
+.help-topic-cell table.help-definition-table td
+{
+}
+.help-topic-cell table.help-definition-table td:nth-child(even)
+{
+    border-left: 1px solid lightgrey;
+
+    padding-left: 9px;
+}

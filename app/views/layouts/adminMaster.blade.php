@@ -18,10 +18,10 @@
                 <div class="option left admin-menu-manage-kit-types">
                     <a href="{{ route('kitTypes.index'); }}">Manage Kit Types</a>
                 </div>
-                <div class="option left admin-menu-manage-branches">
+<!--                 <div class="option left admin-menu-manage-branches">
                     <a href="{{ route('branches.index'); }}">Manage Branches</a>
                 </div>
-                <div class="option left admin-menu-manage-users">
+ -->                <div class="option left admin-menu-manage-users">
                     <a href="{{ route('users.index'); }}">Manage Users</a>
                 </div>
             </div>
@@ -36,17 +36,12 @@
     </div>
 </div>
 
-{{-- HTML::script('plugins/chosen_1_3_0_dropdown/chosen.jquery.min.js',
-    array('type' => 'text/javascript')) --}}
-
-<script type="text/javascript">
+@stop
+{{-- This will be included into the script block from the master page, allowing for externsion of the master script in order with the
+    code execution from the master layout. --}}
+@section('master-script')
     @if (isset($selected_admin_menu))
+        helpTopic = "{{$selected_admin_menu}}";
         $(".{{$selected_admin_menu}}").addClass("menu-selected");
     @endif
-
-// {{-- HTML::script('js/master.js',
-//     array('type' => 'text/javascript')) --}}
-
-</script>
-
 @stop

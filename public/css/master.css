@@ -281,7 +281,7 @@ input.log-filter
     cursor: pointer;
     overflow: auto;
 }
-.kit-block p.sign-in
+p.sign-in
 {
     min-height: 64px;
     min-width: 64px;
@@ -289,7 +289,7 @@ input.log-filter
     background-repeat: no-repeat;
     background-size: contain;
 }
-.kit-block p.sign-out
+p.sign-out
 {
     min-height: 64px;
     min-width: 64px;
@@ -297,7 +297,7 @@ input.log-filter
     background-size: contain;
     background-repeat: no-repeat;
 }
-.kit-block p.on-self
+p.on-self
 {
     height: 64px;
     width: 64px;

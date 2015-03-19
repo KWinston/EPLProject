@@ -130,3 +130,8 @@ Route::post('recieve_kit.confirmReceive', array(
 	'as'   => 'recieve_kit.confirmReceive',
 	'uses' => 'RecieveKitController@confirmReceive'
 ));
+// **************** general ********************************
+Route::get('help.page.{topic}', array(
+    'as'   => 'help.page',
+    'uses' => "HelpController@page"
+));
