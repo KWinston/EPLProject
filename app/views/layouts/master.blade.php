@@ -18,13 +18,11 @@
     </head>
 
     <body>
-        <div class="slideout-menu">
-            <h3>NOTIFICATIONS</h3>
-            <a href="#" class="slideout-menu-toggle">&times;</a>
-        </div>
-
         <div class="menu">
             <div class="options">
+                <div class="option left" >
+                    <img src="images/EPL_Logo.png" width="50" height="20" style="margin: 0px 5px;" />
+                </div>
                 <div class="option left main-menu-home">
                     <a class="main-menu" href="{{ route('home.index', array('selected_menu' => 'main-menu-home')); }}">HOME</a>
                 </div>
