@@ -12,9 +12,18 @@ class CreateBranchesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('Branches', function(Blueprint $table)
+		Schema::create('Branches', function(Blueprint $table)
 		{
-			//
+			$table->increments('ID');
+			$table->integer('BranchMangerID');
+			$table->string('BranchID',45);
+			$table->string('Name');
+			$table->string('EPLAddress');
+			$table->string('PhoneNumber');
+			$table->float('Latitude');
+			$table->float('LONGitude');
+			$table->timestamps();
+
 		});
 	}
 
@@ -25,10 +34,7 @@ class CreateBranchesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('Branches', function(Blueprint $table)
-		{
-			//
-		});
+		Schema::drop('Branches');			
 	}
 
 }

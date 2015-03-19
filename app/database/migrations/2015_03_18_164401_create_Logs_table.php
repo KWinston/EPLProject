@@ -12,9 +12,17 @@ class CreateLogsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('Logs', function(Blueprint $table)
+		Schema::create('Logs', function(Blueprint $table)
 		{
-			//
+			$table->increments('ID');
+			$table->dateTime('LogDate');
+			$table->integer('LogType');
+			$table->integer('LogKey1');
+			$table->integer('LogKey2');
+			$table->integer('LogKey3');
+			$table->integer('LogUserID');
+			$table->string('LogMessage');
+			$table->timestamps();
 		});
 	}
 
@@ -27,7 +35,7 @@ class CreateLogsTable extends Migration {
 	{
 		Schema::table('Logs', function(Blueprint $table)
 		{
-			//
+			Schema::drop('Logs');						
 		});
 	}
 

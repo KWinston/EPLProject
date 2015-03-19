@@ -12,14 +12,16 @@ class CreateBookingTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('booking', function(Blueprint $table)
+		Schema::create('Booking', function(Blueprint $table)
 		{
-			$table->increments('id');
+			$table->increments('ID');
 			$table->integer('KitID');
 			$table->integer('ForBranch');
+			$table->dateTime('StartDate');
+			$table->dateTime('EndDate');
 			$table->dateTime('ShadowStartDate');
 			$table->dateTime('ShadowEndDate');
-			$table->mediumText('Purpose');
+			$table->string('Purpose');
 			$table->dateTime('updated_at');
 			$table->dateTime('created_at');
 		});
@@ -32,7 +34,7 @@ class CreateBookingTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('booking');
+		Schema::drop('Booking');
 	}
 
 }

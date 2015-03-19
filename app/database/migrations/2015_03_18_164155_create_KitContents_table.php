@@ -12,9 +12,14 @@ class CreateKitContentsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('KitContents', function(Blueprint $table)
+		Schema::create('KitContents', function(Blueprint $table)
 		{
-			//
+			$table->increments('ID');
+			$table->integer('KitID');
+			$table->string('SerialNumber');
+			$table->tinyInteger('Damaged');
+			$table->tinyInteger('Missing');
+			$table->timestamps();
 		});
 	}
 
@@ -25,10 +30,7 @@ class CreateKitContentsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('KitContents', function(Blueprint $table)
-		{
-			//
-		});
+		Schema::drop('KitContents');			
 	}
 
 }

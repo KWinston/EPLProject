@@ -12,9 +12,19 @@ class CreateKitsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('Kits', function(Blueprint $table)
+		Schema::create('Kits', function(Blueprint $table)
 		{
-			//
+			$table->increments('ID');
+			$table->integer('KitType');
+			$table->string('Name');
+			$table->integer('AtBranch');
+			$table->tinyInteger('Available');
+			$table->integer('KitState');
+			$table->string('KitDesc');
+			$table->string('BarcodeNumber',45);
+			$table->tinyInteger('Specialized');
+			$table->string('SpecializedName');
+			$table->timestamps();
 		});
 	}
 
@@ -25,10 +35,7 @@ class CreateKitsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('Kits', function(Blueprint $table)
-		{
-			//
-		});
+		Schema::drop('Kits');			
 	}
 
 }

@@ -12,9 +12,12 @@ class CreateKitTypesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('KitTypes', function(Blueprint $table)
+		Schema::create('KitTypes', function(Blueprint $table)
 		{
-			//
+			$table->increments('ID');
+			$table->string('Name');
+			$table->string('TypeDescription');
+			$table->timestamps();
 		});
 	}
 
@@ -27,7 +30,7 @@ class CreateKitTypesTable extends Migration {
 	{
 		Schema::table('KitTypes', function(Blueprint $table)
 		{
-			//
+			Schema::drop('KitTypes');			
 		});
 	}
 

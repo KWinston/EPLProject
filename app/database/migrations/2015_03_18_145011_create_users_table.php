@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration {
 			$table->string('email')->unique();
 			$table->string('home_branch');
 			$table->tinyInteger('is_admin');
+			$table->string('remember_token');
 			$table->timestamps();
 		});
 	}
