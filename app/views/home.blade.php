@@ -40,7 +40,7 @@ function makeKitBlock(kit, cls, selIcon)
     // Make The div block
     var d = $('<div>', { 'class': cls, 'id': kit.KitID});
     d.prop("data", kit.BookingID);
-    d.append($('<p>', {'class': 'kit-block-icon ' + selIcon}).html(" "));
+    d.append($('<p>', {'class': 'kit-block-icon ' + selIcon, title: '__KIT_DETAIL__'+kit.KitID}).html(" "));
 
     var kitName = kit.KitTypeName + " - " + kit.KitName;
     if (kit.Specialized == "1")

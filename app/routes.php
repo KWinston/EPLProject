@@ -80,13 +80,18 @@ Route::post('book_kit.delete_booking', array(
 	'uses' => "BookKitController@deleteBooking"
 ));
 
-// **************** general ********************************
+// ********** Kit Contents ********************************
 Route::get('kit_contents.contents.{KitID}', array(
     'as'   => 'kit_contents.contents',
     'uses' => "KitContentsController@contents"
 ));
+// ****************** Kits ********************************
+Route::get('kits.kitDetails.{KitID}', array(
+    'as'   => 'kits.kitDetails',
+    'uses' => "KitsController@kitDetails"
+));
 
-// **************** general ********************************
+// ************** Master Page *****************************
 
 Route::post('master.select_branch', array(
 	'as'   => 'master.select_branch',
