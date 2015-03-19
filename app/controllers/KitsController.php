@@ -100,6 +100,53 @@ class KitsController extends BaseController
         Kits::destroy($kitID);
     }
 
+    public function kitDetails($kitID)
+    {
+        $kit = Kits::findOrFail($kitID);
+        $bookingIDs = DB::select( "(SELECT ID
+                                    FROM Booking AS B
+                                   WHERE B.KitID = ?
+                                         AND B.EndDate < now()
+                                   LIMIT 3
+                                 )
+                                 UNION
+                                 (
+                                  SELECT ID
+                                    FROM Booking AS B
+                                   WHERE B.KitID = ?
+                                         AND B.EndDate >= now()
+                                   LIMIT 3
+                                )
+                               ", array($kitID, $kitID));
+
+        $ids = array();
+        foreach($bookingIDs as $id)
+        {
+            array_unshift($ids, $id->ID);
+        }
+        $bookings = Booking::whereIn("ID", $ids)
+        // ->select(DB::raw("EndDate > now() as BookingAfter"),
+        //          'KitID',
+        //          'ForBranch',
+        //          'StartDate',
+        //          'EndDate',
+        //          'ShadowStartDate',
+        //          'ShadowEndDate',
+        //          'Purpose'
+        //          )
+        ->get();
+        // print dd($bookings->toarray());
+        $logs = DB::select( "SELECT L.LogType, L.LogDate, KC.Name, KC. SerialNumber, L.LogMessage
+                               FROM Logs AS L
+                                 INNER JOIN Kits as K ON (K.ID = L.LogKey2)
+                                   INNER JOIN KitContents as KC ON (KC.KitID = L.LogKey2 AND KC.ID = L.LogKey3)
+                              WHERE K.ID = ?
+                                    AND L.LogType in (1,2)
+                              ORDER BY LogDate DESC
+                            ", array($kitID));
+
+        return View::make("kit.kitDetails", ['kit' => $kit, 'bookings' => $bookings, 'logs' => $logs]);
+    }
     // ---------------------------------------------------------------------------------------------------
     // Create a new kit.
     public function create()
@@ -118,6 +165,8 @@ class KitsController extends BaseController
     }
 
 
+    // ---------------------------------------------------------------------------------------------------
+    // Create a record sutible for adding to Jstree.
     protected function makeJTreeKitRecord($kit)
     {
         $key = 'type_' . $kit->KitType;
