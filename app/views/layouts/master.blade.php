@@ -39,17 +39,13 @@
     </head>
 
     <body>
-        <div id="help-dialog"> </div>
-
-        <div class="slideout-menu">
-            <h3>NOTIFICATIONS</h3>
-            <a href="#" class="slideout-menu-toggle">&times;</a>
-        </div>
+        <div id="help-dialog"></div>
 
         <div class="menu">
             <div class="options">
-                <div class="option left" >
-                    <img src="images/EPL_Logo.png" width="50" height="20" style="margin: 0px 5px;" />
+                <div class="option left" style="width: 50px;
+                    background: url('images/EPL_Logo.png') no-repeat center center;
+                    background-size: 40px 20px;">
                 </div>
                 <div class="option left main-menu-home">
                     <a class="main-menu" href="{{ route('home.index', array('selected_menu' => 'main-menu-home')); }}">HOME</a>
@@ -76,7 +72,7 @@
                 @endif
 
                 @if(Auth::check())
-                    <div class="option right">
+                    <div class="option right" style="padding-left: 10px;" >
                         BRANCH&#58;
                         <select data-placeholder="Branch" id="branchMenu"
                             class="chosen-select branch-select" tabindex="2">
