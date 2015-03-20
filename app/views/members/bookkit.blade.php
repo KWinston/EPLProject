@@ -47,13 +47,13 @@
     var getKitRepeater = null;  // interval timer
 
     function homeMenuCallback(kit) {
-        console.log(kit);
         if(kit == null) {
             $('#book_kit').prop('disabled', true);
         }
         else {
             $('#current_kit').text("Selected Kit is: " + kit.text);
             $('#book_kit').prop('disabled', false);      
+            
             setBookingKit(kit);
 
             getKitBookings(kit);
@@ -63,28 +63,28 @@
     }
 
     function getKitBookings(kit) {
-        console.log('get kit bookings');
         if (RegExp('kit', 'i').test(kit.type)) {
-                    json = { 'ID' : kit.KitID };
-                    $.post("{{ URL::route('book_kit.get_kit_bookings') }}", json)
-                        .success(function(resp){
-                            addCalendarKits(resp, '{{ Auth::id(); }}');
-                        })
-                       .fail(function(){
-                            console.log("error while getting kit bookings");
-                        });
-                }
-                else {
-                    json = { 'Type' : kit.KitTypeID };
-                    $.post("{{ URL::route('book_kit.get_type_bookings') }}", json)
-                        .success(function(resp) {
-                            var kitOverlaps = compareOverlapKitTypeBookings(resp);
-                            addCalendarKits(kitOverlaps);
-                        })
-                       .fail(function(){
-                            console.log("error while getting kit type bookings");
-                        });
-                }
+            json = { 'ID' : kit.KitID };
+            $.post("{{ URL::route('book_kit.get_kit_bookings') }}", json)
+                .success(function(resp){
+                    addCalendarKits(resp, '{{ Auth::id(); }}');
+                })
+               .fail(function(){
+                    console.log("error while getting kit bookings");
+                });
+        }
+        else {
+            json = { 'Type' : kit.KitTypeID };
+            $.post("{{ URL::route('book_kit.get_type_bookings') }}", json)
+                .success(function(resp) {
+                    //console.log(resp);
+                    var kitOverlaps = compareOverlapKitTypeBookings(resp);
+                    addCalendarKits(kitOverlaps);
+                })
+               .fail(function(){
+                    console.log("error while getting kit type bookings");
+                });
+        }
     }
 
     function setBookingFeedback(method) {
@@ -101,12 +101,12 @@
         var json = {
             'StartDate' : startBooking,
             'EndDate'   : endBooking,
-            'Notifees'  : event.kitRecipients,
+            'Notifees'  : event.KitRecipients,
             'ShadowStartDate' : event.start.format('YYYY-MM-DD'),
             'ShadowEndDate'   : event.end.format('YYYY-MM-DD'),
-            'ForBranch' : parseInt(event.kitForBranch, 10),
-            'Purpose'   : event.kitText,
-            'KitID'     : parseInt(event.kitId, 10)
+            'ForBranch' : parseInt(event.ForBranch, 10),
+            'Purpose'   : event.text,
+            'KitID'     : parseInt(event.KitID, 10)
         };
 
         $.post("{{ URL::route('book_kit.insert_booking') }}", json)
@@ -127,17 +127,20 @@
     function updateBooking(event, successCallback, failureCallback) {
         var startBooking = moment(event.start).add(1, 'd').format('YYYY-MM-DD');
         var endBooking = moment(event.end).subtract(1, 'd').format('YYYY-MM-DD');
-
+        console.log(event);
         var json = {
-            'ID' : event.bookID,
+            'ID' : event.BookID,
             'StartDate' : startBooking,
             'EndDate'   : endBooking,
             'ShadowStartDate' : event.start.format('YYYY-MM-DD'),
             'ShadowEndDate'   : event.end.format('YYYY-MM-DD'),
-            'ForBranch' : parseInt(event.kitForBranch, 10),
-            'Purpose'   : event.kitText,
-            'KitID'     : parseInt(event.kitId, 10)
+            'ForBranch' : parseInt(event.ForBranch, 10),
+            'Purpose'   : event.text,
+            'KitID'     : parseInt(event.KitID, 10),
+            'Notifees'  : event.KitRecipients
         };
+        console.log(json);
+
         $.post("{{ URL::route('book_kit.update_booking') }}", json)
             .success(function(resp){
                 setBookingFeedback('Updated');
@@ -154,7 +157,7 @@
 
     function deleteBooking(event, successCallback, failureCallback) {
         var json = {
-           'BookID': event.bookID
+           'BookID': event.BookID
         };
 
         $.post("{{ URL::route('book_kit.delete_booking') }}", json)
@@ -185,37 +188,94 @@
             });
     }
 
-    function compareOverlapKitTypeBookings(bookings)
-    {
+    function getDates(startDate, stopDate) {
+        var dateArray = [];
+        var currentDate = moment(startDate);
+        var endDate = moment(stopDate)
+
+        while (endDate.diff(currentDate, 'd') > 0) {
+            dateArray.push(moment(currentDate.format('YYYY-MM-DD')));
+            currentDate.add(1, 'd');
+        }
+        return dateArray;
+    }
+
+    function getIntersect(arr1, arr2) {
+        var temp = [];
+        for(var i = 0; i < arr1.length; i++){
+            for(var k = 0; k < arr2.length; k++){
+                if(arr1[i] == arr2[k]){
+                    temp.push(arr1[i]);
+                    break;
+                }
+            }
+        }
+        return temp;
+    }
+
+    function compareOverlapKitTypeBookings(bookings) {
+        var bookingsByID = {};
+        for (var index in bookings) {
+            var start = new Date(bookings[index].ShadowStartDate);
+            var end = new Date(bookings[index].ShadowEndDate);
+
+            var range = getDates(start, end);
+
+            if(bookingsByID[bookings[index].KitID] === undefined) {
+                bookingsByID[bookings[index].KitID] = [];
+            }
+
+            for (var index2 in range) {
+                bookingsByID[bookings[index].KitID].push(range[index2].format('YYYY-MM-DD'));
+            }
+        }
+
+        for (var index in bookingsByID)
+        {
+            var toFilter = bookingsByID[bookings[index].KitID]; 
+            var filtered = toFilter.filter(function(item, i, ar){ return ar.indexOf(item) === i; });
+            bookingsByID[bookings[index].KitID] = filtered.sort(function(r1, r2) {
+                return r1.start > r2.start;
+            });
+        }
+
+        var firstRun = true;
+        var intersectTypes;
+        for (var index in bookingsByID) {
+            if (firstRun) {
+                intersectTypes = bookingsByID[index];
+                firstRun = false;
+            }
+            else {
+                intersectTypes = getIntersect(intersectTypes, bookingsByID[index]);
+            }
+        }
+
+        console.log(intersectTypes);
 
         var ranges = [];
-        for (var index in bookings) {
-            var start = new Date(bookings[index].ShadowStartDate).setHours(0);
-            var end = new Date(bookings[index].ShadowEndDate).setHours(0);
+        var lastIndex = 0;
+        for (var i = 0; i < intersectTypes.length - 1; i++) {
+            var prev = moment(intersectTypes[i]);
+            var next = moment(intersectTypes[i+1]);
 
-            ranges.push(moment().range(start, end));
+            if (Math.abs(prev.diff(next, 'd')) > 1) {
+                ranges.push({
+                    'start': moment(intersectTypes[lastIndex] + " 00:00:00"), 
+                    'end'  : moment(intersectTypes[i] + " 00:00:00").add(1, 'd')
+                });
+                lastIndex = i + 1;
+            }   
         }
-        ranges.sort(function(r1, r2){ return r1.start > r2.start });
-
-        // intersect ranges and check overlapping areas
-        var intersectTypes = [];
-        var intersectType = ranges.shift(); // init intersect check
-        while(ranges.length > 0) {
-            var compareType = ranges.shift();
-            var overlap = false;
-            while(compareType !== undefined && intersectType.overlaps(compareType)) 
-            {
-                overlap = true;
-                intersectType = intersectType.intersect(compareType);
-                compareType = ranges.shift();
-            }
-            if (overlap) {
-                intersectTypes.push(intersectType);
-                intersectType = compareType;
-            }
+        if (lastIndex < intersectTypes.length - 1)
+        {
+            ranges.push({
+                'start': moment(intersectTypes[lastIndex] + " 00:00:00"), 
+                'end'  : moment(intersectTypes[intersectTypes.length - 1] + " 00:00:00").add(1, 'd')
+            });
         }
 
-        var kitTypeBookings = intersectTypes.map(function(index) {
+        var kitTypeBookings = ranges.map(function(index) {
             return {
                 'ShadowStartDate': index.start,
                 'ShadowEndDate'  : index.end,

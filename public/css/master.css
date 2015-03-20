@@ -842,3 +842,98 @@ td.inventory
 
     vertical-align: top;
 }
+
+
+/* Kit details dialog */
+table.kit-details-dialog
+{
+    width: 100%;
+
+    height: 100%;
+}
+table.kit-details-details
+{
+    border: 2px solid black;
+
+    width: 100%;
+    padding-bottom: 6px;
+    margin-bottom: 11px;
+}
+table.kit-details-details tr
+{
+}
+table.kit-details-details tr:nth-child(2n+2)
+{
+    background-color: lightblue;
+}
+table.kit-details-details tr td:nth-child(odd)
+{
+    text-align: right;
+}
+table.kit-details-logs
+{
+    border: 1px solid black;
+
+    width:  100%;
+}
+table.kit-details-logs tr
+{
+
+}
+table.kit-details-logs tr:nth-child(2n+1)
+{
+
+}
+table.kit-details-logs tr.contents-damaged
+{
+    background: lightyellow;
+
+}
+table.kit-details-logs tr.contents-missing
+{
+    background-color: red;
+
+}
+table.kit-details-bookings
+{
+    height: auto;
+
+    vertical-align: top;
+    border: 1px solid black;
+    width: 100%;
+    margin-top: 10px;
+}
+table.kit-details-bookings tr
+{
+    vertical-align: top;
+
+}
+table.kit-details-bookings tr:nth-child(even)
+{
+    background-color: lightblue;
+}
+table.kit-details-bookings tr td
+{
+    vertical-align: top;
+
+}
+table.kit-details-bookings tr td ul
+{
+    margin-top: 0;
+
+}
+table.kit-details-bookings tr.after
+{
+
+}
+table.kit-details-bookings tr.before
+{
+    color: grey;
+
+}
+.ui-tooltip-wide
+{
+    width:1000px !important;
+    min-width:1000px !important;
+    max-width:1000px !important;
+}
