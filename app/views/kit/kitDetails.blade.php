@@ -25,7 +25,8 @@
                 </tr>
                 <tr>
                     <td>State:</td>
-                    <td>{{$kit->state->StateName}}</td>
+                    <td>{{$kit->state->StateName}} @if ($kit->Available == false) <font class="text-red"> - UNAVAILABLE FOR BOOKING</font> @endif
+                    </td>
                 </tr>
             </table>
             @if(count($logs) != 0)

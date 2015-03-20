@@ -1,8 +1,6 @@
 @extends('layouts.adminMaster')
 @section('head')
 <script type="text/javascript">
-    var gKitTypeID;
-    var gKitID;
     function LoadSelectedLog( itemType, KitTypeID, KitID, allChecked )
     {
         var url = "";
@@ -78,16 +76,6 @@
     function KitSelected(value)
     {
         $(".button-bar").addClass('hidden');
-        gKitTypeID = value.KitTypeID;
-        gKitID = value.KitID;
-        if (gKitID)
-        {
-            $(".kit-options").show();
-        }
-        else
-        {
-            $(".kit-options").hide();
-        }
         LoadSelectedLog(value.type, value.KitTypeID, value.KitID, true);
     }
 </script>
@@ -104,11 +92,6 @@
             ))
         </td>
         <td class="logs-table-area">
-            <div id="kit-options" class="kit-options">
-                <input type="checkbox" name="bookable"  class="bookable-kit kit-options" id="bookable-kit" checked>Kit available for booking</input>
-                <button class="kit-return-depot kit-options"> Book Kit for return to depot</button>
-            </div>
-
             <div id="logs-display">
                 <h1 class="click-select-logs-msg"> Select a Kit or type to view logs for it. </h1>
             </div>
@@ -116,9 +99,4 @@
 
     </tr>
 </table>
-<script type="text/javascript">
-    // Start with the options hidden
-    $(".kit-options").hide();
-
-</script>
 @stop

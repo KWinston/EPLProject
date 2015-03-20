@@ -33,6 +33,11 @@ function GetKitTypeTreeData()
         $childNodes = array();
         foreach($kitType->kits as $kit)
         {
+            // Admin users will not see unavailable kits. 
+            if (Auth::user()->is_admin == false && $kit->Available == false)
+            {
+                continue;
+            }
             $key = 'type_' . $kit->KitType;
             $n = $kit->Name;
             if (((int)$kit->Specialized) == 1)
