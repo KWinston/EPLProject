@@ -64,8 +64,12 @@ function makeKitBlock(kit, cls, selIcon)
             var startDate = new Date(kit.StartDate);
             var dateOptions = {weekday: "short",  month:"short", day:"numeric" };
             t.append($('<tr>', {'class': 'kit-block-book-date'}).html("Booked For: " + startDate.toLocaleDateString("en-US", dateOptions)));
+            t.append($('<tr>', {'class': 'kit-block-state'}).append($("<td>").html("Going to: " + branches[kit.ForBranch].BranchID )));
         }
-        t.append($('<tr>', {'class': 'kit-block-state'}).append($("<td>").html("Located at: " + branches[kit.AtBranch].BranchID )));
+        else
+        {
+            t.append($('<tr>', {'class': 'kit-block-state'}).append($("<td>").html("Located at: " + branches[kit.AtBranch].BranchID )));
+        }
     }
     else if (kit.KitState == "2")
     {

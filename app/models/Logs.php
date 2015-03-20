@@ -38,30 +38,28 @@ class Logs extends Eloquent
     // Create a new log message, auto fill in date stamp and user id.
     public static function LogMsg($LogType, $KitTypeID, $KitID, $ContentsID, $Message)
     {
-        // print $LogType. ", " .$KitTypeID. ", " .$KitID. ", " .$ContentsID. ", " .$Message . " --- ";
-        $log = new Logs();
-        $log->LogDate = new DateTime('today');
-        // print $log->LogDate;
-        $log->LogType = $LogType;
-        $log->LogKey1 = $KitTypeID;
-        $log->LogKey2 = $KitID;
-        //$log->LogKey3 = $ContentsID;
-        $log->LogUserID = Auth::user()->id;
-        $log->LogMessage = $Message;
-        $log->save();
+        $log = Logs::create(array( 'LogDate' => new DateTime('today'),
+                                   'LogType' => $LogType,
+                                   'LogKey1' => $KitTypeID,
+                                   'LogKey2' => $KitID,
+                                   'LogKey3' => $ContentsID,
+                                   'LogUserID' => Auth::user()->id,
+                                   'LogMessage' => $Message
+                                  ));
+        return $log->ID;
 
     }
     // --------------------------------------------------------------
     // Make a log entry for LogType '1','Damage Report'
-    public static function DamageReport($KitID, $ContentsID, $Message)
+    public static function DamageReport($KityTypeID, $KitID, $ContentsID, $Message)
     {
-        // Logs::LogMsg(1, $KitID, $ContentsID, $Message);
+        return Logs::LogMsg(1, $KityTypeID, $KitID, $ContentsID, $Message);
     }
     // --------------------------------------------------------------
     // Make a log entry for LogType '2','Missing Report'
-    public static function MissingReport($KitID, $ContentsID, $Message)
+    public static function MissingReport($KityTypeID, $KitID, $ContentsID, $Message)
     {
-        // Logs::LogMsg(2, $KitID, $ContentsID, $Message);
+        return Logs::LogMsg(2, $KityTypeID, $KitID, $ContentsID, $Message);
     }
     // --------------------------------------------------------------
     // Make a log entry for LogType '3','Note'

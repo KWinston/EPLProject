@@ -60,11 +60,19 @@ class KitContents extends Eloquent
      */
     protected $hidden = array();
 
-    protected $fillable = array('KitID', 'Name', 'SerialNumber', 'Damaged', 'Missing', 'updated_at', 'created_at');
+    protected $fillable = array('KitID', 'Name', 'SerialNumber', 'DamagedLogID', 'MissingLogID', 'updated_at', 'created_at');
 
     public function kit()
     {
         return $this->hasOne('Kits', 'ID', 'KitID');
+    }
+    public function missingMessage()
+    {
+        return $this->hasOne('Logs', 'ID', 'MissingLogID');
+    }
+    public function damagedMessage()
+    {
+        return $this->hasOne('Logs', 'ID', 'DamagedLogID');
     }
 
 }

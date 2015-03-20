@@ -21,7 +21,10 @@
                 </tr>
                 <tr>
                     <td>At Branch:</td>
-                    <td>{{$kit->atBranch->BranchID}} - {{$kit->atBranch->PhoneNumber}}</td>
+                    <td>{{$kit->atBranch->BranchID}} - {{$kit->atBranch->Name}}<br/>
+                        {{$kit->atBranch->EPLAddress}} <br/>
+                        ({{$kit->atBranch->PhoneNumber}})
+                    </td>
                 </tr>
                 <tr>
                     <td>State:</td>
