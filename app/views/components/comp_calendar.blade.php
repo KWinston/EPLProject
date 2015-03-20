@@ -468,7 +468,8 @@
 			var found = users.filter(function(user){
 				return email === user.email;
 			});
-			if (found != null && found.length > 0) {
+\			if (found != null && found.length > 0)
+			{
 				recipients.push({
 					'Email': found[0].email,
 					'Username' : found[0].username,
@@ -764,7 +765,6 @@
 
 			    for (var index in event.KitRecipients) {
 			    	var recipient = event.KitRecipients[index];
-
 			    	if (recipient.UserID != null || recipient.UserID !== "")
 			    	{
 			    		var found = users.filter(function(user) {
