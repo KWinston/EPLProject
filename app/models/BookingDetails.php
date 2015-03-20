@@ -25,7 +25,6 @@ class BookingDetails extends Eloquent
 
     protected $fillable = array('BookingID', 'UserID', 'Email', 'Booker', 'updated_at', 'created_at');
 
-    /*
     public static function boot()
     {
         parent::boot();
@@ -86,10 +85,13 @@ class BookingDetails extends Eloquent
         });
 
     }
-    */
 
     public function booking()
     {
         return $this->hasOne('Booking', 'ID', 'BookingID');
+    }
+    public function user()
+    {
+        return $this->hasOne('User', 'id', 'UserID');
     }
 }

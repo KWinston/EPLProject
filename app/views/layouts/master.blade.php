@@ -34,12 +34,22 @@
                 $("td.help-index-cell #"+topic).addClass("help-selected");
             })
         }
+        var kitDetailsDialog;
+        function DisplayKitDetails(kitID)
+        {
+            url = "{{ route('kits.kitDetails', array('topic' => ':KitID')); }}";
+            $("#kit-details-dialog").load(url.replace(':KitID', kitID), function()
+            {
+                kitDetailsDialog.dialog("open");
+            })
+        }
         </script>
         @yield('head')
     </head>
 
     <body>
         <div id="help-dialog"> </div>
+        <div id="kit-details-dialog"> </div>
 
         <div class="slideout-menu">
             <h3>NOTIFICATIONS</h3>
@@ -166,20 +176,39 @@
                 helpDialog = $("#help-dialog").dialog(
                 {
                     autoOpen: false,
-                    // buttons: [
-                    // {
-                    //   text: "close",
-                    //   click: function()
-                    //   {
-                    //     $( this ).dialog( "close" );
-                    //   }
-                    // }],
+                    buttons: [
+                    {
+                      text: "close",
+                      click: function()
+                      {
+                        $( this ).dialog( "close" );
+                      }
+                    }],
                     draggable: false,
                     modal: true,
                     height: window.innerHeight * 0.8,
                     width: window.innerWidth * 0.8,
                     resizable: false,
                     title: "Help"
+
+                });
+                kitDetailsDialog = $("#kit-details-dialog").dialog(
+                {
+                    autoOpen: false,
+                    buttons: [
+                    {
+                      text: "close",
+                      click: function()
+                      {
+                        $( this ).dialog( "close" );
+                      }
+                    }],
+                    draggable: false,
+                    modal: true,
+                    height: window.innerHeight * 0.8,
+                    width: 1000,
+                    resizable: false,
+                    title: "Kit Details"
 
                 });
                 $("#help-button").click(function()
@@ -191,7 +220,20 @@
                 {
                     content: function ()
                     {
-                        return $(this).prop('title');
+                        var title = $(this).prop('title');
+                        if (title.indexOf('__KIT_DETAIL__') == 0)
+                        {
+                            url = "{{ route('kits.kitDetails', array('topic' => ':KitID')); }}";
+                            $.get(url.replace(':KitID', title.substring(14)), function(data){
+                                $("div#"+title).html(data);
+                                $(".ui-tooltip").addClass("ui-tooltip-wide");
+                            });
+                            return "<div ID='"+$(this).prop('title')+"' style='width:1000px;'></div>"
+                        }
+                        else
+                        {
+                            return $(this).prop('title');
+                        }
                     }
                 });
             });
