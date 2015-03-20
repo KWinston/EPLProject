@@ -71,13 +71,13 @@
 </div>
 
 <div id="booking_information" class="booking-dialog">
-	<table> 
+	<table>
 		<tr>
             <td colspan="3">
                 <p>
                     Update booking information. Add or remove users to inform.
                     Change branch for kit booking.
-                </p> 
+                </p>
             </td>
         </tr>
 		<tr>
@@ -128,7 +128,7 @@
 	function setBookingKit(kit) {
 		var reg = RegExp('kit', 'i');
 		if (reg.test(kit.type)) {
-			_kitID = kit.KitID;	
+			_kitID = kit.KitID;
 			_isType = false;
 		}
 		else {
@@ -235,8 +235,8 @@
 
 			if (!existsInNewBookings(e)) {
 				var title = generateEventTitle(
-					e.Purpose, 
-					moment(e.StartDate), 
+					e.Purpose,
+					moment(e.StartDate),
 					moment(e.EndDate)
 				);
 				var creator = (e.UserID === UserID);
@@ -259,7 +259,7 @@
 					editable	  : creator,
 					className	  : isType ? "" : 'shadow-day-effect',
 					borderColor   : '#555',
-					backgroundColor: 
+					backgroundColor:
 						isType ? '#111' : creator ? '#0033CC' : '#ccc',
 					textColor    : '#fff'
 				});
@@ -453,7 +453,7 @@
 
 	function dialogMessage(text) {
 		$('#booking_message').html(text);
-		setTimeout(function(){ 
+		setTimeout(function(){
 			$('#booking_message').html('');
 		}, 2500);
 	}
@@ -468,7 +468,8 @@
 			var found = users.filter(function(user){
 				return email === user.email;
 			});
-			if (found != null && found.length > 0) {
+\			if (found != null && found.length > 0)
+			{
 				recipients.push({
 					'Email': found[0].email,
 					'Username' : found[0].username,
@@ -632,10 +633,10 @@
 			    	'click': function() {
 		    			var bookingStart = $(this).find('#start_date_picker').datepicker('getDate');
 		    			var bookingEnd = $(this).find('#end_date_picker').datepicker('getDate');
-		    			var forBranch = $('#branch_insert option:selected').val();		    			
+		    			var forBranch = $('#branch_insert option:selected').val();
 
 		    			var recipients = getRecipients('#booking_users');
-		    		
+
 		    			if (_isType)
 		    			{
 		    				var json = {
@@ -645,18 +646,18 @@
 		    				};
 
 			    			$.post("{{ URL::route('book_kit.get_available_kit') }}", json)
-			                    .success(function(resp){		
-			                    	console.log(resp);	                        
-			                        if (resp == "" || 
+			                    .success(function(resp){
+			                    	console.log(resp);
+			                        if (resp == "" ||
 				                        !createBookingByDateRange(
 						    				resp.ID,
-						    				_kitTypeID, 
-						    				resp.Name, 
-						    				forBranch, 
-						    				moment(bookingStart).format('YYYY-MM-DD'), 
+						    				_kitTypeID,
+						    				resp.Name,
+						    				forBranch,
+						    				moment(bookingStart).format('YYYY-MM-DD'),
 						    				moment(bookingEnd).format('YYYY-MM-DD'),
 						    				recipients
-						    			)) {			                   
+						    			)) {
 			                    		dialogMessage('No kit available at this time');
 			                    		console.log('No kits available at this time');
 			                    	}
@@ -673,10 +674,10 @@
 		                else {
 			    			if (!createBookingByDateRange(
 			    				_kitID,
-			    				_kitTypeID, 
-			    				_kitText, 
-			    				forBranch, 
-			    				bookingStart, 
+			    				_kitTypeID,
+			    				_kitText,
+			    				forBranch,
+			    				bookingStart,
 			    				bookingEnd,
 			    				recipients
 			    			)) {
@@ -727,7 +728,7 @@
 
 			    		event.ForBranch = $('#branch_update').val();
 			    		var recipients = getRecipients('#booking_update_users');
-			    		
+
 			    		event.KitRecipients = recipients;
 			    		console.log(event);
 			    		updateKitDB(event, function(){
@@ -742,8 +743,8 @@
 		    				});
 		    				$("#booking_information").dialog("close");
 			    		});
-			    	
-			    		
+
+
 			    	}
 			    },
 			    {
@@ -768,7 +769,6 @@
 
 			    for (var index in event.KitRecipients) {
 			    	var recipient = event.KitRecipients[index];
-
 			    	if (recipient.UserID != null || recipient.UserID !== "")
 			    	{
 			    		var found = users.filter(function(user) {
@@ -869,7 +869,7 @@
 				new Date(end.format()));
 		});
 
-		
+
 		$('.booking-users-options').autocomplete({
 			'source': users.map(function(row) {
 				return row.email + ' | '+ row.username + ' | ' + row.realname;
