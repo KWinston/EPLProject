@@ -86,7 +86,7 @@
                 @endif
 
                 @if(Auth::check())
-                    <div class="option right">
+                    <div class="option right" style="padding-left: 10px;" >
                         BRANCH&#58;
                         <select data-placeholder="Branch" id="branchMenu"
                             class="chosen-select branch-select" tabindex="2">
