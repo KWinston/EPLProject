@@ -170,7 +170,7 @@
 
 	function existsInNewBookings(booking) {
 		for(var i in newKitObjects) {
-			if (parseInt(booking.BookingID, 10) ===
+			if (parseInt(booking.ID, 10) ===
 				parseInt(newKitObjects[i].BookID, 10)) {
 				return true;
 			}
@@ -241,7 +241,6 @@
 				);
 				var creator = (e.UserID === UserID);
 				var isType = (e.IsTypeKit === true);
-
 				oldKitObjects.push({
 					BookID        : e.ID,
 					type		  : 'other',
@@ -307,6 +306,7 @@
 
 			insertKitDB(event, function(id) {
                 event.BookID = id;
+                console.log(event);
 			    newKitObjects.push(event);
 			    $('#calendar').fullCalendar('addEventSource', [event]);
                 $('#booking_dialog').dialog("close");
@@ -458,6 +458,37 @@
 		}, 2500);
 	}
 
+	function getRecipients(userFields) {
+		var recipients = [];
+		$(userFields).find('.user-field.optional').each(function() {
+			var email = $(this).find('.email').html();
+			var username = $(this).find('.user').html();
+			var realname = $(this).find('.realname').html();
+
+			var found = users.filter(function(user){
+				return email === user.email;
+			});
+			if (found.length > 0) {
+				console.log(found);
+				recipients.push({
+					'Email': found[0].email,
+					'Username' : found[0].username,
+					'Realname' : found[0].realname,
+					'UserID'   : found[0].id
+				});
+			}
+			else {
+				recipients.push({
+					'Email': email,
+					'Username' : username,
+					'Realname' : realname,
+					'UserID'   : null
+				});
+			}
+		});
+		return recipients;
+	}
+
 	$(document).ready(function() {
 		newKitObjects = [];
 
@@ -602,16 +633,10 @@
 			    	'click': function() {
 		    			var bookingStart = $(this).find('#start_date_picker').datepicker('getDate');
 		    			var bookingEnd = $(this).find('#end_date_picker').datepicker('getDate');
-		    			var forBranch = $('#branch_insert option:selected').val();
-		    			var recipients = [];		    			
+		    			var forBranch = $('#branch_insert option:selected').val();		    			
 
-		    			$('#booking_users').find('.user-field.optional').each(function() {
-		    				recipients.push(
-		    					$(this).find('.email').html()
-		    				);
-		    				$(this).remove();
-		    			});
-
+		    			var recipients = getRecipients('#booking_users');
+		    		
 		    			if (_isType)
 		    			{
 		    				var json = {
@@ -636,6 +661,11 @@
 			                    		dialogMessage('No kit available at this time');
 			                    		console.log('No kits available at this time');
 			                    	}
+			                    	else {
+			                    		$('#booking_users').find('.user-field.optional').each(function() {
+						    				$(this).remove();
+						    			});
+			                    	}
 			                    })
 			                   .fail(function(){
 			                        console.log("error on kit search");
@@ -652,6 +682,11 @@
 			    				recipients
 			    			)) {
 			    				dialogMessage('This kit is not available at this time');
+			    			}
+			    			else {
+			    				$('#booking_users').find('.user-field.optional').each(function() {
+		    				$(this).remove();
+		    			});
 			    			}
 			    		}
 			    	}
@@ -692,23 +727,24 @@
 			    		var event = $(this).data.event;
 
 			    		event.ForBranch = $('#branch_update').val();
-			    		var recipients = [];
-			    		$('#booking_update_users').find('.user-field.optional').each(function() {
-		    				recipients.push(
-		    					$(this).find('.email').html()
-		    				);
-		    				$(this).remove();
-		    			});
+			    		var recipients = getRecipients('#booking_update_users');
+			    		
 			    		event.KitRecipients = recipients;
+			    		console.log(event);
 			    		updateKitDB(event, function(){
 			    			var kit = oldKitObjects.filter(function(e){
 			    				return parseInt(e.BookID, 10) === parseInt(event.BookID, 10);
 			    			});
 			    			kit.KitRecipients = recipients;
 			    			$('#booking_users_update_options').val('');
+
+			    			$('#booking_update_users').find('.user-field.optional').each(function() {
+		    					$(this).remove();
+		    				});
+		    				$("#booking_information").dialog("close");
 			    		});
 			    	
-			    		$(this).dialog("close");
+			    		
 			    	}
 			    },
 			    {
@@ -733,18 +769,9 @@
 
 			    for (var index in event.KitRecipients) {
 			    	var recipient = event.KitRecipients[index];
-			    	var found = users.filter(function(user){
-			    		return parseInt(recipient.UserID, 10) === parseInt(user.id, 10);
-			    	});
 
-			    	if (found !== null) {
-			    		createUserField('', recipient.Email, '')
-							.appendTo('#booking_update_users');
-			    	}
-			    	else {
-			    		createUserField(found.username, found.email, found.realname)
-							.appendTo('#booking_update_users');
-			    	}
+		    		createUserField(recipient.Username, recipient.Email, recipient.Realname)
+		    			.appendTo('#booking_update_users');
 			    }
 		    }
 		});
