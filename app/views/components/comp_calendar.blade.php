@@ -468,7 +468,7 @@
 			var found = users.filter(function(user){
 				return email === user.email;
 			});
-\			if (found != null && found.length > 0)
+			if (found != null && found.length > 0)
 			{
 				recipients.push({
 					'Email': found[0].email,
@@ -887,7 +887,8 @@
 		});
 	});
 
-	function createUserField(username, email, realname) {
+	function createUserField(username, email, realname)
+	{
 		return $('<div>', {
 			'class' : 'user-field optional'
 		}).append(
