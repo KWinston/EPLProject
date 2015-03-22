@@ -21,11 +21,15 @@
                 </tr>
                 <tr>
                     <td>At Branch:</td>
-                    <td>{{$kit->atBranch->BranchID}} - {{$kit->atBranch->PhoneNumber}}</td>
+                    <td>{{$kit->atBranch->BranchID}} - {{$kit->atBranch->Name}}<br/>
+                        {{$kit->atBranch->EPLAddress}} <br/>
+                        ({{$kit->atBranch->PhoneNumber}})
+                    </td>
                 </tr>
                 <tr>
                     <td>State:</td>
-                    <td>{{$kit->state->StateName}}</td>
+                    <td>{{$kit->state->StateName}} @if ($kit->Available == false) <font class="text-red"> - UNAVAILABLE FOR BOOKING</font> @endif
+                    </td>
                 </tr>
             </table>
             @if(count($logs) != 0)

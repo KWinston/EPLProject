@@ -8,11 +8,11 @@ class MasterController extends BaseController {
         $password = Input::get('password');
         if (Auth::attempt(array('username' => $username, 'password' => $password)))
         {
+            // set the session variable to the current branch
+            $user = Auth::user();
+            Session::put('branch', $user->home_branch);
             return Redirect::action('HomeController@index', []);
         }
-        // set the session variable to the current branch
-        $user = Auth::user();
-        Session::put('branch', $data[$user->home_branch]);
         return View::make("HomeContoller@index", []);
     }
 

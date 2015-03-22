@@ -57,7 +57,9 @@
 
         if ($(this).hasClass("checkbox"))
         {
+            console.log("Checked "+ contentIndex + "  == " + $(this).attr('name'));
             kitData.contents[contentIndex][$(this).attr('name')] = ($(this).prop('checked') ? "1" : "0");
+            console.log(kitData.contents[contentIndex]);
         }
         else
         {
@@ -115,6 +117,9 @@
         $(".form-apply").unbind().button( {disabled: true} ).click(function()
         {
             url = "{{ route('kits.store') }}";
+            console.log("storing");
+            console.log(kitData);
+
             $.post(url, kitData, function( data )
             {
                 LoadKit(kitData.ID);
@@ -144,10 +149,10 @@
         $(".kit-contents-add-new").unbind().button().click(function()
         {
             // Add new kit
-            var nk = {  "Damaged": "0",
-                        "ID": "***NEW***",
+            var nk = {  "ID": "***NEW***",
                         "KitID": kitData.ID,
-                        "Missing": "0",
+                        "DamagedLogID": null,
+                        "MissingLogID": null,
                         "Name": "new item",
                         "SerialNumber": "new asset number",
                         "status": 1} // CRUD, 1 = create
@@ -208,14 +213,14 @@
             {
                 var missing = "";
                 var damaged = "";
-                if (contents[key].Missing == 1) missing = "checked";
-                if (contents[key].Damaged == 1) damaged = "checked";
+                if (contents[key].MissingLogID != null) missing = "checked";
+                if (contents[key].DamagedLogID != null) damaged = "checked";
                 $("#kit-components-area table tbody").append(
                     '<tr class="kit-content-row" ID="'+contents[key].ID+'">'+
                         '<td class="kit-content-form-name" ID="'+key+'"> <input class="kit-contents kit-content-element kit-content-form-name text-singleline" name="Name" type="text" value="'+contents[key].Name+'" id="Name"></td>'+
                         '<td class="kit-content-form-serial-number"ID="'+key+'"> <input class="kit-contents kit-content-element kit-content-form-serial-number text-singleline" name="SerialNumber" type="text" value="'+contents[key].SerialNumber+'" id="SerialNumber"></td>'+
-                        '<td class="kit-content-form-damaged" ID="'+key+'"> <input class="kit-contents kit-content-element kit-content-form-damaged checkbox" ' + damaged + ' name="Damaged" type="checkbox" value="1" id="Damaged"></td>'+
-                        '<td class="kit-content-form-missing" ID="'+key+'"> <input class="kit-contents kit-content-element kit-content-form-missing checkbox" ' + missing + ' name="Missing" type="checkbox" value="1" id="Missing"></td>'+
+                        '<td class="kit-content-form-damaged" ID="'+key+'"> <input class="kit-contents kit-content-element kit-content-form-damaged checkbox" ' + damaged + ' name="Damaged" type="checkbox" value="1" id="Damaged" title="'+contents[key].DamagedMessage+'"></td>'+
+                        '<td class="kit-content-form-missing" ID="'+key+'"> <input class="kit-contents kit-content-element kit-content-form-missing checkbox" ' + missing + ' name="Missing" type="checkbox" value="1" id="Missing" title="'+contents[key].MissingMessage+'"></td>'+
                         '<td class="kit-content-form-remove" ID="'+key+'"> <button class="kit-contents destroy-kit-content kit-content-form-remove tiny-buttons" ID="'+key+'"> X </button></td>'+
                     '</tr>'
                 );
