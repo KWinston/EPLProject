@@ -468,8 +468,7 @@
 			var found = users.filter(function(user){
 				return email === user.email;
 			});
-			if (found.length > 0) {
-				console.log(found);
+			if (found != null && found.length > 0) {
 				recipients.push({
 					'Email': found[0].email,
 					'Username' : found[0].username,
@@ -770,8 +769,24 @@
 			    for (var index in event.KitRecipients) {
 			    	var recipient = event.KitRecipients[index];
 
-		    		createUserField(recipient.Username, recipient.Email, recipient.Realname)
-		    			.appendTo('#booking_update_users');
+			    	if (recipient.UserID != null || recipient.UserID !== "")
+			    	{
+			    		var found = users.filter(function(user) {
+			    			return parseInt(user.id, 10) === parseInt(recipient.UserID, 10);
+			    		});
+			    		if (found != null && found.length > 0) {
+				    		createUserField(found[0].username, found[0].email, found[0].realname)
+				    			.appendTo('#booking_update_users');
+			    		}
+			    		else {
+			    			createUserField(recipient.Username, recipient.Email, recipient.Realname)
+			    				.appendTo('#booking_update_users');
+			    		}
+			    	}
+			    	else {
+			    		createUserField(recipient.Username, recipient.Email, recipient.Realname)
+			    			.appendTo('#booking_update_users');
+		    		}
 			    }
 		    }
 		});
