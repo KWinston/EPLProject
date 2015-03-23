@@ -14,6 +14,8 @@ class Logs extends Eloquent
      * @var string
      */
     protected $table = 'Logs';
+    protected $primaryKey = 'ID';
+
 
     /**
      * The attributes excluded from the model's JSON form.

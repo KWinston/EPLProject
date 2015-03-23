@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @section('head')
+
 @stop
 
 @section('content')
@@ -55,7 +56,7 @@
     @foreach ($receiveKits as $receiveKit)
     <tr class = "receive-table-row">
         <td class = "receive-table-bookid"> {{ $receiveKit->BookingID }}</td>
-        <td class = "receive-table-kittype"> {{ $receiveKit->Name }}</td> 
+        <td class = "receive-table-kittype"> {{ $receiveKit->Name }}</td>
         <td class = "receive-table-kitdesc" title="<p>{{ $receiveKit->KitDesc }}</p>"> {{ HTML::image('images/viewdetails.gif') }}</td>
         <td class = "receive-table-forbranch"> {{ $branch->Name }}</td>
         <td class = "receive-table-prevdest">{{ $receiveKit->BName }}</td>
@@ -70,9 +71,9 @@
         @endif
         </tr>
     @endforeach
-    </table>        
+    </table>
 </div>
- 
+
 <div class = "pagination">
 @if (0 == (count($receiveKits)))
     No kits are booked for this branch at the moment.

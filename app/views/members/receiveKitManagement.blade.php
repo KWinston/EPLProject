@@ -2,6 +2,8 @@
 
 @section('head')
 {{ HTML::style('css/comp-menu.css') }}
+{{ HTML::style('css/kitTransportation.css') }}
+
 <script type="text/javascript">
     function SelectReceiveKit(kitTypeID)
     {
@@ -12,7 +14,7 @@
 
         $("#receive-kit-edit").load(url, function()
         {
-            $(".receive-kit-submit").unbind().button({'disable': true}).click(function()
+            $(".kit-submit").unbind().button({'disable': true}).click(function()
             {
                 $.post("{{ route('recieve_kit.store') }}", $('.receive-kit-edit-form').serialize(), function( data )
                 {
@@ -21,35 +23,6 @@
                 });
                 return false;
             });
-            $(".kit-type-destroy").unbind().button().click(function()
-            {
-                typeID = $('.receive-kit-edit-form [name="ID"]').val();
-                url = "{{ route('recieve_kit.destroy', array(':KITTYPEID')) }}";
-                url = url.replace(':KITTYPEID', typeID);
-
-                if (confirm("\nThis will destroy this type, and all kits of this type "
-                            + "\nas well the logs for this type (and kits of this type) will no longer be accessible!"
-                            + "\n\nAre you sure you which to destroy the '" + $(".receive-kit-edit-form input#Name").val() + "' type and associated kits?"
-                            ) === true)
-                {
-                    // remove the list entry
-                    $.ajax(
-                    {
-                        url: url,
-                        type: 'DELETE',
-                        success: function(result)
-                        {
-                            $(".receive-kit-name#" + typeID).remove();
-                            $("#receive-kit-edit").html('');
-                            // Do something with the result
-                            console.log("destroy");
-                        }
-                    });
-                }
-
-                return false;
-            });
-
         })
     }
 </script>
