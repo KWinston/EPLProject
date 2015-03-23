@@ -44,3 +44,7 @@
 	border: 2px solid #aaa;
 	padding: 2px 2px 2px 7px;
 }
+.recv-no-button-bar-visible
+{
+	height: 100% !important;
+}
