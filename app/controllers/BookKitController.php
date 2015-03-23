@@ -43,7 +43,7 @@ class BookKitController extends BaseController {
         {
             foreach ($notifees as $notifee)
             {
-                $temp = User::where('email', $notifee)->first();
+                $temp = User::where('email', $notifee['Email'])->first();
                 if ($temp != null)
                 {
                     $bookingDetail = new BookingDetails;
@@ -60,7 +60,7 @@ class BookKitController extends BaseController {
                     $bookingDetail = new BookingDetails;
                     $bookingDetail->fill(array(
                         'BookingID' => $index,
-                        'Email' =>  $notifee,
+                        'Email' =>  $notifee['Email'],
                         'Booker' => 0
                     ));
                     $bookingDetail->save();
@@ -99,7 +99,7 @@ class BookKitController extends BaseController {
         {
             foreach ($notifees as $notifee)
             {
-                $temp = User::where('email', $notifee)->first();
+                $temp = User::where('email', $notifee['Email'])->first();
                 if ($temp != null)
                 {
                     $bookingDetail = new BookingDetails;
@@ -116,7 +116,7 @@ class BookKitController extends BaseController {
                     $bookingDetail = new BookingDetails;
                     $bookingDetail->fill(array(
                         'BookingID' => $booking->ID,
-                        'Email' =>  $notifee,
+                        'Email' =>  $notifee['Email'],
                         'Booker' => 0
                     ));
                     $bookingDetail->save();

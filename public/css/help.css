@@ -51,7 +51,8 @@ table.help-table
 }
 .help-topic-cell h3
 {
-
+    color: brown;
+    
     text-align: center;
 }
 
