@@ -2,9 +2,7 @@
 @section('head')
 <script type="text/javascript">
     var kitData;
-    var gKitTypeID;
-    var gKitID;
-    var foo;
+    var enterMessageDialog;
     function KitChanged()
     {
         // Add the form changed for the table row.
@@ -68,6 +66,68 @@
 
         $(".form-apply").button( "option", "disabled", false ).removeClass("ui-state-disabled");
     }
+    function DamageChanged()
+    {
+        if ($(this).hasClass("checkbox") )
+        {
+            var contentIndex = $(this).parent().attr('ID');
+            if ($(this).prop('checked'))
+            {
+                GetMessage("Enter Damaged Item Comment", function()
+                {
+                    kitData.contents[contentIndex].DamageLogID = null;
+                    kitData.contents[contentIndex].DamagedMessage = $("#enter-message-dialog-text").val();
+                    var txt = '<td>D:' + $("#enter-message-dialog-text").val() + '</td>';
+                    $("tr.kit-content-form-damage#_"+contentIndex).html(txt);
+                });
+            }
+            else
+            {
+                $("tr.kit-content-form-damage#_"+contentIndex).html('');
+            }
+        }
+    }
+    function MissingChanged()
+    {
+        if ($(this).hasClass("checkbox"))
+        {
+            var contentIndex = $(this).parent().attr('ID');
+            if($(this).prop('checked'))
+            {
+                GetMessage("Enter Missing Item Comment", function()
+                {
+                    kitData.contents[contentIndex].MissingLogID = null;
+                    kitData.contents[contentIndex].MissingMessage = $("#enter-message-dialog-text").val();
+                    var txt = '<td>M:' + $("#enter-message-dialog-text").val() + '</td>';
+                    $("tr.kit-content-form-missing#_"+contentIndex).html(txt);
+                });
+            }
+            else
+            {
+                $("tr.kit-content-form-missing#_"+contentIndex).html('');
+            }
+
+        }
+    }
+    function GetMessage(title, func)
+    {
+        $("#enter-message-dialog-text").val('');
+        enterMessageDialog.dialog("option", "title", title);
+        enterMessageDialog.dialog("option", "buttons",[
+            {
+              text: "Close",
+              click: function()
+              {
+                $( this ).dialog( "close" );
+                if (func != undefined && func != null)
+                {
+                    func();
+                }
+              }
+            }]);
+        enterMessageDialog.dialog("open");
+    }
+
 
     function DestroyKit(kitID)
     {
@@ -103,23 +163,23 @@
     }
     function DestroyKitContentItem()
     {
-
+        console.log($(this).attr("id"));
         $(this).parent().parent().hide();
-        kitData.contents[$(this).parent().attr('ID')].status = 4; // CRUD, 4 == delete
+        kitData.contents[$(this).parent().attr('id')].status = 4; // CRUD, 4 == delete
 
     }
     function ConnectFunctions()
     {
         $(".kit-data").unbind().change(KitChanged);
         $(".kit-contents").unbind().change(ContentsChanged);
+        $(".kit-content-form-damaged").unbind().change(DamageChanged);
+        $(".kit-content-form-missing") .unbind().change(MissingChanged);
+
         // If the element is ui-disabled, then make sure it has the property also
         $(".ui-state-disabled").prop("disabled",true);
         $(".form-apply").unbind().button( {disabled: true} ).click(function()
         {
             url = "{{ route('kits.store') }}";
-            console.log("storing");
-            console.log(kitData);
-
             $.post(url, kitData, function( data )
             {
                 LoadKit(kitData.ID);
@@ -145,7 +205,7 @@
             }
             return false;
         });
-        $(".destroy-kit-content").unbind().button().click(DestroyKitContentItem);
+        $(".destroy-kit-content").button().click(DestroyKitContentItem);
         $(".kit-contents-add-new").unbind().button().click(function()
         {
             // Add new kit
@@ -153,25 +213,36 @@
                         "KitID": kitData.ID,
                         "DamagedLogID": null,
                         "MissingLogID": null,
+                        "DamagedMessage": null,
+                        "MissingMessage": null,
                         "Name": "new item",
                         "SerialNumber": "new asset number",
                         "status": 1} // CRUD, 1 = create
             var key = kitData.contents.length;
             kitData.contents.push(nk);
             var contents = kitData.contents;
-            $("#kit-components-area table tbody").append(
-                '<tr class="kit-content-row" ID="___' + key + '___">'+
-                    '<td class="kit-content-form-name" ID="'+key+'"> <input class="kit-contents kit-content-element kit-content-form-name text-singleline" name="Name" type="text" value="'+contents[key].Name+'" id="Name"></td>'+
-                    '<td class="kit-content-form-serial-number"ID="'+key+'"> <input class="kit-contents kit-content-element kit-content-form-serial-number text-singleline" name="SerialNumber" type="text" value="'+contents[key].SerialNumber+'" id="SerialNumber"></td>'+
-                    '<td class="kit-content-form-damaged" ID="'+key+'"> <input class="kit-contents kit-content-element kit-content-form-damaged checkbox" name="Damaged" type="checkbox" value="1" id="Damaged"></td>'+
-                    '<td class="kit-content-form-missing" ID="'+key+'"> <input class="kit-contents kit-content-element kit-content-form-missing checkbox" name="Missing" type="checkbox" value="1" id="Missing"></td>'+
-                    '<td class="kit-content-form-remove" ID="'+key+'"> <button class="kit-contents destroy-kit-content kit-content-form-remove tiny-buttons" ID="'+key+'"> X </button></td>'+
-                '</tr>'
-            );
-            // bind events to newly created records.
+            var html =
+                '<tr class="kit-content-row" id="___' + key + '___">'+
+                    '<td class="kit-content-form-name" id="'+key+'">'+
+                        ' <input class="kit-contents kit-content-element kit-content-form-name text-singleline" name="Name" type="text" value="'+contents[key].Name+'" id="Name">'+
+                    '</td>'+
+                    '<td class="kit-content-form-serial-number" id="'+key+'">'+
+                        '<input class="kit-contents kit-content-element kit-content-form-serial-number text-singleline" name="SerialNumber" type="text" value="'+contents[key].SerialNumber+'" id="SerialNumber">'+
+                    '</td>'+
+                    '<td></td><td></td>'+
+                    '<td class="kit-content-form-remove" id="'+key+'">'+
+                        '<input type="button" id="'+key+'" value= " X " class="kit-contents destroy-kit-content kit-content-form-remove tiny-buttons"/>'+
+                    '</td>'+
+                '</tr>';
+            $("#kit-components-area table tbody").append(html);
             var elementKey = ".kit-content-row#___" + key + "___ ";
-            $(elementKey + ".destroy-kit-content").unbind().button().click(DestroyKitContentItem);
+            // bind events to newly created records.
+            $(".destroy-kit-content").button().click(DestroyKitContentItem);
+            // $(".destroy-kit-content").click(function(){ console.log("click");});
+
             $(elementKey + ".kit-contents").unbind().change(ContentsChanged);
+            $(elementKey + ".kit-content-form-damaged").unbind().change(DamageChanged);
+            $(elementKey + ".kit-content-form-missing") .unbind().change(MissingChanged);
         });
     }
     function LoadKit(kitID)
@@ -213,8 +284,18 @@
             {
                 var missing = "";
                 var damaged = "";
-                if (contents[key].MissingLogID != null) missing = "checked";
-                if (contents[key].DamagedLogID != null) damaged = "checked";
+                var missingMsg = "";
+                var damagedMsg = "";
+                if (contents[key].MissingLogID != null)
+                {
+                    missing = "checked";
+                    missingMsg = '<td colspan="5">M:' + contents[key].MissingMessage + '</td>';
+                }
+                if (contents[key].DamagedLogID != null)
+                {
+                    damaged = "checked";
+                    damagedMsg = '<td colspan="5">D:' + contents[key].DamagedMessage + '</td>';
+                }
                 $("#kit-components-area table tbody").append(
                     '<tr class="kit-content-row" ID="'+contents[key].ID+'">'+
                         '<td class="kit-content-form-name" ID="'+key+'"> <input class="kit-contents kit-content-element kit-content-form-name text-singleline" name="Name" type="text" value="'+contents[key].Name+'" id="Name"></td>'+
@@ -222,7 +303,9 @@
                         '<td class="kit-content-form-damaged" ID="'+key+'"> <input class="kit-contents kit-content-element kit-content-form-damaged checkbox" ' + damaged + ' name="Damaged" type="checkbox" value="1" id="Damaged" title="'+contents[key].DamagedMessage+'"></td>'+
                         '<td class="kit-content-form-missing" ID="'+key+'"> <input class="kit-contents kit-content-element kit-content-form-missing checkbox" ' + missing + ' name="Missing" type="checkbox" value="1" id="Missing" title="'+contents[key].MissingMessage+'"></td>'+
                         '<td class="kit-content-form-remove" ID="'+key+'"> <button class="kit-contents destroy-kit-content kit-content-form-remove tiny-buttons" ID="'+key+'"> X </button></td>'+
-                    '</tr>'
+                    '</tr>'+
+                    '<tr class="kit-content-form-missing" ID="_'+key+'" colspan="5">'+missingMsg+'</tr>'+
+                    '<tr class="kit-content-form-damage" ID="_'+key+'" colspan="5">'+damagedMsg+'</tr>'
                 );
             }
             ConnectFunctions();
@@ -239,9 +322,13 @@
             LoadKit(value.KitID);
         }
     }
+
 </script>
 @stop
 @section('Content')
+<div id="enter-message-dialog">
+    <textarea id="enter-message-dialog-text" rows="4" cols="75" ></textarea>
+</div>
 <table cellpadding="0" style="height: 100%;" >
     <tr>
         <td style="vertical-align: top;">
@@ -325,6 +412,23 @@
     $(function()
     {
         $("#new-kit-btn").unbind().button().click(CreateNewKit);
+        enterMessageDialog = $("#enter-message-dialog").dialog(
+        {
+            autoOpen: false,
+            buttons: [
+            {
+              text: "close",
+              click: function()
+              {
+                $( this ).dialog( "close" );
+              }
+            }],
+            draggable: false,
+            modal: true,
+            width: 806,
+            resizable: false,
+            title: "Enter Damage Message"
+        });
 
     })
 </script>

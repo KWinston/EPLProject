@@ -476,6 +476,7 @@ table.tooltip-branch tr:nth-child(even)
 }
 .kit-content-row
 {
+    width: 100%;
 
 }
 .kit-content-row.green

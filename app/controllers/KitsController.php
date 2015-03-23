@@ -87,13 +87,27 @@ class KitsController extends BaseController
                 {
                     $content = KitContents::findOrFail($item["ID"]);
                     $content->fill($item);
-                    if (isset($item["Damaged"]) && $item["Damaged"] == 0)
+                    if (isset($item["Damaged"]))
                     {
-                        $content->DamagedLogID = null;
+                        if ($item["Damaged"] == 0)
+                        {
+                            $content->DamagedLogID = null;
+                        }
+                        else if ($item["DamagedLogID"] == null)
+                        {
+                            $content->DamagedLogID = Logs::DamageReport($kit->KitType, $kit->ID, $content->ID, $item["DamagedMessage"]);
+                        }
                     }
-                    if (isset($item["Missing"]) && $item["Missing"] == 0)
+                    if (isset($item["Missing"]))
                     {
-                        $content->MissingLogID = null;
+                        if ($item["Missing"] == 0)
+                        {
+                            $content->MissingLogID = null;
+                        }
+                        else if ($item["MissingLogID"] == null)
+                        {
+                            $content->MissingLogID = Logs::MissingReport($kit->KitType, $kit->ID, $content->ID, $item["missingMessage"]);
+                        }
 
                     }
                     $content->save();

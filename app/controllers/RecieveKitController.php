@@ -23,8 +23,14 @@ class RecieveKitController extends BaseController {
                                    ',
                                    array( $branch->ID));
 
-		return CheckIfAuthenticated('members.receiveKitManagement',[ 'branch' => $branch,
-                'selected_menu' => 'main-menu-receive', 'receiveKits' => $data, 'kitTypes' => KitTypes::all()], 'home.index', [], false);
+		return CheckIfAuthenticated('members.receiveKitManagement',[ 'mode' => 'receive',
+                                                                     'branch' => $branch,
+                                                                     'selected_menu' => 'main-menu-receive',
+                                                                     'receiveKits' => $data,
+                                                                     'kitTypes' => KitTypes::all()
+
+                                                                    ],
+                                                                     'home.index', [], false);
 	}
 
     public function findKit($bookingID)
@@ -44,7 +50,7 @@ class RecieveKitController extends BaseController {
             {
                 $join->on('Kits.AtBranch', '=', 'Branches.ID');
             })
-                        
+
             ->where('Booking.ForBranch', $branch->ID)
             ->where('Booking.ID', $bookingID)
             ->select('Booking.ID As BookingID', 'Booking.StartDate', 'Booking.EndDate', 'Booking.KitID As KitID',
@@ -84,7 +90,7 @@ class RecieveKitController extends BaseController {
     public function edit($BookingID)
     {
         $booking = Booking::findOrFail($BookingID);
-        return View::make("members.receiveKitEdit", ['booking' => $booking]);
+        return View::make("members.receiveKitEdit", ['booking' => $booking, 'mode' => 'receive']);
     }
 
         // ---------------------------------------------------------------------------------------------------
@@ -98,7 +104,7 @@ class RecieveKitController extends BaseController {
         {
             if (Input::has('isMissing_'.$content->ID) &&
                 Input::get('isMissing_'.$content->ID) == '1' &&
-                $content->MissingLogID == null) 
+                $content->MissingLogID == null)
             {
                 $message = Input::get('MissingID_'.$content->ID);
                 $logID = Logs::MissingReport($kit->KitType, $kit->ID, $content->ID, $message);
@@ -107,7 +113,7 @@ class RecieveKitController extends BaseController {
 
             if (Input::has('isDamaged_'.$content->ID) &&
                 Input::get('isDamaged_'.$content->ID) == '1' &&
-                $content->DamagedLogID == null) 
+                $content->DamagedLogID == null)
             {
                 $message = Input::get('DamagedID_'.$content->ID);
                 $logID = Logs::DamageReport($kit->KitType, $kit->ID, $content->ID, $message);
@@ -121,6 +127,11 @@ class RecieveKitController extends BaseController {
             $message = Input::get('LogMessage');
             $logNote = Logs::Note($kit->KitType, $kit->ID, $message);
         }
+
+        $booking = Booking::findOrFail(Input::get('BookingID'));
+        $kit->KitState = 1;
+        $kit->AtBranch = $booking->ForBranch;
+        $kit->save();
         return "OK";
     }
 }
