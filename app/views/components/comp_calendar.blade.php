@@ -634,7 +634,6 @@
 		    			var bookingStart = $(this).find('#start_date_picker').datepicker('getDate');
 		    			var bookingEnd = $(this).find('#end_date_picker').datepicker('getDate');
 		    			var forBranch = $('#branch_insert option:selected').val();
-
 		    			var recipients = getRecipients('#booking_users');
 
 		    			if (_isType)
@@ -728,7 +727,6 @@
 
 			    		event.ForBranch = $('#branch_update').val();
 			    		var recipients = getRecipients('#booking_update_users');
-
 			    		event.KitRecipients = recipients;
 			    		console.log(event);
 			    		updateKitDB(event, function(){
@@ -743,8 +741,6 @@
 		    				});
 		    				$("#booking_information").dialog("close");
 			    		});
-
-
 			    	}
 			    },
 			    {
