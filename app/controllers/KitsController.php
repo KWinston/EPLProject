@@ -36,8 +36,16 @@ class KitsController extends BaseController
             $d["KitID"]         = $item->KitID;
             $d["Name"]          = $item->Name;
             $d["SerialNumber"]  = $item->SerialNumber;
-            $d["Damaged"]       = $item->Damaged;
-            $d["Missing"]       = $item->Missing;
+            $d["MissingLogID"]  = $item->MissingLogID;
+            if ($item->missingMessage != null)
+                $d["MissingMessage"] = $item->missingMessage->LogMessage;
+            else
+                $d["MissingMessage"] = "";
+            $d["DamagedLogID"]  = $item->DamagedLogID;
+            if ($item->damagedMessage !=null)
+                $d["DamagedMessage"] = $item->damagedMessage->LogMessage;
+            else
+                $d["DamagedMessage"] = "";
 
             $d["status"] = 0;// unmodified Record
             $contents[$i] = $d;
@@ -53,6 +61,7 @@ class KitsController extends BaseController
     public function store()
     {
         $inp = Input::all();
+
         // print dd($inp);
 
         $id = $inp['ID'];
@@ -64,6 +73,7 @@ class KitsController extends BaseController
         }
         $kit->fill($inp);
         $kit->save();
+        $res = "OK";
         if (isset($inp["contents"]))
         {
             foreach($inp["contents"] as $idx => $item)
@@ -77,6 +87,15 @@ class KitsController extends BaseController
                 {
                     $content = KitContents::findOrFail($item["ID"]);
                     $content->fill($item);
+                    if (isset($item["Damaged"]) && $item["Damaged"] == 0)
+                    {
+                        $content->DamagedLogID = null;
+                    }
+                    if (isset($item["Missing"]) && $item["Missing"] == 0)
+                    {
+                        $content->MissingLogID = null;
+
+                    }
                     $content->save();
                 }
 
@@ -87,7 +106,7 @@ class KitsController extends BaseController
                 }
             }
         }
-        return "OK";
+        return $res;
     }
 
     // ---------------------------------------------------------------------------------------------------
@@ -124,17 +143,7 @@ class KitsController extends BaseController
         {
             array_unshift($ids, $id->ID);
         }
-        $bookings = Booking::whereIn("ID", $ids)
-        // ->select(DB::raw("EndDate > now() as BookingAfter"),
-        //          'KitID',
-        //          'ForBranch',
-        //          'StartDate',
-        //          'EndDate',
-        //          'ShadowStartDate',
-        //          'ShadowEndDate',
-        //          'Purpose'
-        //          )
-        ->get();
+        $bookings = Booking::whereIn("ID", $ids)->get();
         // print dd($bookings->toarray());
         $logs = DB::select( "SELECT L.LogType, L.LogDate, KC.Name, KC. SerialNumber, L.LogMessage
                                FROM Logs AS L

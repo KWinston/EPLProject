@@ -121,7 +121,10 @@ html, body
     border-left: 2px solid #fff;
     padding-left: 20px;
 }
-
+font.text-red
+{
+    color:red;
+}
 .content
 {
     width: 100%;
