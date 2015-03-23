@@ -103,7 +103,6 @@ class RecieveKitController extends BaseController {
                 $message = Input::get('MissingID_'.$content->ID);
                 $logID = Logs::MissingReport($kit->KitType, $kit->ID, $content->ID, $message);
                 $content->MissingLogID = $logID;
-                $saveme = $logID;
             }
 
             if (Input::has('isDamaged_'.$content->ID) &&
@@ -122,49 +121,6 @@ class RecieveKitController extends BaseController {
             $message = Input::get('LogMessage');
             $logNote = Logs::Note($kit->KitType, $kit->ID, $message);
         }
-        return print dd($saveme);
-    }
-
-    // ---------------------------------------------------------------------------------------------------
-    //
-    public function create()
-    {
-           $kitType = KitTypes::create(['Name' => 'newType', 'TypeDescription' => '']);
-        return $kitType;
-    }
-
-    // ---------------------------------------------------------------------------------------------------
-    //
-    public function destroy($kitTypeID)
-    {
-        // This Shall be fun!
-        // We have to deconstruct the types based on the forign key dependencys
-        // First iterate all the kits, for each kit remove all contents,
-        // and then all bookings (and all booking details)
-        // then finally we can remove the kit type and then all the logs for that
-        // kit type.
-        foreach(Kits::where('KitType', '=', $kitTypeID)->get() as $kit)
-        {
-            foreach(KitContents::where("KitID", '=', $kit->ID)->get() as $content)
-            {
-                KitContents::destroy($content->ID);
-            }
-
-            foreach(Booking::where("KitID", '=', $kit->ID)->get() as $booking)
-            {
-                foreach(BookingDetails::where("BookingID", '=', $booking->ID)->get() as $detail)
-                {
-                    BookingDetails::destroy($detail->ID);
-                }
-                Booking::destroy($booking->ID);
-            }
-            
-            Kits::destroy($kit->ID);
-        }
-        KitTypes::destroy($kitTypeID);
-        // Do the logs last, as all the deletes will log the changes of deleting the bits.
-        Logs::where('LogKey1', '=', $kitTypeID)->delete();
-
         return "OK";
     }
 }
