@@ -462,7 +462,7 @@ table.tooltip-branch tr:nth-child(even)
     background: red !important;
     float: right;
 }
-.welcomeMessage
+.welcome-message
 {
     text-align: center;
     line-height: 400px;
