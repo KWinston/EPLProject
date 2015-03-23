@@ -30,7 +30,6 @@ class MasterController extends BaseController {
 
         $data = Input::all();
         Session::put('branch', $data['branch']);
-        Redirect::action('HomeController@index');
         return $data['branch'];
     }
 

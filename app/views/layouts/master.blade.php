@@ -4,11 +4,10 @@
     <head>
         <meta charset="utf-8">
         <title>EPL Kit Manager</title>
-        <style> @import url(//fonts.googleapis.com/css?family=Lato:700);</style>
         {{ HTML::style('css/master.css') }}
         {{ HTML::style('css/help.css') }}
         {{ HTML::style('css/notifications-menu.css') }}
-        {{ HTML::style('plugins/chosen_1_3_0_dropdown/chosen.css') }}
+        {{ HTML::style('plugins/chosen_1_4_0_dropdown/chosen.css') }}
         {{ HTML::style('css/jquery-ui.css') }}
 
         {{ HTML::script('js/jquery.min.js', array('type' => 'text/javascript')) }}
@@ -51,11 +50,6 @@
         <div id="help-dialog"> </div>
         <div id="kit-details-dialog"> </div>
 
-        <div class="slideout-menu">
-            <h3>NOTIFICATIONS</h3>
-            <a href="#" class="slideout-menu-toggle">&times;</a>
-        </div>
-
         <div class="menu">
             <div class="options">
                 <div class="option left" style="width: 50px;
@@ -88,10 +82,7 @@
 
                 @if(Auth::check())
                     <div class="option right" style="padding-left: 10px;" >
-                        BRANCH&#58;
-                        <select data-placeholder="Branch" id="branchMenu"
-                            class="chosen-select branch-select" tabindex="2">
-                        </select>
+                        <div id="settings_button_open" class="settings-icon"></div>
                     </div>
                 @endif
 
@@ -132,7 +123,14 @@
             </div>
         @endif
 
-        {{ HTML::script('plugins/chosen_1_3_0_dropdown/chosen.jquery.min.js',
+        <div class="branch-select">
+            <select data-placeholder="Branch" id="branchMenu" class="chosen-select" tabindex="2">
+            </select>
+            <br/><br/>
+            <input id="settings_button_close" type="button" value="Done" />
+        </div>
+
+        {{ HTML::script('plugins/chosen_1_4_0_dropdown/chosen.jquery.min.js',
             array('type' => 'text/javascript')) }}
 
         {{ HTML::script('js/master.js',
@@ -157,6 +155,7 @@
                         $.post("{{ URL::route('master.select_branch') }}", json)
                             .success(function(data){
                                 @yield('changeBranch')
+                                document.location.href = '/public';
                             })
                             .fail(function(){
                                 console.log("error");
@@ -168,6 +167,8 @@
                         $(selector).trigger("chosen:updated");
                     @endif
                 }
+                $('.branch-select').css('display', 'none');
+                $('.branch-select').css('opacity', '1');        // required for load order
             });
             $(function()
             {
@@ -233,6 +234,14 @@
                             return $(this).prop('title');
                         }
                     }
+                });
+
+                $('#settings_button_open').click(function(){
+                    $('.branch-select').fadeIn("slow");
+                });
+
+                $('#settings_button_close').button().click(function(){
+                    $(this).parent().fadeOut("slow");
                 });
             });
         @yield('master-script')
