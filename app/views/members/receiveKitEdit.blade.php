@@ -1,16 +1,32 @@
-{{Form::open(array('route' => 'recieve_kit.store', 'class' => 'kit-type-edit-form'));}}
+{{Form::open(array('route' => 'recieve_kit.store', 'class' => 'receive-kit-edit-form'));}}
 {{Form::hidden('ID', $booking->KitID)}}
 
 {{Form::hidden('BookingID', $booking->ID)}}
 
 <table style ="width:80%">
-<tr><td>Name: {{ $booking->kit->Name }}</td></tr>
-<tr><td> Description: {{ $booking->kit->KitDesc }}</td></tr>
-<tr><td> Destination: {{ $booking->branch->Name }}</td></tr>
-<tr><td> Last Kit Location: {{ $booking->kit->atBranch->Name }}</td></tr>
+    <tr>
+        <td class="receive-kit-form-label">
+        Name: {{ $booking->kit->Name }}
+        </td>
+    </tr>
+    <tr>
+        <td class="receive-kit-form-label">
+        Description: {{ $booking->kit->KitDesc }}
+        </td>
+    </tr>
+    <tr>
+        <td class="receive-kit-form-label">
+        Destination: {{ $booking->branch->Name }}
+        </td>
+    </tr>
+    <tr>
+        <td class="receive-kit-form-label">
+        Last Kit Location: {{ $booking->kit->atBranch->Name }}
+        </td>
+    </tr>
 </table>
 
-<div id="receive-contents">
+<div class="receive-kit-contents">
 <table border="1" style="width:80%">
 <colgroup>
 <col style="width: 70%">
@@ -25,49 +41,55 @@
         <td>
         <table>
             <tr>
-                <td>
+                <td class="receive-kit-form-label">
                 {{$content->Name}}
                 </td>
             </tr>
             <tr>
-                <td>
-                {{ Form::label('Name', 'Missing: ', array('class' => 'kit-type'));}}
+                <td class="receive-kit-form-label">
+                {{ Form::label('Name', 'Missing: ', array('class' => 'receive-kit'));}}
                 </td>
-                <td>
-                @if (($content->Missing) == false)
-                {{ Form::checkbox('name', 'isMissing') }}
-                {{ Form::textarea('Missing', $booking->ID, array('style' => 'width: 200px; height: 30px;', 'class' => 'form-control-textbox'));}}
+                <td class="receive-kit-form-value">
+                @if (($content->MissingLogID) == null)
+                {{ Form::checkbox('isMissing_'.$content->ID, '1', false, array('ID' => 'isMissing_'.$content->ID)); }}
+                {{ Form::textarea('MissingID_'.$content->ID, '', array('ID' => 'MissingID_'.$content->ID, 'style' => 'width: 300px; height: 30px;', 'class' => 'receive-kit form-multline-text'));}}
                 @else
-                {{ Form::checkbox('name', 'isMissing', true) }}
-                {{ Form::label('Missing', $booking->ID, array('class' => 'kit-type'));}}
+                {{ Form::checkbox('isMissing_'.$content->ID, '1', true, array('ID' => 'isMissing_'.$content->ID)); }}
+                {{ Form::label('Missing', $content->missingMessage->LogMessage, array('class' => 'receive-kit'));}}
                 @endif
                 </td>
             </tr>
             <tr>
-                <td>
-                {{ Form::label('Name', 'Damaged: ', array('class' => 'kit-type'));}}
+                <td class="receive-kit-form-label">
+                {{ Form::label('Name', 'Damaged: ', array('class' => 'receive-kit'));}}
                 </td>
-                <td>
-                @if (($content->Damaged) == false)
-                {{ Form::checkbox('name', 'isDamaged') }}
-                {{ Form::textarea('Damaged', $booking->ID, array('style' => 'width: 200px; height: 30px;', 'class' => 'form-control-textbox'));}}
+                <td class="receive-kit-form-value">
+                @if (($content->DamagedLogID) == null)
+                {{ Form::checkbox('isDamaged_'.$content->ID, '1', false, array('ID' => 'isDamaged_'.$content->ID)); }}
+                {{ Form::textarea('DamagedID_'.$content->ID, '', array('ID' => 'DamagedID_'.$content->ID, 'style' => 'width: 300px; height: 30px;', 'class' => 'receive-kit form-multiline-text'));}}
                 @else
-                {{ Form::checkbox('name', 'isDamaged') }}
-                {{ Form::label('Damaged', $booking->ID, array('class' => 'kit-type'));}}
+                {{ Form::checkbox('isDamaged_'.$content->ID, '1', true, array('ID' => 'isDamaged_'.$content->ID)); }}
+                {{ Form::label('Damaged', $content->damagedMessage->LogMessage, array('class' => 'receive-kit'));}}
                 @endif
                 </td>
             </tr>
         </table>
-        <td> {{$content->SerialNumber}} </td>
+        <td class="receive-kit-form-label">
+        <div class="receive-kit-serialnumber">
+        {{$content->SerialNumber}}
+        </div>
+        </td>
     </tr>
     @endforeach
 </div>
-
-<div id="log-message">
 <table style="width:80%;">
-    <tr> <td><br>Log Message: {{ Form::textarea('LogMessage', $booking->ID, array('style' => 'width: 100%; height: 40px;', 'class' => 'kit-type form-multiline-text')); }}<br></td></tr>
+    <tr>
+        <td class="receive-kit-form-value">
+        <div class="receive-kit-logmessage">
+        <br>Notes: {{ Form::textarea('LogMessage', '', array('style' => 'width: 100%; height: 40px;', 'class' => 'receive-kit form-multiline-text')); }}<br>
+        </div>
+        </td>
+    </tr>
 </table>
-</div>
-<div> {{Form::submit('Confirm Kit', array('class' => 'kit-type-submit'))}}
-</div>
+{{Form::submit('Confirm Kit', array('class' => 'receive-kit-submit'))}}
 {{Form::close();}}

@@ -940,3 +940,46 @@ table.kit-details-bookings tr.before
     min-width:1000px !important;
     max-width:1000px !important;
 }
+/*This is the CSS for the Receive Kit Screens*/
+.receive-kit-name
+{
+    list-style: none;
+
+    -webkit-margin-start: -2em;
+    -webkit-margin-before: 0em;
+    cursor: default;
+}
+
+.receive-kit-name.selected
+{
+    background: #CCCCCC;
+}
+label.receive-kit
+{
+    /* width:25%; */
+    float: right;
+}
+input.receive-kit
+{
+
+}
+textarea.receive-kit
+{
+
+
+}
+.receive-kit-buttons
+{
+    border: none !important;
+}
+
+#receive-kit-edit
+{
+    margin-left: 14px;
+    height: 100%;
+    width: 98%;
+}
+.receive-kit-side-menu
+{
+    height: 100% !important;
+}

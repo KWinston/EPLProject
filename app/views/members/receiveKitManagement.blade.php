@@ -3,33 +3,33 @@
 @section('head')
 {{ HTML::style('css/comp-menu.css') }}
 <script type="text/javascript">
-    function SelectKitType(kitTypeID)
+    function SelectReceiveKit(kitTypeID)
     {
-        $(".kit-type-name.selected").removeClass("selected");
+        $(".receive-kit-name.selected").removeClass("selected");
         $(this).addClass("selected");
         url = "{{ route('recieve_kit.edit', array(':KITTYPEID')) }}";
         url = url.replace(':KITTYPEID', kitTypeID);
 
-        $("#kit-type-edit").load(url, function()
+        $("#receive-kit-edit").load(url, function()
         {
-            $(".kit-type-submit").unbind().button({'disable': true}).click(function()
+            $(".receive-kit-submit").unbind().button({'disable': true}).click(function()
             {
-                $.post("{{ route('recieve_kit.store') }}", $('.kit-type-edit-form').serialize(), function( data )
+                $.post("{{ route('recieve_kit.store') }}", $('.receive-kit-edit-form').serialize(), function( data )
                 {
-                    typeID = $('.kit-type-edit-form [name="ID"]').val();
-                    $(".kit-type-name#" + typeID).html($('.kit-type-edit-form [name="Name"]').val());
+                    typeID = $('.receive-kit-edit-form [name="ID"]').val();
+                    $(".receive-kit-name#" + typeID).html($('.receive-kit-edit-form [name="Name"]').val());
                 });
                 return false;
             });
             $(".kit-type-destroy").unbind().button().click(function()
             {
-                typeID = $('.kit-type-edit-form [name="ID"]').val();
+                typeID = $('.receive-kit-edit-form [name="ID"]').val();
                 url = "{{ route('recieve_kit.destroy', array(':KITTYPEID')) }}";
                 url = url.replace(':KITTYPEID', typeID);
 
                 if (confirm("\nThis will destroy this type, and all kits of this type "
                             + "\nas well the logs for this type (and kits of this type) will no longer be accessible!"
-                            + "\n\nAre you sure you which to destroy the '" + $(".kit-type-edit-form input#Name").val() + "' type and associated kits?"
+                            + "\n\nAre you sure you which to destroy the '" + $(".receive-kit-edit-form input#Name").val() + "' type and associated kits?"
                             ) === true)
                 {
                     // remove the list entry
@@ -39,8 +39,8 @@
                         type: 'DELETE',
                         success: function(result)
                         {
-                            $(".kit-type-name#" + typeID).remove();
-                            $("#kit-type-edit").html('');
+                            $(".receive-kit-name#" + typeID).remove();
+                            $("#receive-kit-edit").html('');
                             // Do something with the result
                             console.log("destroy");
                         }
@@ -55,24 +55,26 @@
 </script>
 @stop
 @section('content')
-<h3> {{ $branch->Name }} Kits Awaiting Reception </h3>
-<table cellpadding="0" style="height: 100%; width:100%" >
+<div class="receive-kit-branch">
+{{ $branch->Name }} Kits Awaiting Reception
+</div>
+<table cellpadding="0" style="height: 95%; width:99%" >
     <tr>
-        <td style="vertical-align: top; width:15%">
-            <div class="recv-no-button-bar-visible content" style="display: table;">
+        <td style="vertical-align: top; width:10%">
+            <div class="receive-kit-side-menu content" style="display: table;">
                 <ul> <u><b>Select Kit</b></u>
                 </ul>
-                <ul ID="kit-type-list">
+                <ul ID="receive-kit-list">
                     @foreach($receiveKits as $rk)
                         @if($rk->KitID != 0)
-                            <li class="kit-type-name" ID="{{$rk->BookingID}}">{{$rk->KitName}}</li>
+                            <li class="receive-kit-name" ID="{{$rk->BookingID}}">{{$rk->KitName}}</li>
                         @endif
                     @endforeach
                 </ul>
             </div>
         </td>
-        <td style="vertical-align: top; width:80%">
-            <div id="kit-type-edit" class="content">
+        <td style="vertical-align: top; width:50%">
+            <div id="receive-kit-edit" class="content">
             </div>
         </td>
     </tr>
@@ -80,36 +82,7 @@
 <script type="text/javascript">
     $(function()
     {
-        // document ready
-        $(".kit-type-name").unbind().click(function(){ SelectKitType(this.id); });
+        $(".receive-kit-name").unbind().click(function(){ SelectReceiveKit(this.id); });
     })
-
-    $(function()
-    {
-        $.getJSON( "{{ route('recieve_kit.index') }}", function( data )
-        {
-            branchID = data.branch_ID;
-            branches = data.branches;
-            console.log(data);
-            inventory = data.data;
-            loadInventory();
-            $("div.kit-block-activity.kit-shipping").button();
-            $("div.kit-block-activity.kit-receiving").button();
-            $("div.kit-block-activity.kit-booking").button();
-            $("div.kit-shipping").click(doShipping);
-            $("div.kit-receiving").click(doReceiving);
-            $("div.kit-booking").click(doBooking);
-
-            $(".content.pulse").pulse({
-                'background-color':'rgb(252, 133, 133)',
-            },
-            {
-                duration : 3250,
-                pulses   : -1,
-                interval : 1500
-            });
-        });
-
-    });
 </script>
 @stop

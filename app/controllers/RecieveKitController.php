@@ -91,18 +91,45 @@ class RecieveKitController extends BaseController {
     //
     public function store()
     {
-        $id = Input::get('ID');
-        $kitType = KitTypes::find($id);
-        $kitType->fill(Input::all());
-        $kitType->save();
-        return "OK";
+        //print dd(Input::All());
+
+        $kit = Kits::findOrFail(Input::get('ID'));
+        foreach ($kit->contents as $content)
+        {
+            if (Input::has('isMissing_'.$content->ID) &&
+                Input::get('isMissing_'.$content->ID) == '1' &&
+                $content->MissingLogID == null) 
+            {
+                $message = Input::get('MissingID_'.$content->ID);
+                $logID = Logs::MissingReport($kit->KitType, $kit->ID, $content->ID, $message);
+                $content->MissingLogID = $logID;
+                $saveme = $logID;
+            }
+
+            if (Input::has('isDamaged_'.$content->ID) &&
+                Input::get('isDamaged_'.$content->ID) == '1' &&
+                $content->DamagedLogID == null) 
+            {
+                $message = Input::get('DamagedID_'.$content->ID);
+                $logID = Logs::DamageReport($kit->KitType, $kit->ID, $content->ID, $message);
+                $content->DamagedLogID = $logID;
+            }
+            $content->save();
+        }
+        if (Input::has('LogMessage') &&
+           strlen(Input::get('LogMessage')) > 0)
+        {
+            $message = Input::get('LogMessage');
+            $logNote = Logs::Note($kit->KitType, $kit->ID, $message);
+        }
+        return print dd($saveme);
     }
 
     // ---------------------------------------------------------------------------------------------------
     //
     public function create()
     {
-        $kitType = KitTypes::create(['Name' => 'newType', 'TypeDescription' => '']);
+           $kitType = KitTypes::create(['Name' => 'newType', 'TypeDescription' => '']);
         return $kitType;
     }
 
