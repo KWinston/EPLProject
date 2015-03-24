@@ -71,13 +71,13 @@
 </div>
 
 <div id="booking_information" class="booking-dialog">
-	<table> 
+	<table>
 		<tr>
             <td colspan="3">
                 <p>
                     Update booking information. Add or remove users to inform.
                     Change branch for kit booking.
-                </p> 
+                </p>
             </td>
         </tr>
 		<tr>
@@ -128,7 +128,7 @@
 	function setBookingKit(kit) {
 		var reg = RegExp('kit', 'i');
 		if (reg.test(kit.type)) {
-			_kitID = kit.KitID;	
+			_kitID = kit.KitID;
 			_isType = false;
 		}
 		else {
@@ -170,7 +170,7 @@
 
 	function existsInNewBookings(booking) {
 		for(var i in newKitObjects) {
-			if (parseInt(booking.BookingID, 10) ===
+			if (parseInt(booking.ID, 10) ===
 				parseInt(newKitObjects[i].BookID, 10)) {
 				return true;
 			}
@@ -235,13 +235,12 @@
 
 			if (!existsInNewBookings(e)) {
 				var title = generateEventTitle(
-					e.Purpose, 
-					moment(e.StartDate), 
+					e.Purpose,
+					moment(e.StartDate),
 					moment(e.EndDate)
 				);
 				var creator = (e.UserID === UserID);
 				var isType = (e.IsTypeKit === true);
-
 				oldKitObjects.push({
 					BookID        : e.ID,
 					type		  : 'other',
@@ -260,7 +259,7 @@
 					editable	  : creator,
 					className	  : isType ? "" : 'shadow-day-effect',
 					borderColor   : '#555',
-					backgroundColor: 
+					backgroundColor:
 						isType ? '#111' : creator ? '#0033CC' : '#ccc',
 					textColor    : '#fff'
 				});
@@ -307,6 +306,7 @@
 
 			insertKitDB(event, function(id) {
                 event.BookID = id;
+                console.log(event);
 			    newKitObjects.push(event);
 			    $('#calendar').fullCalendar('addEventSource', [event]);
                 $('#booking_dialog').dialog("close");
@@ -453,9 +453,40 @@
 
 	function dialogMessage(text) {
 		$('#booking_message').html(text);
-		setTimeout(function(){ 
+		setTimeout(function(){
 			$('#booking_message').html('');
 		}, 2500);
+	}
+
+	function getRecipients(userFields) {
+		var recipients = [];
+		$(userFields).find('.user-field.optional').each(function() {
+			var email = $(this).find('.email').html();
+			var username = $(this).find('.user').html();
+			var realname = $(this).find('.realname').html();
+
+			var found = users.filter(function(user){
+				return email === user.email;
+			});
+			if (found != null && found.length > 0)
+			{
+				recipients.push({
+					'Email': found[0].email,
+					'Username' : found[0].username,
+					'Realname' : found[0].realname,
+					'UserID'   : found[0].id
+				});
+			}
+			else {
+				recipients.push({
+					'Email': email,
+					'Username' : username,
+					'Realname' : realname,
+					'UserID'   : null
+				});
+			}
+		});
+		return recipients;
 	}
 
 	$(document).ready(function() {
@@ -603,14 +634,7 @@
 		    			var bookingStart = $(this).find('#start_date_picker').datepicker('getDate');
 		    			var bookingEnd = $(this).find('#end_date_picker').datepicker('getDate');
 		    			var forBranch = $('#branch_insert option:selected').val();
-		    			var recipients = [];		    			
-
-		    			$('#booking_users').find('.user-field.optional').each(function() {
-		    				recipients.push(
-		    					$(this).find('.email').html()
-		    				);
-		    				$(this).remove();
-		    			});
+		    			var recipients = getRecipients('#booking_users');
 
 		    			if (_isType)
 		    			{
@@ -621,20 +645,25 @@
 		    				};
 
 			    			$.post("{{ URL::route('book_kit.get_available_kit') }}", json)
-			                    .success(function(resp){		
-			                    	console.log(resp);	                        
-			                        if (resp == "" || 
+			                    .success(function(resp){
+			                    	console.log(resp);
+			                        if (resp == "" ||
 				                        !createBookingByDateRange(
 						    				resp.ID,
-						    				_kitTypeID, 
-						    				resp.Name, 
-						    				forBranch, 
-						    				moment(bookingStart).format('YYYY-MM-DD'), 
+						    				_kitTypeID,
+						    				resp.Name,
+						    				forBranch,
+						    				moment(bookingStart).format('YYYY-MM-DD'),
 						    				moment(bookingEnd).format('YYYY-MM-DD'),
 						    				recipients
-						    			)) {			                   
+						    			)) {
 			                    		dialogMessage('No kit available at this time');
 			                    		console.log('No kits available at this time');
+			                    	}
+			                    	else {
+			                    		$('#booking_users').find('.user-field.optional').each(function() {
+						    				$(this).remove();
+						    			});
 			                    	}
 			                    })
 			                   .fail(function(){
@@ -644,14 +673,19 @@
 		                else {
 			    			if (!createBookingByDateRange(
 			    				_kitID,
-			    				_kitTypeID, 
-			    				_kitText, 
-			    				forBranch, 
-			    				bookingStart, 
+			    				_kitTypeID,
+			    				_kitText,
+			    				forBranch,
+			    				bookingStart,
 			    				bookingEnd,
 			    				recipients
 			    			)) {
 			    				dialogMessage('This kit is not available at this time');
+			    			}
+			    			else {
+			    				$('#booking_users').find('.user-field.optional').each(function() {
+		    				$(this).remove();
+		    			});
 			    			}
 			    		}
 			    	}
@@ -692,23 +726,21 @@
 			    		var event = $(this).data.event;
 
 			    		event.ForBranch = $('#branch_update').val();
-			    		var recipients = [];
-			    		$('#booking_update_users').find('.user-field.optional').each(function() {
-		    				recipients.push(
-		    					$(this).find('.email').html()
-		    				);
-		    				$(this).remove();
-		    			});
+			    		var recipients = getRecipients('#booking_update_users');
 			    		event.KitRecipients = recipients;
+			    		console.log(event);
 			    		updateKitDB(event, function(){
 			    			var kit = oldKitObjects.filter(function(e){
 			    				return parseInt(e.BookID, 10) === parseInt(event.BookID, 10);
 			    			});
 			    			kit.KitRecipients = recipients;
 			    			$('#booking_users_update_options').val('');
+
+			    			$('#booking_update_users').find('.user-field.optional').each(function() {
+		    					$(this).remove();
+		    				});
+		    				$("#booking_information").dialog("close");
 			    		});
-			    	
-			    		$(this).dialog("close");
 			    	}
 			    },
 			    {
@@ -733,18 +765,24 @@
 
 			    for (var index in event.KitRecipients) {
 			    	var recipient = event.KitRecipients[index];
-			    	var found = users.filter(function(user){
-			    		return parseInt(recipient.UserID, 10) === parseInt(user.id, 10);
-			    	});
-
-			    	if (found !== null) {
-			    		createUserField('', recipient.Email, '')
-							.appendTo('#booking_update_users');
+			    	if (recipient.UserID != null || recipient.UserID !== "")
+			    	{
+			    		var found = users.filter(function(user) {
+			    			return parseInt(user.id, 10) === parseInt(recipient.UserID, 10);
+			    		});
+			    		if (found != null && found.length > 0) {
+				    		createUserField(found[0].username, found[0].email, found[0].realname)
+				    			.appendTo('#booking_update_users');
+			    		}
+			    		else {
+			    			createUserField(recipient.Username, recipient.Email, recipient.Realname)
+			    				.appendTo('#booking_update_users');
+			    		}
 			    	}
 			    	else {
-			    		createUserField(found.username, found.email, found.realname)
-							.appendTo('#booking_update_users');
-			    	}
+			    		createUserField(recipient.Username, recipient.Email, recipient.Realname)
+			    			.appendTo('#booking_update_users');
+		    		}
 			    }
 		    }
 		});
@@ -827,7 +865,7 @@
 				new Date(end.format()));
 		});
 
-		
+
 		$('.booking-users-options').autocomplete({
 			'source': users.map(function(row) {
 				return row.email + ' | '+ row.username + ' | ' + row.realname;
@@ -849,7 +887,8 @@
 		});
 	});
 
-	function createUserField(username, email, realname) {
+	function createUserField(username, email, realname)
+	{
 		return $('<div>', {
 			'class' : 'user-field optional'
 		}).append(

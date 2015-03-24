@@ -109,6 +109,8 @@
             'KitID'     : parseInt(event.KitID, 10)
         };
 
+        console.log(json);
+
         $.post("{{ URL::route('book_kit.insert_booking') }}", json)
             .success(function(resp){
                 setBookingFeedback('Created');

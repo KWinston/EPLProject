@@ -1,0 +1,88 @@
+.receive-kit-form-label
+{
+    width: 5%;
+
+}
+
+table.kit-contents-list
+{
+    width: 100%;
+
+}
+table.kit-contents-list tr
+{
+
+}
+p.kit-contents-kit-name
+{
+    margin: 0px;
+
+    text-align: center;
+    font-weight: bold;
+    font-size: larger;
+}
+th.kit-contents-list-name
+{
+
+}
+th.kit-contents-list-serial
+{
+    width: 15%;
+
+}
+td.kit-contents-list-name
+{
+
+}
+td.kit-contents-list-serial
+{
+
+}
+
+td.receive-kit-form-value
+{
+    width: 100%;
+
+    text-align: left;
+    vertical-align: middle;
+    display: inline-flex;
+}
+
+td.receive-kit-form-value p
+{
+    width: 75%;
+
+}
+td.receive-kit-form-value input.checkbox
+{
+    display: inline-block;
+
+    vertical-align: middle;
+}
+td.receive-kit-form-value input.single-line-text
+{
+    width: 96%;
+
+}
+.receive-kit-contents
+{
+
+}
+.receive-kit-logmessage
+{
+    width: 99%;
+
+}
+.receive-kit
+{
+
+}
+.receive-kit.form-multline-text
+{
+    width: 100%;
+    height: 40px;
+}
+table.kit-contents-table tr
+{
+
+}

@@ -34,7 +34,7 @@ class BookingDetails extends Eloquent
             $userName = "";
             if (isset($record->UserID))
             {
-                $userName = Users::find($record->UserID)->username;
+                $userName = User::find($record->UserID)->username;
             }
             else
             {
