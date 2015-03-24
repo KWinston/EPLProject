@@ -50,7 +50,38 @@ class email extends ScheduledCommand {
 	 */
 	public function fire()
 	{
-		// send email notifications
+		$date = date_format(date(), 'Y/m/d');
+		$tomorrow = date('Y-m-d',strtotime($date . "+ 1 days"));
+
+		$query = 
+                "select * ".
+                "from Booking as B ".
+                "inner join Kits as K ".
+                    "on B.KitID = K.ID ".
+                "where ('".$tomorrow."' between B.ShadowStartDate and B.StartDate)";
+
+        $bookings = DB::select(DB::raw($query));
+
+        foreach($bookings as $booking)
+        {
+        	$branch = Branches::find($booking->ForBranch);
+        	$emailList = BookingDetails::where("BookingID", $booking->ID)->get();
+        	foreach ($emailList as $email)
+        	{
+				// send email notifications
+        		$data = array(
+        			'Barcode' => $booking->BarcodeNumber,
+        			'KitName' => $booking->Name,
+        			'MaxShipDay' => $booking->$booking->ShadowStartDate,
+        			'Branch' => $branch->BranchID
+        		);
+				Mail::send('emails.ship_kit', $data, function($message)
+				{
+				    $message->from('foo@example.com', 'EPL Kit Manager');
+				    $message->to($email->Email);
+				});
+			}
+		}
 	}
 
 	/**
