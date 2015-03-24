@@ -955,6 +955,19 @@ table.kit-details-bookings tr.before
 {
     background: #CCCCCC;
 }
+.send-kit-name
+{
+    list-style: none;
+
+    -webkit-margin-start: -2em;
+    -webkit-margin-before: 0em;
+    cursor: default;
+}
+
+.send-kit-name.selected
+{
+    background: #CCCCCC;
+}
 label.receive-kit
 {
     /* width:25%; */

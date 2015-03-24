@@ -66,39 +66,68 @@ class ShipKitController extends BaseController {
         return "OK";
     }
 
-    public function findKit($theKitID)
+    // Show the types Edit form
+    public function edit($BookingID)
     {
-        $index = Session::All();
-        $post = Input::except('ID');
-        $branch = Branches::find(Session::get('branch'));
-
-        $shipKits = DB::table('Booking')
-            ->join('BookingDetails',
-                'Booking.ID', '=', 'BookingDetails.BookingID')
-            ->join('Kits',
-                'Booking.KitID', '=', 'Kits.ID')
-            ->join('KitState',
-                'KitState.ID', '=', 'Kits.KitState')
-            ->join('KitTypes',
-                'KitTypes.ID', '=', 'Kits.KitType')
-            ->join('Branches', function($join)
-            {
-                $join->on('Kits.AtBranch', '=', 'Branches.ID');
-            })
-                        
-            ->where('Booking.ForBranch', $index['branch'])
-            ->where('Booking.KitID', $theKitID)
-            ->select('Booking.*', 'BookingDetails.*', 'Kits.AtBranch', 'Kits.KitState', 'Kits.KitDesc', 'KitState.StateName', 'KitTypes.Name', 'Branches.Name As BName')
-            ->orderBy('Booking.StartDate')
-            ->get();
-
-        $perPage = 5;
-        $currentPage = Input::get('page', 1) - 1;
-        $pagedData = array_slice($shipKits, $currentPage * $perPage, $perPage);
-        $data = Paginator::make($pagedData, count($shipKits), $perPage);
-
-        return CheckIfAuthenticated('members.shipkit',[ 'branch_name' => $branch->Name, 'selected_menu' => 'main-menu-ship', 'shipKits' => $data], 'home.index', [], false);
+        $booking = Booking::findOrFail($BookingID);
+        return View::make("members.receiveKitEdit", ['booking' => $booking, 'mode' => 'ship']);
     }
+
+       public function findKit($bookingID)
+    {
+        $branch = Branches::find(Session::get('branch'));
+        // If the session is not set, default to the IT depot
+        if (!isset($branch))
+        {
+            $branch = Branches::find(0);
+        }
+        // Get Kits to be received
+        $data = DB::select('SELECT
+                              K.ID AS KitID, K.KitType, K.Name AS KitName, K.AtBranch, K.KitState, K.BarcodeNumber, K.Specialized,  K.SpecializedName,
+                              B.ID as BookingID, B.ForBranch, B.StartDate, B.EndDate, B.ShadowStartDate, B.ShadowEndDate, B.Purpose,
+                              KS.StateName,
+                              KT.Name AS KitTypeName, KT.TypeDescription as KitTypeDesc
+                              FROM Booking AS B
+                                INNER JOIN Kits as K ON (K.ID = B.KitID)
+                                  INNER JOIN KitTypes AS KT ON (KT.ID = K.KitType)
+                                  INNER JOIN KitSTate AS KS ON (KS.ID = K.KitState)
+                             WHERE now() BETWEEN DATE_ADD(B.ShadowStartDate, INTERVAL -1 DAY) AND B.ShadowEndDate
+                                   AND B.ForBranch = ?
+                                   AND B.ForBranch <> K.AtBranch
+                                   ORDER BY BookingID
+                                   ',
+                                   array( $branch->ID));
+
+        // Get Kits to be sent out
+        $data2 = DB::select('SELECT
+                              K.ID AS KitID, K.KitType, K.Name AS KitName, K.AtBranch, K.KitState, K.BarcodeNumber, K.Specialized,  K.SpecializedName,
+                              B.ID as BookingID, B.ForBranch, B.StartDate, B.EndDate, B.ShadowStartDate, B.ShadowEndDate, B.Purpose,
+                              KS.StateName,
+                              KT.Name AS KitTypeName, KT.TypeDescription as KitTypeDesc
+                              FROM Booking AS B
+                                INNER JOIN Kits as K ON (K.ID = B.KitID)
+                                  INNER JOIN KitTypes AS KT ON (KT.ID = K.KitType)
+                                  INNER JOIN KitSTate AS KS ON (KS.ID = K.KitState)
+                             WHERE now() BETWEEN DATE_ADD(B.ShadowStartDate, INTERVAL -1 DAY) AND B.ShadowEndDate
+                                   AND K.AtBranch = ?
+                                   AND B.ForBranch <> K.AtBranch
+                                   ORDER BY BookingID
+                                   ',
+                                   array($branch->ID));
+
+        $findBookID = Booking::findOrFail($bookingID);
+        $theKitID = $findBookID->kit->KitID;
+
+        return CheckIfAuthenticated('members.receiveKitManagement',[ 'mode' => 'send',
+                                                                     'branch' => $branch,
+                                                                     'selected_menu' => 'main-menu-receive',
+                                                                     'receiveKits' => $data,
+                                                                     'sendKits' => $data2,
+                                                                     'findKitID' => $theKitID,
+                                                                     'kitTypes' => KitTypes::all()
+                                                                    ],
+                                                                     'home.index', [], false);
+  }
 
     public function shipOut()
     {

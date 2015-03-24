@@ -1,7 +1,7 @@
 @if ($mode == 'receive')
     {{Form::open(array('route' => 'recieve_kit.store', 'class' => 'receive-kit-edit-form'));}}
 @else
-    {{--Form::open(array('route' => 'send_kit.store', 'class' => 'send-kit-edit-form'));--}}
+    {{Form::open(array('route' => 'ship_kit.store', 'class' => 'send-kit-edit-form'));}}
 @endif
 {{Form::hidden('ID', $booking->KitID)}}
 
@@ -53,9 +53,7 @@
                     {{ Form::text('MissingID_'.$content->ID, '', array('ID' => 'MissingID_'.$content->ID,  'class' => 'receive-kit receive-kit-form-value single-line-text'));}}
                 @else
                     <input id="isMissing_{{$content->ID}}" class="receive-kit-form-value checkbox disabled" checked="checked" name="isMissing_{{$content->ID}}" type="checkbox" value="1">
-                        @if(isset($content->damagedMessage))
-                            {{$content->missingMessage->LogMessage}}
-                        @endif
+                        {{$content->missingMessage->LogMessage}}
                     </input>
                 @endif
                 </td>
@@ -70,9 +68,7 @@
                     {{ Form::text('DamagedID_'.$content->ID, '', array('ID' => 'DamagedID_'.$content->ID, 'class' => 'receive-kit receive-kit-form-value single-line-text'));}}
                 @else
                     <input id="isDamaged_{{$content->ID}}" class="receive-kit-form-value checkbox disabled" checked="checked" name="isDamaged_{{$content->ID}}" type="checkbox" value="1">
-                    @if(isset($content->damagedMessage))
                         {{$content->damagedMessage->LogMessage}}
-                    @endif
                     </input>
                 @endif
                 </td>

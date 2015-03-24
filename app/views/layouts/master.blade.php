@@ -69,10 +69,7 @@
                         <a href="{{ route('book_kit.index', array('selected_menu' => 'main-menu-book')); }}">BOOK KIT</a>
                     </div>
                     <div class="option left main-menu-receive">
-                        <a href="{{ route('recieve_kit.index', array('selected_menu' => 'main-menu-receive')); }}">RECIEVE KIT</a>
-                    </div>
-                    <div class="option left main-menu-ship">
-                        <a href="{{ route('ship_kit.index', array('selected_menu' => 'main-menu-ship')); }}">SHIP KIT</a>
+                        <a href="{{ route('recieve_kit.index', array('selected_menu' => 'main-menu-receive')); }}">RECEIVE/SHIP KIT</a>
                     </div>
                     <div class="option left main-menu-overview">
                         <a href="{{ route('overview_kit.index', array('selected_menu' => 'main-menu-overview')); }}">BROWSE KITS</a>
