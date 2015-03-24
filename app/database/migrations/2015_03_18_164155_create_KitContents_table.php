@@ -17,7 +17,7 @@ class CreateKitContentsTable extends Migration {
 			$table->increments('ID');
 			$table->integer('KitID');
 			$table->string('SerialNumber');
-			$table->tinyInteger('Damaged');
+			$table->integer('Damaged');
 			$table->tinyInteger('Missing');
 			$table->timestamps();
 		});

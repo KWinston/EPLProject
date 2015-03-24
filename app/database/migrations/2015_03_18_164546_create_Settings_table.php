@@ -18,6 +18,21 @@ class CreateSettingsTable extends Migration {
 			$table->string('Key',45);
 			$table->string('Value',45);
 		});
+
+		//insert required date
+		DB::table('Settings')->insert(
+			array(
+				'Key' => 'HomeLink',
+				'Value' => '/'
+			)
+		);
+		DB::table('Settings')->insert(
+			array(
+				'Key' => 'ShadowDays',
+				'Value' => '1'
+			)
+		);
+
 	}
 
 	/**

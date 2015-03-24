@@ -18,6 +18,24 @@ class CreateKitStateTable extends Migration {
 			$table->string('StateName');
 			$table->timestamps();
 		});
+
+		DB::table('KitState')->insert(
+			array(
+				'StateName' => 'At Branch'
+			)
+		);
+
+		DB::table('KitState')->insert(
+			array(
+				'StateName' => 'In Transit'
+			)
+		);
+
+		DB::table('KitState')->insert(
+			array(
+				'StateName' => 'Unavailable'
+			)
+		);
 	}
 
 	/**
