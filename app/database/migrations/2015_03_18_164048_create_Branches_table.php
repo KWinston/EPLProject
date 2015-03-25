@@ -25,7 +25,7 @@ class CreateBranchesTable extends Migration {
 			$table->timestamps();
 
 		});
-		/*
+
 		DB::table('Branches')->insert(
 			array(
 				'BranchMangerID' => '0',
@@ -38,10 +38,9 @@ class CreateBranchesTable extends Migration {
 
 			)
 		);
-		*/
-		//DB::raw('update Branches(ID) values(0) where ID = 1');
-		//DB::raw('UPDATE Branches SET ID = 0');
-		
+
+		DB::statement("UPDATE EPL_KIT_DB.Branches set ID=0 where ID=1;");
+		DB::statement("ALTER TABLE EPL_KIT_DB.Branches AUTO_INCREMENT=1;");
 		DB::table('Branches')->insert(
 			array(
 				'BranchMangerID' => '0',
@@ -152,7 +151,7 @@ class CreateBranchesTable extends Migration {
 				'Latitude' => '53.6034',
 				'LONGitude' => '-113.446'
 			)
-		);		
+		);
 		DB::table('Branches')->insert(
 			array(
 				'BranchMangerID' => '0',
@@ -252,11 +251,6 @@ class CreateBranchesTable extends Migration {
 				'LONGitude' => '-113.554'
 			)
 		);
-
-		//DB::raw(INSERT INTO Branches (ID,BranchMangerID,BranchID,Name,EPLAddress,PhoneNumber,Latitude,LONGitude)
-		//VALUES ('0','0','MNA-IT','Central Depot', '7 Sir Winston Churchill Square, T5J 2V4','0','53.5432','-113.49'));
-
-
 	}
 
 	/**
@@ -266,7 +260,7 @@ class CreateBranchesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('Branches');			
+		Schema::drop('Branches');
 	}
 
 }
