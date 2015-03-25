@@ -65,9 +65,9 @@ class Logs extends Eloquent
     }
     // --------------------------------------------------------------
     // Make a log entry for LogType '3','Note'
-    public static function Note($KitID, $ContentsID, $Message)
+    public static function Note($KityTypeID, $KitID, $ContentsID, $Message)
     {
-        // Logs::LogMsg(3, $KitID, $ContentsID, $Message);
+        return Logs::LogMsg(3, $KityTypeID, $KitID, $ContentsID, $Message);
     }
     // --------------------------------------------------------------
     // Make a log entry for LogType '7','Kit Type Created'
