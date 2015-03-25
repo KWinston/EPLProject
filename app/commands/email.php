@@ -40,7 +40,8 @@ class email extends ScheduledCommand {
 	 */
 	public function schedule(Schedulable $scheduler)
 	{
-		return $scheduler->daily()->hours(5)->minutes(30);
+		//return $scheduler->daily()->hours(5)->minutes(30);
+		return $scheduler->everyMinutes(1);
 	}
 
 	/**
@@ -50,37 +51,44 @@ class email extends ScheduledCommand {
 	 */
 	public function fire()
 	{
-		$date = date_format(date(), 'Y/m/d');
-		$tomorrow = date('Y-m-d',strtotime($date . "+ 1 days"));
+		date_default_timezone_set('America/Edmonton');
+		$date = date('m/d/Y h:i:s a', time());
+		$tomorrow = date('Y-m-d', strtotime($date . " + 1 days"));
+		print($tomorrow);
 
 		$query = 
-                "select * ".
-                "from Booking as B ".
-                "inner join Kits as K ".
-                    "on B.KitID = K.ID ".
-                "where ('".$tomorrow."' between B.ShadowStartDate and B.StartDate)";
+				"select B.ShadowStartDate as 'ShipDay',".
+				"	BD.Email as 'Email',".
+				"	BR.BranchID as 'BranchCode',".
+				"	BR.Name as 'BranchName',".
+				"	K.Name as 'KitName',".
+				"	K.BarcodeNumber as 'Barcode'".
+				"from Booking as B". 
+   				"   inner join Kits as K". 
+         		"       on B.KitID = K.ID".
+    			"	inner join BookingDetails as BD".
+      			"		on BD.BookingID = B.ID".    
+   				"	inner join Branches as BR".
+      			"		on B.ForBranch = BR.ID".
+				" where ('".$tomorrow."' between B.ShadowStartDate and B.StartDate)".
+				"	and BD.Email is not null";
 
         $bookings = DB::select(DB::raw($query));
-
         foreach($bookings as $booking)
         {
-        	$branch = Branches::find($booking->ForBranch);
-        	$emailList = BookingDetails::where("BookingID", $booking->ID)->get();
-        	foreach ($emailList as $email)
-        	{
-				// send email notifications
-        		$data = array(
-        			'Barcode' => $booking->BarcodeNumber,
-        			'KitName' => $booking->Name,
-        			'MaxShipDay' => $booking->$booking->ShadowStartDate,
-        			'Branch' => $branch->BranchID
-        		);
-				Mail::send('emails.ship_kit', $data, function($message)
-				{
-				    $message->from('foo@example.com', 'EPL Kit Manager');
-				    $message->to($email->Email);
-				});
-			}
+    		$data = array(
+    			'Barcode' => $booking->Barcode,
+    			'KitName' => $booking->KitName,
+    			'ShipDay' => date_format(date_create($booking->ShipDay), 'M d, Y'),
+    			'Branch' => $booking->BranchName,
+    			'BranchCode' => $booking->BranchCode,
+    			'Email' => $booking->Email
+    		);
+
+			Mail::send('emails.ship_kit', $data, function($message) use ($data)
+			{
+			    $message->to($data['Email']);
+			});
 		}
 	}
 

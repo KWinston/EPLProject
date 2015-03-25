@@ -24,10 +24,10 @@
 						</label><br/>
 						This is a reminder that you have a kit in stock that must be shipped tomorrow.
 					</td></tr>
-					<tr><td>For Branch</td><td>{{Branch}}</td></tr>
-					<tr><td>Kit Name</td><td>{{KitName}}</td></tr>
-					<tr><td>Kit Asset Number</td><td>{{Barcode}}</td></tr>
-					<tr><td>Last Possible Ship Day</td><td>{{MaxShipDay}}</td></tr>
+					<tr><td>For Branch</td><td>{{$Branch}}</td></tr>
+					<tr><td>Kit Name</td><td>{{$KitName}}</td></tr>
+					<tr><td>Kit Asset Number</td><td>{{$Barcode}}</td></tr>
+					<tr><td>Last Possible Ship Day</td><td>{{$ShipDay}}</td></tr>
 				</table>
 			</div>
 		</div>
