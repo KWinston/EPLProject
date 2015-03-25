@@ -40,7 +40,8 @@ class email extends ScheduledCommand {
 	 */
 	public function schedule(Schedulable $scheduler)
 	{
-		return $scheduler->daily()->hours(5)->minutes(30);
+		//return $scheduler->daily()->hours(5)->minutes(30);
+		return $scheduler->everyMinutes(1);
 	}
 
 	/**
@@ -50,7 +51,45 @@ class email extends ScheduledCommand {
 	 */
 	public function fire()
 	{
-		// send email notifications
+		date_default_timezone_set('America/Edmonton');
+		$date = date('m/d/Y h:i:s a', time());
+		$tomorrow = date('Y-m-d', strtotime($date . " + 1 days"));
+		print($tomorrow);
+
+		$query = 
+				"select B.ShadowStartDate as 'ShipDay',".
+				"	BD.Email as 'Email',".
+				"	BR.BranchID as 'BranchCode',".
+				"	BR.Name as 'BranchName',".
+				"	K.Name as 'KitName',".
+				"	K.BarcodeNumber as 'Barcode'".
+				"from Booking as B". 
+   				"   inner join Kits as K". 
+         		"       on B.KitID = K.ID".
+    			"	inner join BookingDetails as BD".
+      			"		on BD.BookingID = B.ID".    
+   				"	inner join Branches as BR".
+      			"		on B.ForBranch = BR.ID".
+				" where ('".$tomorrow."' between B.ShadowStartDate and B.StartDate)".
+				"	and BD.Email is not null";
+
+        $bookings = DB::select(DB::raw($query));
+        foreach($bookings as $booking)
+        {
+    		$data = array(
+    			'Barcode' => $booking->Barcode,
+    			'KitName' => $booking->KitName,
+    			'ShipDay' => date_format(date_create($booking->ShipDay), 'M d, Y'),
+    			'Branch' => $booking->BranchName,
+    			'BranchCode' => $booking->BranchCode,
+    			'Email' => $booking->Email
+    		);
+
+			Mail::send('emails.ship_kit', $data, function($message) use ($data)
+			{
+			    $message->to($data['Email']);
+			});
+		}
 	}
 
 	/**

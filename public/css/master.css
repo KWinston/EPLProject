@@ -88,10 +88,42 @@ html, body
     margin: 7px 5px;
 }
 
+.settings-icon
+{
+    width: 35px;
+    height: 35px;
+    margin-right: 5px;
+    background: url('./images/settings-icon.png') no-repeat center center;
+    background-size: 30px 30px;
+    background-color: #000;
+}
+
 .branch-select
 {
-    width: 100px;
-    background-color: #fff;
+    opacity: 0;
+    background-color: #000;
+    border: 2px solid #aaa;
+    border-radius: 5px;
+    padding: 10px 5px;
+    height: auto;
+    text-align: center;
+    z-index: 1500;
+
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    width: 150px;
+}
+
+.branch-select input
+{
+    width: 90%;
+    height: 40px;
+}
+
+.branch-select select
+{
+    width: 90%;
 }
 
 .options
