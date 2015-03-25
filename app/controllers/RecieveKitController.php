@@ -99,14 +99,14 @@ class RecieveKitController extends BaseController {
                                    array($branch->ID));
 
         $theBooking = Booking::findOrFail($bookingID);
-        $theKitID = $theBooking->kit->ID;
+        $theBookID = $theBooking->ID;
 
     return CheckIfAuthenticated('members.receiveKitManagement',[ 'mode' => 'receive',
                                                                      'branch' => $branch,
                                                                      'selected_menu' => 'main-menu-receive',
                                                                      'receiveKits' => $data,
                                                                      'sendKits' => $data2,
-                                                                     'findKitID' => $theKitID,
+                                                                     'findBookID' => $theBookID,
                                                                      'kitTypes' => KitTypes::all()
                                                                     ],
                                                                      'home.index', [], false);
@@ -170,7 +170,7 @@ class RecieveKitController extends BaseController {
            strlen(Input::get('LogMessage')) > 0)
         {
             $message = Input::get('LogMessage');
-            $logNote = Logs::Note($kit->KitType, $kit->ID, $message);
+            $logNote = Logs::Note($kit->KitType, $kit->ID, NULL, $message);
         }
 
         $booking = Booking::findOrFail(Input::get('BookingID'));
@@ -178,11 +178,6 @@ class RecieveKitController extends BaseController {
         $kit->AtBranch = $booking->ForBranch;
         $kit->save();
 
-        if(!Request::ajax())
-            return "not a json request";
-
-        return Response::json(array(
-            'success' => $stat = 1 ? true : false
-        ), 200);
+        return "OK";
     }
 }

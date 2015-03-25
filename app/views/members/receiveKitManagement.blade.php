@@ -97,8 +97,8 @@
         $(".send-kit-name").unbind().click(function(){ SelectShipKit(this.id); });
         $(".receive-kit-name").unbind().click(function(){ SelectReceiveKit(this.id); });
         var loadKitID = null;
-        @if(isset($findKitID))
-            loadKitID = {{$findKitID}};
+        @if(isset($findBookID))
+            loadKitID = {{$findBookID}};
         @endif     
         if(loadKitID)
         {

@@ -34,7 +34,7 @@ class ShipKitController extends BaseController {
         //print dd(Input::All());
 
         $kit = Kits::findOrFail(Input::get('ID'));
-        $kit->state = 2;
+        $kit->KitState = 2;
         $kit->save();
         foreach ($kit->contents as $content)
         {
@@ -61,7 +61,7 @@ class ShipKitController extends BaseController {
            strlen(Input::get('LogMessage')) > 0)
         {
             $message = Input::get('LogMessage');
-            $logNote = Logs::Note($kit->KitType, $kit->ID, $message);
+            $logNote = Logs::Note($kit->KitType, $kit->ID, NULL, $message);
         }
         return "OK";
     }
@@ -116,37 +116,16 @@ class ShipKitController extends BaseController {
                                    array($branch->ID));
 
         $findBookID = Booking::findOrFail($bookingID);
-        $theKitID = $findBookID->kit->KitID;
+        $theBookID = $findBookID->ID;
 
         return CheckIfAuthenticated('members.receiveKitManagement',[ 'mode' => 'send',
                                                                      'branch' => $branch,
                                                                      'selected_menu' => 'main-menu-receive',
                                                                      'receiveKits' => $data,
                                                                      'sendKits' => $data2,
-                                                                     'findKitID' => $theKitID,
+                                                                     'findBookID' => $theBookID,
                                                                      'kitTypes' => KitTypes::all()
                                                                     ],
                                                                      'home.index', [], false);
   }
-
-    public function shipOut()
-    {
-        if(!Request::ajax())
-            return "not a json request";
-
-        $post = Input::except('ID');
-        $index = Input::get('ID');
-
-        $stat = DB::table('Booking')
-            ->where('id', $index)
-            ->update(array(
-                'KitID' => $post['KitID'],
-                'AtBranch' => $post['AtBranch'],
-                'KitStatus' => $post['KitStatus'],
-            ));
-
-        return Response::json(array(
-            'success' => $stat = 1 ? true : false
-        ), 200);
-    }
 }
