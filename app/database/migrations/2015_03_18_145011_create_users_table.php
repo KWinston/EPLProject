@@ -27,10 +27,10 @@ class CreateUsersTable extends Migration {
 		DB::table('users')->insert(
 			array(
 				'username' => 'user',
-				'password' => 'root',
+				'password' => '$2y$10$yKhkFzxkvhrgMY7DCXCdAOA2lNIIMDEYw4qnKCTxnpPXplZV7KzgG',
 				'realname' => 'User',
 				'email' => 'user@user.com',
-				'home_branch' => '3',
+				'home_branch' => '0',
 				'is_admin' => '1',
 				'remember_token' => 'NULL'
 			)
