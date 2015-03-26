@@ -20,12 +20,26 @@
     </tr>
     <tr>
         <td class="receive-kit-form-label">
+        Kit Status: {{ $booking->kit->state->StateName }}
+        </td>
+    </tr>
+    <tr>
+        <td class="receive-kit-form-label">
         Destination: {{ $booking->branch->Name }}
         </td>
     </tr>
     <tr>
         <td class="receive-kit-form-label">
         Last Kit Location: {{ $booking->kit->atBranch->Name }}
+        </td>
+    </tr>
+    <tr>
+        <td class="receive-kit-form-label">
+        @foreach($booking->details as $bookdetail)
+        @if($bookdetail->Booker == '1')
+        Last Booker: {{ $bookdetail->Email }}
+        @endif
+        @endforeach
         </td>
     </tr>
 </table>
@@ -83,7 +97,6 @@
     <tr>
         <td class="receive-kit-form-value">
         <div class="receive-kit-logmessage">
-            <br>Notes: {{ Form::textarea('LogMessage', '', array('class' => 'receive-kit form-multiline-text')); }}<br>
         </div>
         </td>
     </tr>
