@@ -145,31 +145,30 @@
                 $(".main-menu-home").addClass("menu-selected");
             @endif
 
-            $("#branchMenu").load("{{ URL::route('master.branches') }}", function() {
-                for (var selector in config)
-                {
-                    $(selector).chosen(config[selector]);
-                    $(selector).chosen().on('change', function(e)
-                    {
-                        var json = { 'branch' : $(this).chosen().val() };
-                        $.post("{{ URL::route('master.select_branch') }}", json)
-                            .success(function(data){
-                                @yield('changeBranch')
-                                document.location.href = '/public';
-                            })
-                            .fail(function(){
-                                console.log("error");
-                            });
-                    });
+            $("#branchMenu").load("{{ URL::route('master.branches') }}", function() {   
 
-                    @if (Session::has('branch'))
-                        $(selector).val("{{ Session::get('branch') }}");
-                        $(selector).trigger("chosen:updated");
-                    @endif
-                }
+                @if (Session::has('branch'))
+                    $("#branchMenu").chosen().val("{{ Session::get('branch') }}");
+                    $("#branchMenu").chosen().trigger("chosen:updated");
+                @endif
+
+                $("#branchMenu").chosen().change(function(e) {
+                    var json = { 'branch' : $(this).chosen().val() };
+                    $.post("{{ URL::route('master.select_branch') }}", json)
+                        .success(function(data){
+                            console.log("master branch");
+                            @yield('changeBranch')
+                            document.location.href = '/public';
+                        })
+                        .fail(function(){
+                            console.log("error");
+                        });
+                });
+
                 $('.branch-select').css('display', 'none');
-                $('.branch-select').css('opacity', '1');        // required for load order
+                $('.branch-select').css('opacity', '1');        // required for load order         
             });
+
             $(function()
             {
                 helpDialog = $("#help-dialog").dialog(

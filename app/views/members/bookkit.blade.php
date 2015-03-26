@@ -231,15 +231,18 @@
                 bookingsByID[bookings[index].KitID].push(range[index2].format('YYYY-MM-DD'));
             }
         }
+        
 
         for (var index in bookingsByID)
-        {
-            var toFilter = bookingsByID[bookings[index].KitID]; 
-            var filtered = toFilter.filter(function(item, i, ar){ return ar.indexOf(item) === i; });
-            bookingsByID[bookings[index].KitID] = filtered.sort(function(r1, r2) {
+        {    
+            var filtered = 
+                bookingsByID[index].filter(function(item, i, ar){ return ar.indexOf(item) === i; });
+            bookingsByID[index] = filtered.sort(function(r1, r2) {
                 return r1.start > r2.start;
             });
         }
+        console.log(bookingsByID);
+
 
         var firstRun = true;
         var intersectTypes;
