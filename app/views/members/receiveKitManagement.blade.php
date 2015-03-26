@@ -72,7 +72,11 @@
                 </ul>
                 <ul ID="receive-kit-list">
                     @foreach($sendKits as $sk)
-                        @if($sk->KitID != 0)
+                        @if($sk->KitID != 0 && $sk->KitState != 2)
+                            <li class="send-kit-name" ID="{{$sk->BookingID}}">{{$sk->KitName}}</li>
+                        @else
+                        <br><br><br>
+                        In Transit:
                             <li class="send-kit-name" ID="{{$sk->BookingID}}">{{$sk->KitName}}</li>
                         @endif
                     @endforeach
