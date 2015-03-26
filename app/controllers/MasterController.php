@@ -13,7 +13,7 @@ class MasterController extends BaseController {
             Session::put('branch', $user->home_branch);
             return Redirect::action('HomeController@index', []);
         }
-        return View::make("HomeContoller@index", []);
+        return View::make("home", []);
     }
 
     public function logout()
