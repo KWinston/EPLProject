@@ -185,17 +185,21 @@ class BookKitController extends BaseController {
         if(!Request::ajax())
             return "not a json request";
 
-        $kitTypeID = Input::get('Type');
+        $query = 
+            "select K.ID as KitID,". 
+            "   KT.Name as Name,". 
+            "   B.ShadowStartDate as ShadowStartDate,".
+            "   B.ShadowEndDate as ShadowEndDate ".
+            "from Booking as B".
+            "   right join Kits as K".
+            "      on B.KitID = K.ID".
+            "   inner join KitTypes as KT".
+            "      on K.KitType = KT.ID ".
+            "where K.KitType = '".Input::get('Type')."' ".
+            "order by K.ID asc,".
+            "   B.StartDate asc";
 
-        return DB::table('Booking')
-            ->join('Kits',
-                'Booking.KitID', '=', 'Kits.ID')
-            ->join('KitTypes',
-                'Kits.KitType', '=', 'KitTypes.ID')
-            ->where('Kits.KitType', $kitTypeID)
-            ->orderBy('Booking.KitID', 'asc')
-            ->orderBy('Booking.StartDate', 'asc')
-            ->get();
+        return DB::select(DB::raw($query));
     }
 
     public function getAvailableKit()

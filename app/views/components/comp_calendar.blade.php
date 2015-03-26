@@ -819,15 +819,6 @@
 		});
 
 		$(".branch-booking").load("{{ URL::route('master.branches') }}", function() {
-		    for (var selector in config)
-		    {
-		        $(selector).chosen(config[selector]);
-		        $(selector).chosen().on('change', function(e)
-		        {
-		            var json = { 'branch' : $(this).chosen().val() };
-		            console.log(json);
-		        });
-		    }
 		});
 
 		$("#start_date_picker").datepicker({
