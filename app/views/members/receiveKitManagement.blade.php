@@ -76,7 +76,7 @@
                             <li class="send-kit-name" ID="{{$sk->BookingID}}">{{$sk->KitName}}</li>
                         @else
                         <br><br><br>
-                        In Transit:
+                        <u><b>In Transit:</b></u>
                             <li class="send-kit-name" ID="{{$sk->BookingID}}">{{$sk->KitName}}</li>
                         @endif
                     @endforeach

@@ -1,8 +1,7 @@
 <ul>
     <li> <a href="#" id="main-menu-home"> Home Screen</a> </li>
     <li> <a href="#" id="main-menu-book"> Booking a kit</a> </li>
-    <li> <a href="#" id="main-menu-receive"> Receiving a kit</a> </li>
-    <li> <a href="#" id="main-menu-ship"> Shipping a kit</a> </li>
+    <li> <a href="#" id="main-menu-receive"> Receive and ship kits</a> </li>
     <li> <a href="#" id="main-menu-overview"> Kit Overview</a> </li>
     <li> <a href="#" id="main-menu-administration">Administration</a>
         <ul>
