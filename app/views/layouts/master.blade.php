@@ -60,13 +60,13 @@
                 </div>
                 @if(Auth::check())
                     <div class="option left main-menu-book" >
-                        <a href="{{ route('book_kit.index', array('selected_menu' => 'main-menu-book')); }}">BOOK KIT</a>
+                        <a href="{{ route('book_kit.index', array('selected_menu' => 'main-menu-book')); }}">BOOK</a>
                     </div>
                     <div class="option left main-menu-receive">
-                        <a href="{{ route('recieve_kit.index', array('selected_menu' => 'main-menu-receive')); }}">RECEIVE/SHIP KIT</a>
+                        <a href="{{ route('recieve_kit.index', array('selected_menu' => 'main-menu-receive')); }}">TRANSFER</a>
                     </div>
                     <div class="option left main-menu-overview">
-                        <a href="{{ route('overview_kit.index', array('selected_menu' => 'main-menu-overview')); }}">BROWSE KITS</a>
+                        <a href="{{ route('overview_kit.index', array('selected_menu' => 'main-menu-overview')); }}">BROWSE</a>
                     </div>
                 @endif
 
