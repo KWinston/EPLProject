@@ -168,10 +168,12 @@ class BookKitController extends BaseController {
 
         foreach ($bookings as $booking)
         {
-            $booking['UserID'] = BookingDetails::select('UserID')
+            $user = BookingDetails::select('UserID')
                 ->where('BookingID', $booking->ID)
                 ->where('Booker', 1)
-                ->first()->UserID;
+                ->first();
+
+            $booking['UserID'] = $user->UserID;
 
             $booking['KitRecipients'] = BookingDetails::where('BookingID', $booking->ID)
                 ->where('Booker', 0)
