@@ -41,11 +41,22 @@ td.start-date
     line-height: 40px;
     height: 40px;
 }
+
+.menu p.branch-name
+{
+    color: #FCB833;
+    margin: auto 10px;
+    line-height: 40px;
+    height: 40px;
+    font-size: x-large;
+    font-weight: bolder;
+    background-color:;
+}
+
 .menu p a
 {
     line-height: 0px;
 }
-
 .menu input[type="submit"]
 {
     color: #fff;
@@ -1106,23 +1117,45 @@ table.bookings-table td.booking-end-date
     text-align: center;
 }
 
+@-webkit-keyframes bouncing-badge
+{
+    0%   {top: 10px;}
+    25%  {top: 10px;}
+    50%  {top: 5px;}
+    75%  {top: 10px;}
+    100% {top: 10px;}
+}
+/* Standard syntax */
+@keyframes bouncing-badge {
+    0%   {top: 10px;}
+    25%  {top: 10px;}
+    50%  {top: 5px;}
+    75%  {top: 10px;}
+    100% {top: 10px;}
+}
 
-.badge1 {
+.badge1
+{
    position:relative;
 }
-.badge1[data-badge]:after {
-   content:attr(data-badge);
-   position:absolute;
-
-   top:-10px;
-    top:attr(data-pos);
-   right:-10px;
-   font-size:.7em;
-   background: red;
-   color:white;
-   width:18px;height:18px;
-   text-align:center;
-   line-height:18px;
-   border-radius:50%;
-   box-shadow:0 0 1px #333;
+.badge1[data-badge]:after
+{
+    content:attr(data-badge);
+    position:absolute;
+    animation-name: bouncing-badge;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+    -webkit-animation-name: bouncing-badge; /* Chrome, Safari, Opera */
+    -webkit-animation-duration: 1s; /* Chrome, Safari, Opera */
+    -webkit-animation-iteration-count: infinite;
+    top: 15px;
+    right: 48px;
+    font-size:.7em;
+    background: red;
+    color:white;
+    width:18px;height:18px;
+    text-align:center;
+    line-height:18px;
+    border-radius:50%;
+    box-shadow:0 0 1px #333;
 }

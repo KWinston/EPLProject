@@ -42,7 +42,7 @@ function makeKitBlock(kit, cls, selIcon)
     // Make The div block
     var d = $('<div>', { 'class': cls, 'id': kit.KitID, 'data-badge': '!'});
     d.prop("data", kit.BookingID);
-    d.append($('<p>', {'class': 'kit-block-icon ' + selIcon, 'data-badge': '!', title: '__KIT_DETAIL__'+kit.KitID}).html(" "));
+    d.append($("<div>", {'class': 'kit-block-icon-div', 'data-badge': '!'}).append($('<p>', {'class': 'kit-block-icon ' + selIcon, 'data-badge': '!', title: '__KIT_DETAIL__'+kit.KitID}).html(" ")));
 
     var kitName = kit.KitTypeName + " - " + kit.KitName;
     if (kit.Specialized == "1")
@@ -104,7 +104,7 @@ function makeKitBlock(kit, cls, selIcon)
     if (now >= shadowStart)
     {
         // d.addClass('pulse'); // cam Doesn't like blinking text!
-        d.find("p.kit-block-icon").addClass('badge1');
+        d.find("div.kit-block-icon-div").addClass('badge1');
     }
 
     d.prop("title", tooltipStr);
