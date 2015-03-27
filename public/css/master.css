@@ -1,4 +1,4 @@
-html, body
+td.start-date
 {
     width: 99%;
     height: 100%;
@@ -25,6 +25,7 @@ html, body
     margin:  10px 10px;
     text-decoration: none;
     font-weight: bold;
+    font-size: x-large;
 }
 
 .menu a:hover
@@ -866,6 +867,7 @@ td.kit-status
 
 td.pending
 {
+    height: 100%;
     width: 30%;
 
     vertical-align: top;
@@ -1028,4 +1030,99 @@ textarea.receive-kit
 .receive-kit-side-menu
 {
     height: 100% !important;
+}
+
+div.bookings-table
+{
+    border: 2px solid black;
+
+}
+table.bookings-table
+{
+    width: 100%;
+
+}
+table.bookings-table tr
+{
+
+}
+table.bookings-table tr.header
+{
+    color: white;
+
+    width: 100%;
+}
+table.bookings-table th.type
+{
+    width: 20%;
+
+}
+table.bookings-table th.name
+{
+    width: 35%;
+
+}
+table.bookings-table th.booker
+{
+    width: 10%;
+
+}
+table.bookings-table th.branch
+{
+    width: 6%;
+
+}
+table.bookings-table th.booking-start-date
+{
+    width: 15%;
+
+}
+table.bookings-table th.booking-end-date
+{
+    width: 15%;
+
+}
+
+table.bookings-table td.type
+{
+}
+table.bookings-table td.name
+{
+}
+table.bookings-table td.booker
+{
+    text-align: center;
+}
+table.bookings-table td.branch
+{
+    text-align: center;
+}
+table.bookings-table td.booking-start-date
+{
+    text-align: center;
+}
+table.bookings-table td.booking-end-date
+{
+    text-align: center;
+}
+
+
+.badge1 {
+   position:relative;
+}
+.badge1[data-badge]:after {
+   content:attr(data-badge);
+   position:absolute;
+
+   top:-10px;
+    top:attr(data-pos);
+   right:-10px;
+   font-size:.7em;
+   background: red;
+   color:white;
+   width:18px;height:18px;
+   text-align:center;
+   line-height:18px;
+   border-radius:50%;
+   box-shadow:0 0 1px #333;
 }

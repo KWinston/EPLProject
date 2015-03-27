@@ -59,7 +59,10 @@ class HomeController extends BaseController
                               FROM Kits AS K
                                 INNER JOIN KitTypes AS KT ON (KT.ID = K.KitType)
                                 INNER JOIN KitSTate AS KS ON (KS.ID = K.KitState)
-                                LEFT JOIN Booking AS B ON (B.KitID = K.ID AND now() BETWEEN DATE_ADD(B.ShadowStartDate, INTERVAL -1 DAY) AND B.ShadowEndDate)
+                                  LEFT JOIN Booking AS B ON (     B.ForBranch <> K.AtBranch
+                                                              AND B.KitID = K.ID
+                                                              AND now() BETWEEN DATE_ADD(B.ShadowStartDate, INTERVAL -1 DAY) AND B.ShadowEndDate
+                                                            )
                              WHERE  B.ID is null
                                     AND K.KitState = 1
                                     AND K.AtBranch = ?
@@ -77,14 +80,60 @@ class HomeController extends BaseController
                                             'PhoneNumber' => $brnch->PhoneNumber
                                             );
         }
+
+        // Build a list of the users bookings.
+        $userBookingIDs = array();
+        $detRecords = DB::table("BookingDetails")->where('UserID', '=', Auth::user()->id)
+                        ->where('BookingDetails.Booker', '=', 1)
+                        ->join('Booking', 'BookingDetails.BookingID', '=', 'Booking.ID')
+                        ->join('Kits', 'Booking.KitID', '=', 'Kits.ID')
+                        ->join('Branches', 'Booking.ForBranch', '=', 'Branches.ID')
+                        ->where('Booking.EndDate', '>=', new DateTime('today'))
+                        ->select('Kits.Name as KitName', 'BookingDetails.*', 'Kits.KitType', 'Kits.Specialized', 'Kits.SpecializedName', 'Booking.*', 'Branches.BranchID')
+                        // ->orderBy('Booking.StartDate')
+                        ;
+        foreach( $detRecords->get() as $det )
+        {
+            array_unshift($userBookingIDs, $det->BookingID);
+        }
+        // union that with the bookings for this branch.
+        $bookings = $detRecords->union(
+                                        DB::table("BookingDetails")
+                                        ->where('BookingDetails.Booker', '=', 1)
+                                        ->join('Booking', 'BookingDetails.BookingID', '=', 'Booking.ID')
+                                        ->wherenotin('Booking.ID', $userBookingIDs)
+                                        ->join('Kits', 'Booking.KitID', '=', 'Kits.ID')
+                                        ->join('Branches', 'Booking.ForBranch', '=', 'Branches.ID')
+                                        ->where('Booking.EndDate', '>=', new DateTime('today'))
+                                        ->select('Kits.Name as KitName', 'BookingDetails.*', 'Kits.KitType', 'Kits.Specialized', 'Kits.SpecializedName', 'Booking.*', 'Branches.BranchID')
+
+                                      )->orderBy('StartDate', 'desc');
+
+        // slice out only the columns we need and send them to the client.
+        $bookingDetails = array();
+        foreach($bookings->get() as $det)
+        {
+            array_unshift($bookingDetails, array(
+                'KitID' => $det->KitID,
+                'type' => $det->KitType,
+                'Name' =>  ($det->Specialized) ? ($det->KitName . ' + ' . $det->SpecializedName) : $det->KitName,
+                'Booker' => user::find($det->UserID)->realname, // :( this makes me sad, hopefully Laravel caches aggressively.
+                'Branch' => $det->BranchID,
+                'Start Date' => date("D d-F-Y",strtotime($det->StartDate)),
+                'End Date' => date("D d-F-Y",strtotime($det->EndDate))
+                ));
+
+        }
         //get today's date
         $res = array();
-        $res['foo'] = Session::get('branch');
+        // $res['sql'] = $bookings->toSql();
+        $res['kitTypes'] = KitTypes::all();
         $res['data'] = $data;
         $res['branches'] = $allBranches;
         $res['branch_ID'] =$branch->ID;
         $res['branch_BranchID'] =$branch->BranchID;
         $res['branch_name'] = $branch->Name;
+        $res['bookings'] = $bookingDetails;
         return json_encode($res);
     }
 }
