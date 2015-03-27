@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-<html>
+<html style="height:100%;">
     <head>
         <meta charset="utf-8">
         <title>EPL Kit Manager</title>
@@ -46,7 +46,7 @@
         @yield('head')
     </head>
 
-    <body>
+    <body style="height:100%;">
         <div id="help-dialog"> </div>
         <div id="kit-details-dialog"> </div>
 
@@ -75,8 +75,8 @@
                         <a href="{{ route('admin.index', array('selected_menu' => 'main-menu-administration')); }}">ADMINISTRATOR</a>
                     </div>
                 @endif
-
                 @if(Auth::check())
+                    <div id="branch-name" class="option left branch-name"><p class="branch-name"> Kits for {{ Branches::find(Session::get('branch'))->Name }}</p></div>
                     <div class="option right" style="padding-left: 10px;" >
                         <div id="settings_button_open" class="settings-icon"></div>
                     </div>
@@ -141,7 +141,7 @@
                 $(".main-menu-home").addClass("menu-selected");
             @endif
 
-            $("#branchMenu").load("{{ URL::route('master.branches') }}", function() {   
+            $("#branchMenu").load("{{ URL::route('master.branches') }}", function() {
 
                 @if (Session::has('branch'))
                     $("#branchMenu").chosen().val("{{ Session::get('branch') }}");
@@ -154,7 +154,7 @@
                         .success(function(data){
                             console.log("master branch");
                             @yield('changeBranch')
-                            document.location.href = '/public';
+                            document.location.href = "{{ URL::route('home.index') }}";
                         })
                         .fail(function(){
                             console.log("error");
@@ -162,7 +162,7 @@
                 });
 
                 $('.branch-select').css('display', 'none');
-                $('.branch-select').css('opacity', '1');        // required for load order         
+                $('.branch-select').css('opacity', '1');        // required for load order
             });
 
             $(function()

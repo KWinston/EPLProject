@@ -14,6 +14,8 @@
 var branchID;
 var branches;
 var inventory; // this is the inventory returned from the server.
+var bookings;
+var kitTypes;
 
 function makeBranchTooltip(branchID)
 {
@@ -38,9 +40,9 @@ function makeKitBlock(kit, cls, selIcon)
     var tooltipStr = "";
 
     // Make The div block
-    var d = $('<div>', { 'class': cls, 'id': kit.KitID});
+    var d = $('<div>', { 'class': cls, 'id': kit.KitID, 'data-badge': '!'});
     d.prop("data", kit.BookingID);
-    d.append($('<p>', {'class': 'kit-block-icon ' + selIcon, title: '__KIT_DETAIL__'+kit.KitID}).html(" "));
+    d.append($("<div>", {'class': 'kit-block-icon-div', 'data-badge': '!'}).append($('<p>', {'class': 'kit-block-icon ' + selIcon, 'data-badge': '!', title: '__KIT_DETAIL__'+kit.KitID}).html(" ")));
 
     var kitName = kit.KitTypeName + " - " + kit.KitName;
     if (kit.Specialized == "1")
@@ -101,7 +103,8 @@ function makeKitBlock(kit, cls, selIcon)
     var now = new Date();
     if (now >= shadowStart)
     {
-        d.addClass('pulse');
+        // d.addClass('pulse'); // cam Doesn't like blinking text!
+        d.find("div.kit-block-icon-div").addClass('badge1');
     }
 
     d.prop("title", tooltipStr);
@@ -151,6 +154,32 @@ function loadInventory()
         $(sel).append(makeKitBlock(kit, selClass, selIcon));
     }
 }
+function loadBookings()
+{
+    $("#bookings-table").html("").append($("<tr>", {'class': 'header'})
+    .append("<th class='type'>Type</th>")
+    .append("<th class='name'>Name</th>")
+    .append("<th class='booker'>Booker</th>")
+    .append("<th class='branch'>Branch</th>")
+    .append("<th class='booking-start-date'>Start Date</th>")
+    .append("<th class='booking-end-date'>End Date</th>")
+
+    );
+
+    for (var i in bookings)
+    {
+        var booking = bookings[i];
+        $("#bookings-table").append($("<tr>")
+        .append("<td class='type' title='__KIT_DETAIL__"+booking.KitID+"'>"+kitTypes[booking.type].Name+"</td>")
+        .append("<td class='name' title='__KIT_DETAIL__"+booking.KitID+"'>"+booking.Name+"</td>")
+        .append("<td class='booker'>"+booking.Booker+"</td>")
+        .append("<td class='branch'>"+booking.Branch+"</td>")
+        .append("<td class='booking-start-date'>"+booking["Start Date"]+"</td>")
+        .append("<td class='booking-end-date'>"+booking["End Date"]+"</td>")
+        )
+    }
+
+}
 function doShipping()
 {
     console.log("ship IT! " + this.data);
@@ -176,14 +205,29 @@ function doBooking()
 
 {{--check if user is logged on to determine what to display--}}
 @if (Auth::check())
-    <table cellpadding = 0 style="height:100%">
+    <table cellpadding = 0 style="height:100%; width:100%;">
         <tr>
             <th class="right-seperator">Pending Activity</th>
-            <th>Branch Inventory</th>
+            <th>Kit Bookings</th>
         </tr>
         <tr>
             <td class="kit-blocks pending right-seperator"></td>
-            <td class="kit-blocks inventory"></td>
+            <td>
+                <table style="width:100%;height:100%;">
+                    <tr>
+                        <td>
+                            <div class="bookings-table">
+                                <table id="bookings-table" class="bookings-table">
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr><th>Branch Inventory</th></tr>
+                    <tr style="width:100%; height:100%">
+                        <td style="width:100%; height:50%;" class="kit-blocks inventory"></td>
+                    </tr>
+                </table>
+            </td>
         </tr>
     </table>
 
@@ -201,7 +245,10 @@ $(function()
         branches = data.branches;
         console.log(data);
         inventory = data.data;
+        bookings = data.bookings;
+        kitTypes = data.kitTypes;
         loadInventory();
+        loadBookings();
         $("div.kit-block-activity.kit-shipping").button();
         $("div.kit-block-activity.kit-receiving").button();
         $("div.kit-block-activity.kit-booking").button();

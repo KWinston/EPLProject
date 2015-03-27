@@ -13,7 +13,9 @@ class MasterController extends BaseController {
             Session::put('branch', $user->home_branch);
             return Redirect::action('HomeController@index', []);
         }
-        return View::make("home", []);
+        $failed = "Wrong Password";
+        echo "<script type='text/javascript'>alert('$failed');</script>";
+        return Redirect::action('HomeController@index');
     }
 
     public function logout()
