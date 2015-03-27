@@ -1149,13 +1149,15 @@ table.bookings-table td.booking-end-date
     -webkit-animation-duration: 1s; /* Chrome, Safari, Opera */
     -webkit-animation-iteration-count: infinite;
     top: 15px;
-    right: 48px;
+    right: 44px;
     font-size:.7em;
     background: red;
     color:white;
-    width:18px;height:18px;
+    width: 25px;
+    height: 25px;
     text-align:center;
-    line-height:18px;
+    line-height: 26px;
     border-radius:50%;
     box-shadow:0 0 1px #333;
+    font-size: x-large;
 }
