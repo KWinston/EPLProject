@@ -502,6 +502,7 @@ class CreateEPLTable extends Migration {
         {
             $table->increments('ID');
             $table->integer('KitID')->unsigned();
+            $table->string('Name');
             $table->string('SerialNumber')->nullable();
             $table->integer('Damaged')->default(0);
             $table->tinyInteger('Missing')->default(0);
