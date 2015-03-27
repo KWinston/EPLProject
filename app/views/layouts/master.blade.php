@@ -141,7 +141,7 @@
                 $(".main-menu-home").addClass("menu-selected");
             @endif
 
-            $("#branchMenu").load("{{ URL::route('master.branches') }}", function() {   
+            $("#branchMenu").load("{{ URL::route('master.branches') }}", function() {
 
                 @if (Session::has('branch'))
                     $("#branchMenu").chosen().val("{{ Session::get('branch') }}");
@@ -154,7 +154,7 @@
                         .success(function(data){
                             console.log("master branch");
                             @yield('changeBranch')
-                            document.location.href = '/public';
+                            document.location.href = "{{ URL::route('home.index') }}";
                         })
                         .fail(function(){
                             console.log("error");
@@ -162,7 +162,7 @@
                 });
 
                 $('.branch-select').css('display', 'none');
-                $('.branch-select').css('opacity', '1');        // required for load order         
+                $('.branch-select').css('opacity', '1');        // required for load order
             });
 
             $(function()
