@@ -38,6 +38,9 @@
                 margin: 5px 0px 0px 0px; padding: 2px 0px;">
                 Booking: status
             </div>
+            <div style="width: 100%">
+                <img src="images/booking-legend.png" style="width: 100%; height; 50px;"/>
+            </div>
         </td>
     </tr>
 </table>

@@ -363,33 +363,53 @@
 		var startDay = moment(event.start);
 		var endDay = moment(event.end).subtract(1, 'd'); // due to 00:00:00 dates posting as next
 
-		// non-recieving start date
-		if (startDay.format('dddd') === "Sunday")
-			startDay.subtract(2, 'd');
-
-		else if (startDay.format('dddd') === "Saturday")
-			startDay.subtract(1, 'd');
-
-		// non-shipping end date
-		if (endDay.format('dddd') === "Sunday")
-			endDay.add(1, 'd');
-
-		else if (endDay.format('dddd') === "Saturday")
-			endDay.add(2, 'd');
-
-		// verify against holidays and weekends
-		for (var i in shadowObjects)
-		{
-			var shadowDay = moment(shadowObjects[i].start);
-			if (shadowDay.format('dddd') != 'Sunday' &&
-				shadowDay.format('dddd') != 'Saturday')
+		var change;
+		do  {
+			change = false;
+			// verify against holidays and weekends
+			for (var i in shadowObjects)
 			{
-				if (shadowDay.format('l') == startDay.format('l'))
-					startDay.subtract(1, 'd');
-				if (shadowDay.add(1, 'd').format('l') == endDay.format('l'))
-					endDay.add(1, 'd');
+				var shadowStart = moment(moment(shadowObjects[i].start).format("YYYY-MM-DD" + " 00:00:00"));
+				var shadowEnd = moment(shadowStart).subtract(1, 'd');
+				if (!RegExp("Sunday", "i").test(shadowStart.format('dddd')) &&
+					!RegExp("Saturday", "i").test(shadowStart.format('dddd')))
+				{
+					if (shadowStart.diff(startDay, 'd') == 0) {
+						startDay.subtract(1, 'd');
+						change = true;
+					}
+					if (shadowEnd.diff(endDay, 'd') == 0) {
+						endDay.add(1, 'd');
+						change = true;
+					}
+				}
+			}
+
+			// check for weekends
+			// non-recieving start date
+			if (startDay.format('dddd') === "Sunday") {
+				startDay.subtract(2, 'd');
+				change = true;
+			}
+
+			else if (startDay.format('dddd') === "Saturday") {
+				startDay.subtract(1, 'd');
+				change = true;
+			}
+
+			// non-shipping end date
+			if (endDay.format('dddd') === "Sunday") {
+				endDay.add(1, 'd');
+				change = true;
+			}
+
+			else if (endDay.format('dddd') === "Saturday") {
+				endDay.add(2, 'd');
+				change = true;
 			}
 		}
+		while(change);
+		
 
 		// compare to to kit current bookings
 		endDay.add(1, 'd');
@@ -510,7 +530,7 @@
 	    			getKitUpdates(event);
 	    		}
 
-	    		if(event.BookID !== "*") {
+	    		if(event.BookID !== "*" && event.isCreator) {
 		    		var buttons = $('#booking_information').dialog('option', 'buttons');
 		    		if(!event.isCreator) {
 		    			$('#booking_information').dialog('widget')
@@ -555,18 +575,23 @@
 	    	droppable: true,
 			// internal changes (updates)
 			eventDrop: function(event, delta, revertFunc) {
-				var stat = adjustForShadowDays(event);
-				if(stat.status) {
-					event.start.add(stat.diffStart, 'd');
-					event.end.add(stat.diffEnd, 'd');
-					event.title = generateEventTitle(event.text,
-						moment(event.start).add(1, 'd'), moment(event.end).subtract(1, 'd'));
-
-					$('#calendar').fullCalendar('updateEvent', event);
-					updateKitDB(event);
+				if (event.start.diff(moment(), 'd') < 1) {
+					revertFunc();
 				}
 				else {
-					revertFunc();
+					var stat = adjustForShadowDays(event);
+					if(stat.status) {
+						event.start.add(stat.diffStart, 'd');
+						event.end.add(stat.diffEnd, 'd');
+						event.title = generateEventTitle(event.text,
+							moment(event.start).add(1, 'd'), moment(event.end).subtract(1, 'd'));
+
+						$('#calendar').fullCalendar('updateEvent', event);
+						updateKitDB(event);
+					}
+					else {
+						revertFunc();
+					}
 				}
 			},
 			eventResize: function(event, delta, revertFunc) {
