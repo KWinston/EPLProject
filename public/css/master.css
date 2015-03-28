@@ -127,12 +127,6 @@ td.start-date
     width: 150px;
 }
 
-.branch-select input
-{
-    width: 90%;
-    height: 40px;
-}
-
 .branch-select select
 {
     width: 90%;

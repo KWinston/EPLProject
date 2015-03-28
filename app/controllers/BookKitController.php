@@ -246,8 +246,8 @@ class BookKitController extends BaseController {
 
         $data = Input::all();
 
-        if($data['ID'] == "*")
-            $branch = 'ALL';    // get all information
+        if(intval($data['ID']) == 0)
+            $branch = 'MNA';    // get all information
         else
         {
             $branch = Branches::select('BranchID')

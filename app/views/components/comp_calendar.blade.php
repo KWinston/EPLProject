@@ -651,7 +651,7 @@
 		    'height': 550,
 		    'buttons': [
 			    {
-			    	'text': "Okay",
+			    	'text': "Book Kit",
 			    	'icons': {
 			    		'primary': ""
 			    	},
