@@ -213,6 +213,7 @@
                     content: function ()
                     {
                         var title = $(this).prop('title');
+                        console.log(title);
                         if (title.indexOf('__KIT_DETAIL__') == 0)
                         {
                             url = "{{ route('kits.kitDetails', array('topic' => ':KitID')); }}";
@@ -220,7 +221,7 @@
                                 $("div#"+title).html(data);
                                 $(".ui-tooltip").addClass("ui-tooltip-wide");
                             });
-                            return "<div ID='"+$(this).prop('title')+"' style='width:1000px;'></div>"
+                            return "<div ID='"+$(this).prop('title')+"' style='width:1000px;'></div>";
                         }
                         else
                         {

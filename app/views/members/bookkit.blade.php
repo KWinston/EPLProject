@@ -70,6 +70,7 @@
             json = { 'ID' : kit.KitID };
             $.post("{{ URL::route('book_kit.get_kit_bookings') }}", json)
                 .success(function(resp){
+                    console.log(resp);
                     addCalendarKits(resp, '{{ Auth::id(); }}');
                 })
                .fail(function(){
@@ -108,7 +109,7 @@
             'ShadowStartDate' : event.start.format('YYYY-MM-DD'),
             'ShadowEndDate'   : event.end.format('YYYY-MM-DD'),
             'ForBranch' : parseInt(event.ForBranch, 10),
-            'Purpose'   : event.text,
+            'Purpose'   : event.Purpose,
             'KitID'     : parseInt(event.KitID, 10)
         };
 
@@ -140,7 +141,7 @@
             'ShadowStartDate' : event.start.format('YYYY-MM-DD'),
             'ShadowEndDate'   : event.end.format('YYYY-MM-DD'),
             'ForBranch' : parseInt(event.ForBranch, 10),
-            'Purpose'   : event.text,
+            'Purpose'   : event.Purpose,
             'KitID'     : parseInt(event.KitID, 10),
             'Notifees'  : event.KitRecipients
         };
@@ -289,7 +290,7 @@
                 'ShadowEndDate'  : index.end,
                 'StartDate'      : index.start,
                 'EndDate'        : index.end,
-                'Purpose'        : bookings[0].Name,
+                'Name'           : bookings[0].Name,
                 'UserID'         : '*',
                 'BookingID'      : '*',
                 'KitID'          : '*',
