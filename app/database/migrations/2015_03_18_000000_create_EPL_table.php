@@ -454,7 +454,7 @@ class CreateEPLTable extends Migration {
                 'username' => 'user',
                 'password' => Hash::make('user'),
                 'realname' => 'User',
-                'email' => 'user@user.com',
+                'email' => 'EPLuser@mailinator.com',
                 'home_branch' => '0',
                 'is_admin' => '1',
                 'remember_token' => 'NULL'
@@ -466,7 +466,7 @@ class CreateEPLTable extends Migration {
                 'username' => 'user2',
                 'password' => Hash::make('user'),
                 'realname' => 'User',
-                'email' => 'user2@user.com',
+                'email' => 'EPLuser2@mailinator.com',
                 'home_branch' => '0',
                 'is_admin' => '0',
                 'remember_token' => 'NULL'
