@@ -19,6 +19,12 @@
                 </p>
             </td>
         </tr>
+        <tr>
+        	<td colspan="3" style>
+                <label>Event Name</label>
+				<input type="text" class="event-purpose" id="event_purpose">
+            </td>
+        </tr>
 		<tr>
 			<td >
 				<label>Branch of Booking</label>
@@ -78,6 +84,12 @@
                     Update booking information. Add or remove users to inform.
                     Change branch for kit booking.
                 </p>
+            </td>
+        </tr>
+		<tr>
+        	<td colspan="3" style>
+                <label>Event Name</label>
+				<input type="text" class="event-purpose" id="event_purpose">
             </td>
         </tr>
 		<tr>
@@ -274,7 +286,6 @@
 
 		var start = moment(startDay).subtract(1, 'd'); 	// subtract 1 shadow
 		var end = moment(endDay).add(2, 'd');			// add 1 shadow + offset
-
 		var event = {
 			id: (count++).toString(),
 			type: 'kit',
@@ -659,6 +670,7 @@
 		    			var bookingStart = $(this).find('#start_date_picker').datepicker('getDate');
 		    			var bookingEnd = $(this).find('#end_date_picker').datepicker('getDate');
 		    			var forBranch = $('#branch_insert option:selected').val();
+		    			var purpose = $('#event_purpose').val()
 		    			var recipients = getRecipients('#booking_users');
 
 		    			if (_isType)
@@ -676,7 +688,7 @@
 				                        !createBookingByDateRange(
 						    				resp.ID,
 						    				_kitTypeID,
-						    				resp.Name,
+						    				purpose,
 						    				forBranch,
 						    				moment(bookingStart).format('YYYY-MM-DD'),
 						    				moment(bookingEnd).format('YYYY-MM-DD'),
@@ -699,7 +711,7 @@
 			    			if (!createBookingByDateRange(
 			    				_kitID,
 			    				_kitTypeID,
-			    				_kitText,
+			    				purpose,
 			    				forBranch,
 			    				bookingStart,
 			    				bookingEnd,
@@ -751,6 +763,7 @@
 			    		var event = $(this).data.event;
 
 			    		event.ForBranch = $('#branch_update').val();
+			    		event.text = $('#booking_information #event_purpose').val();
 			    		var recipients = getRecipients('#booking_update_users');
 			    		event.KitRecipients = recipients;
 			    		console.log(event);
@@ -782,6 +795,8 @@
 				var event = $(this).data.event;
 				console.log(event);
 				$('#branch_update').val(event.ForBranch);
+
+				$('#booking_information #event_purpose').val(event.text);
 			    $('#branch_update').trigger("chosen:updated");
 
 			    $('#booking_update_users').find('.user-field.optional').each(function() {

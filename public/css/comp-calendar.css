@@ -99,7 +99,7 @@
 	width: 99%;
 	height: 100px;
 	overflow-y: auto;
-	overflow-x: hidden; 
+	overflow-x: hidden;
 	padding: 4px;
 }
 
@@ -116,7 +116,7 @@
 	height: 35px;
 	border: 2px solid #000;
 	border-radius: 4px;
-	color: #fff;	
+	color: #fff;
 }
 
 .user-field.optional
@@ -188,6 +188,7 @@
 	width: 35%;
 }
 
-
-
-
+.event-purpose
+{
+	width: 81%;
+}

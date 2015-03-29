@@ -30,6 +30,7 @@ class BookKitController extends BaseController {
             ->update(array(
                 'ShadowStartDate' => $post['ShadowStartDate'],
                 'ShadowEndDate' => $post['ShadowEndDate'],
+                'Purpose' => $post['Purpose'],
                 'StartDate' => $post['StartDate'],
                 'EndDate' => $post['EndDate'],
                 'ForBranch' => $post['ForBranch']
@@ -149,7 +150,7 @@ class BookKitController extends BaseController {
 
         BookingDetails::where('BookingID', '=', $post['BookID'])
             ->delete();
-            
+
         Booking::destroy($post['BookID']);
 
         return Response::json(array(
@@ -178,7 +179,7 @@ class BookKitController extends BaseController {
             $booking['KitRecipients'] = BookingDetails::where('BookingID', $booking->ID)
                 ->where('Booker', 0)
                 ->get();
-        }  
+        }
         return $bookings;
     }
 
@@ -187,9 +188,9 @@ class BookKitController extends BaseController {
         if(!Request::ajax())
             return "not a json request";
 
-        $query = 
-            "select K.ID as KitID,". 
-            "   KT.Name as Name,". 
+        $query =
+            "select K.ID as KitID,".
+            "   KT.Name as Name,".
             "   B.ShadowStartDate as ShadowStartDate,".
             "   B.ShadowEndDate as ShadowEndDate ".
             "from Booking as B".
@@ -218,19 +219,19 @@ class BookKitController extends BaseController {
 
         foreach($kitsOfType as $kit)
         {
-            $query = 
+            $query =
                 "select B.ID ".
                 "from Booking as B ".
                 "inner join Kits as K ".
                     "on B.KitID = K.ID ".
                 "where B.KitID = ".$kit->ID." ".
-                "and (".    
+                "and (".
                     "('".$post['StartDate']."' between CAST(B.StartDate as Date) and CAST(B.EndDate as Date)) ".
                     "or ('".$post['EndDate']."' between CAST(B.StartDate as Date) and CAST(B.EndDate as Date))".
                 ")";
 
             $bookings = DB::select(DB::raw($query));
-            
+
             if (intval(count($bookings)) == 0)
             {
                 return $kit;
