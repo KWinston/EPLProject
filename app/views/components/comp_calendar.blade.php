@@ -63,6 +63,15 @@
         	</td>
         </tr>
         <tr>
+        	<td>
+        		<label>Purpose of Booking (optional)</label>
+        	</td>
+        	<td colspan="2" align="right">
+        		<textarea id="booking_purpose" 
+        			rows="3" cols="50" style="width: 95%;"></textarea>
+        	</td>
+       	</tr>
+        <tr>
         	<td colspan="3">
         		<label id="booking_message"></label>
         	</td>
@@ -108,6 +117,20 @@
         		</div>
         	</td>
 		</tr>
+		<tr>
+        	<td>
+        		<label>Purpose of Booking (optional)</label>
+        	</td>
+        	<td colspan="2" align="right">
+        		<textarea id="booking_update_purpose" 
+        			rows="3" cols="50" style="width: 95%;"></textarea>
+        	</td>
+       	</tr>
+       	<tr>
+        	<td colspan="3">
+        		<label id="booking_update_message"></label>
+        	</td>
+        </tr>
 	</table>
 </div>
 
@@ -212,6 +235,7 @@
 
 			shadowObjects.push({
 				type: 'holiday',
+				objState: 'shadow',
 				title: title,
 				allDay: true,
 				stick: true,
@@ -235,7 +259,7 @@
 
 			if (!existsInNewBookings(e)) {
 				var title = generateEventTitle(
-					e.Purpose,
+					e.Name,
 					moment(e.StartDate),
 					moment(e.EndDate)
 				);
@@ -247,8 +271,9 @@
 					objState	  : 'old',
 					isCreator	  : creator,
 					isType 		  : isType,
-					text 	      : e.Purpose,
+					text 	      : e.Name,
 					KitID 		  : e.KitID,
+					Purpose	      : e.Purpose,
 					title 		  : title,
 					ForBranch     : e.ForBranch,
 					KitRecipients : e.KitRecipients,
@@ -268,7 +293,7 @@
 		$('#calendar').fullCalendar('addEventSource', oldKitObjects);
 	}
 
-	function createBookingByDateRange(kitID, kitTypeID, kitText, forBranch, startDay, endDay, recipients) {
+	function createBookingByDateRange(kitID, kitTypeID, kitText, forBranch, startDay, endDay, recipients, purpose) {
 		var borderColor = '#555';
 		var backgroundColor = '#006B00';
 
@@ -276,24 +301,25 @@
 		var end = moment(endDay).add(2, 'd');			// add 1 shadow + offset
 
 		var event = {
-			id: (count++).toString(),
-			type: 'kit',
-			objState: 'new',
-			isCreator: true,
-			BookID: '',
-			KitRecipients: recipients,
-			ForBranch: forBranch,
-			text: kitText,
-			KitID: kitID,
-			KitTypeID: kitTypeID,
-			kitNotes: '',
-			title: '',
-			allDay: true,
-			stick: true,
-			className: 'shadow-day-effect',
-			start: start,
-			end: end,
-			borderColor: borderColor,
+			id 			  : (count++).toString(),
+			type 		  : 'kit',
+			objState 	  : 'new',
+			isCreator 	  : true,
+			BookID 		  : '',
+			KitRecipients : recipients,
+			ForBranch     : forBranch,
+			Purpose       : purpose,
+			text 		  : kitText,
+			KitID 		  : kitID,
+			KitTypeID 	  : kitTypeID,
+			kitNotes 	  : '',
+			title 	      : '',
+			allDay        : true,
+			stick 		  : true,
+			className	  : 'shadow-day-effect',
+			start         : start,
+			end           : end,
+			borderColor   : borderColor,
 			backgroundColor: backgroundColor
 		};
 
@@ -471,8 +497,8 @@
         });
 	}
 
-	function dialogMessage(text) {
-		$('#booking_message').html(text);
+	function dialogMessage(id, text) {
+		$(id).html(text);
 		setTimeout(function(){
 			$('#booking_message').html('');
 		}, 2500);
@@ -547,30 +573,42 @@
 	    	},
 	    	eventDragStart: function(event, jsEvent, ui, view) {
 	    		if (RegExp('new', 'i').test(event.objState)) {
-	    			console.log(event);
-	    			//getKitUpdates(event);
+	    			getKitUpdates(event);
 	    		}
 	    	},
 	    	eventMouseover: function(event, jsEvent, view) {
-	    		var tooltip = [
-	    			'<div class="tooltipevent tool-tip">',
-	    			event.title,
-	    			'</div>'
-	    		].join('');
+	    		if (RegExp('shadow', 'i').test(event.objState) ||
+	    			event.isType) {
+	    			return;
+	    		}
 
-				$("body").append(tooltip);
-				$(this).mouseover(function(e) {
-			        $(this).css('z-index', 10000);
-			        $('.tooltipevent').fadeIn('500');
-			        $('.tooltipevent').fadeTo('10', 1.9);
-				}).mousemove(function(e) {
-			        $('.tooltipevent').css('top', e.pageY + 10);
-			        $('.tooltipevent').css('left', e.pageX + 20);
-				});
+				var url = "{{ route('kits.kitDetails', array('topic' => ':KitID')); }}";
+	    		url = url.replace(':KitID', event.KitID);
+	    		console.log(url);
+                $.get(url, function(data){
+                	var tooltip = $('<div>', {
+                		'class' : "tooltip-event",
+                		'style' : [
+                			'width: 500px;',
+                			'position: absolute;',
+                			'top: 110px;',
+                			'left: 5px;',
+                			'z-index: 15000;',
+                			'background-color: #fff;',
+                			'border: 2px solid #333;',
+                			'border-radius: 5px;',
+                			'padding: 3px;'
+                		].join(' ')
+                	}).append(data);
+
+                    $("body").append(tooltip);
+		        	tooltip.fadeIn('500');
+		        	tooltip.fadeTo('10', 1.9);
+                });
 	    	},
 	    	eventMouseout: function(event) {
 	    		$(this).css('z-index', 8);
-				$('.tooltipevent').remove();
+				$('.tooltip-event').remove();
 	    	},
 	    	droppable: true,
 			// internal changes (updates)
@@ -660,6 +698,7 @@
 		    			var bookingEnd = $(this).find('#end_date_picker').datepicker('getDate');
 		    			var forBranch = $('#branch_insert option:selected').val();
 		    			var recipients = getRecipients('#booking_users');
+		    			var purpose = $(this).find('#booking_purpose').val();
 
 		    			if (_isType)
 		    			{
@@ -671,7 +710,7 @@
 
 			    			$.post("{{ URL::route('book_kit.get_available_kit') }}", json)
 			                    .success(function(resp){
-			                    	console.log(resp);
+			                    	//console.log(resp);
 			                        if (resp == "" ||
 				                        !createBookingByDateRange(
 						    				resp.ID,
@@ -680,9 +719,10 @@
 						    				forBranch,
 						    				moment(bookingStart).format('YYYY-MM-DD'),
 						    				moment(bookingEnd).format('YYYY-MM-DD'),
-						    				recipients
+						    				recipients, 
+						    				purpose
 						    			)) {
-			                    		dialogMessage('No kit available at this time');
+			                    		dialogMessage('#booking_message', 'No kit available at this time');
 			                    		console.log('No kits available at this time');
 			                    	}
 			                    	else {
@@ -703,9 +743,10 @@
 			    				forBranch,
 			    				bookingStart,
 			    				bookingEnd,
-			    				recipients
+			    				recipients,
+			    				purpose
 			    			)) {
-			    				dialogMessage('This kit is not available at this time');
+			    				dialogMessage('#booking_message', 'This kit is not available at this time');
 			    			}
 			    			else {
 			    				$('#booking_users').find('.user-field.optional').each(function() {
@@ -753,6 +794,7 @@
 			    		event.ForBranch = $('#branch_update').val();
 			    		var recipients = getRecipients('#booking_update_users');
 			    		event.KitRecipients = recipients;
+			    		event.Purpose = $('#booking_update_purpose').val();
 			    		console.log(event);
 			    		updateKitDB(event, function(){
 			    			var kit = oldKitObjects.filter(function(e){
@@ -809,6 +851,7 @@
 			    			.appendTo('#booking_update_users');
 		    		}
 			    }
+			    $('#booking_update_purpose').val(event.Purpose);
 		    }
 		});
 
@@ -856,6 +899,9 @@
 				$("#end_date_picker").datepicker('option', 'maxDate',
 					new Date(moment($("#start_date_picker").datepicker('getDate')).add(13, 'd').format())
 				);
+
+				$('#booking_duration').val(1);
+				$("#end_date_picker").datepicker('setDate', $("#start_date_picker").datepicker('getDate'));
 			}
 		}).datepicker('setDate', new Date().setDate(new Date().getDate() + 1));
 
@@ -881,7 +927,6 @@
 				new Date(end.format()));
 		});
 
-
 		$('.booking-users-options').autocomplete({
 			'source': users.map(function(row) {
 				return row.email + ' | '+ row.username + ' | ' + row.realname;
@@ -890,16 +935,26 @@
 
 		$('#booking_add_user').button().click(function() {
 			var userAdd = $('#booking_users_options').val();
-			var userFields = userAdd.split(' | ');
-			createUserField(userFields[1], userFields[0], userFields[2])
-				.appendTo('#booking_users');
+			if (userAdd.length > 0) {
+				var userFields = userAdd.split(' | ');
+				createUserField(userFields[1], userFields[0], userFields[2])
+					.appendTo('#booking_users');
+			}
+			else {
+				dialogMessage('#booking_message', 'Please fill in user information or email');
+			}
 		});
 
 		$('#booking_add_update_user').button().click(function() {
 			var userAdd = $('#booking_users_update_options').val();
-			var userFields = userAdd.split(' | ');
-			createUserField(userFields[1], userFields[0], userFields[2])
-				.appendTo('#booking_update_users');
+			if (userAdd.length > 0) {
+				var userFields = userAdd.split(' | ');
+				createUserField(userFields[1], userFields[0], userFields[2])
+					.appendTo('#booking_update_users');
+			}
+			else {
+				dialogMessage('#booking_update_message', 'Please fill in user information or email');
+			}
 		});
 	});
 

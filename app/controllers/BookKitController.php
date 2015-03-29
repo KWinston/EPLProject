@@ -16,65 +16,6 @@ class BookKitController extends BaseController {
             ], 'home.index', [], false);
     }
 
-    public function updateBooking()
-    {
-        if(!Request::ajax())
-            return "not a json request";
-
-        $post = Input::except('ID');
-        $index = Input::get('ID');
-        $notifees = Input::get('Notifees');
-
-        $stat = DB::table('Booking')
-            ->where('id', $index)
-            ->update(array(
-                'ShadowStartDate' => $post['ShadowStartDate'],
-                'ShadowEndDate' => $post['ShadowEndDate'],
-                'StartDate' => $post['StartDate'],
-                'EndDate' => $post['EndDate'],
-                'ForBranch' => $post['ForBranch']
-            ));
-
-        BookingDetails::where('BookingID', $index)
-            ->where('Booker', 0)
-            ->delete();
-
-        if (count($notifees) > 0)
-        {
-            foreach ($notifees as $notifee)
-            {
-                $temp = User::where('email', $notifee['Email'])->first();
-                if ($temp != null)
-                {
-                    $bookingDetail = new BookingDetails;
-                    $bookingDetail->fill(array(
-                        'BookingID' => $index,
-                        'UserID' => $temp->id,
-                        'Email' =>  $temp->email,
-                        'Booker' => 0
-                    ));
-                    $bookingDetail->save();
-                }
-                else
-                {
-                    $bookingDetail = new BookingDetails;
-                    $bookingDetail->fill(array(
-                        'BookingID' => $index,
-                        'Email' =>  $notifee['Email'],
-                        'Booker' => 0
-                    ));
-                    $bookingDetail->save();
-                }
-            }
-        }
-
-        // Logs::BookingRequestEdited($post['BookingID'], $post['KitID'], $post['StartDate'], $post['EndDate']);
-
-        return Response::json(array(
-            'success' => true
-        ), 200);
-    }
-
     public function insertBooking()
     {
         if(!Request::ajax())
@@ -131,12 +72,72 @@ class BookKitController extends BaseController {
             $post['ForBranch'],
             $post['StartDate'],
             $post['EndDate']
-        );
+        ); 
         */
 
         return Response::json(array(
             'success' => true,
             'insert_id' => $booking->ID
+        ), 200);
+    }
+
+    public function updateBooking()
+    {
+        if(!Request::ajax())
+            return "not a json request";
+
+        $post = Input::except('ID');
+        $index = Input::get('ID');
+        $notifees = Input::get('Notifees');
+
+        $stat = DB::table('Booking')
+            ->where('id', $index)
+            ->update(array(
+                'ShadowStartDate' => $post['ShadowStartDate'],
+                'ShadowEndDate' => $post['ShadowEndDate'],
+                'StartDate' => $post['StartDate'],
+                'EndDate' => $post['EndDate'],
+                'ForBranch' => $post['ForBranch'],
+                'Purpose' => $post['Purpose']
+            ));
+
+        BookingDetails::where('BookingID', $index)
+            ->where('Booker', 0)
+            ->delete();
+
+        if (count($notifees) > 0)
+        {
+            foreach ($notifees as $notifee)
+            {
+                $temp = User::where('email', $notifee['Email'])->first();
+                if ($temp != null)
+                {
+                    $bookingDetail = new BookingDetails;
+                    $bookingDetail->fill(array(
+                        'BookingID' => $index,
+                        'UserID' => $temp->id,
+                        'Email' =>  $temp->email,
+                        'Booker' => 0
+                    ));
+                    $bookingDetail->save();
+                }
+                else
+                {
+                    $bookingDetail = new BookingDetails;
+                    $bookingDetail->fill(array(
+                        'BookingID' => $index,
+                        'Email' =>  $notifee['Email'],
+                        'Booker' => 0
+                    ));
+                    $bookingDetail->save();
+                }
+            }
+        }
+
+        // Logs::BookingRequestEdited($post['BookingID'], $post['KitID'], $post['StartDate'], $post['EndDate']);
+
+        return Response::json(array(
+            'success' => true
         ), 200);
     }
 
@@ -164,7 +165,23 @@ class BookKitController extends BaseController {
 
         $index = Input::get('ID');
 
-        $bookings = Booking::where('KitID', $index)->get();
+        $query = 
+            "select ".
+            "   concat(K.Name, ' - ', K.SpecializedName) as 'Name',".
+            "   B.ID as 'ID',".
+            "   B.KitID as 'KitID',".
+            "   B.ForBranch as 'ForBranch',".
+            "   B.Purpose as 'Purpose',".
+            "   B.ShadowStartDate as 'ShadowStartDate',".
+            "   B.ShadowEndDate as 'ShadowEndDate',".
+            "   B.StartDate as 'StartDate',".
+            "   B.EndDate as 'EndDate' ".
+            "from Booking as B".
+            "   inner join Kits as K".
+            "       on B.KitID = K.ID ".
+            "where B.KitID = '".$index."'";
+
+        $bookings = DB::select(DB::raw($query));
 
         foreach ($bookings as $booking)
         {
@@ -173,11 +190,12 @@ class BookKitController extends BaseController {
                 ->where('Booker', 1)
                 ->first();
 
-            $booking['UserID'] = $user->UserID;
-
-            $booking['KitRecipients'] = BookingDetails::where('BookingID', $booking->ID)
+            $recipients = BookingDetails::where('BookingID', $booking->ID)
                 ->where('Booker', 0)
                 ->get();
+
+            $booking->UserID = $user->UserID;
+            $booking->KitRecipients = $recipients;
         }  
         return $bookings;
     }
@@ -197,7 +215,8 @@ class BookKitController extends BaseController {
             "      on B.KitID = K.ID".
             "   inner join KitTypes as KT".
             "      on K.KitType = KT.ID ".
-            "where K.KitType = '".Input::get('Type')."' ".
+            "where K.KitType = '".Input::get('Type')."'".
+            "   and K.Available = '1' ".
             "order by K.ID asc,".
             "   B.StartDate asc";
 
