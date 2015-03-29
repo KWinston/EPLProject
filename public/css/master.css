@@ -1036,7 +1036,10 @@ textarea.receive-kit
 {
     height: 100% !important;
 }
-
+div.kit-transfer-heading
+{
+    font-size: x-large;
+}
 div.bookings-table
 {
     border: 2px solid black;

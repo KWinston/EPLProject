@@ -48,10 +48,6 @@
 </script>
 @stop
 @section('content')
-
-<div class="receive-kit-branch">
-{{ $branch->Name }} Operations
-</div>
 <table cellpadding="0" style="height: 95%; width:99%" >
     <tr>
         <td style="vertical-align: top; width:10%">

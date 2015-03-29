@@ -178,6 +178,6 @@ class RecieveKitController extends BaseController {
         $kit->AtBranch = $booking->ForBranch;
         $kit->save();
 
-        return "OK";
+        return Redirect::action('recieve_kit.index');
     }
 }

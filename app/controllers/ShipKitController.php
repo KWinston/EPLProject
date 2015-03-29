@@ -63,7 +63,7 @@ class ShipKitController extends BaseController {
             $message = Input::get('LogMessage');
             $logNote = Logs::Note($kit->KitType, $kit->ID, NULL, $message);
         }
-        return "OK";
+        return Redirect::action('recieve_kit.index');
     }
 
     // Show the types Edit form

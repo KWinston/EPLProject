@@ -7,39 +7,122 @@
 
 {{Form::hidden('BookingID', $booking->ID)}}
 
+<script>
+$( '.send-kit-edit-form' ).on('submit', function() {
+            var ok;
+    if (confirm("Are you sure you want to ship kit?") == true)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        return false;
+    });
+$( '.receive-kit-edit-form' ).on('submit', function() {
+            var ok;
+    if (confirm("Are you sure you want to receive kit?") == true)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        return false;
+    });
+</script>
+
 <table style ="width:100%">
     <tr>
-        <td class="receive-kit-form-label">
-        Name: {{ $booking->kit->Name }}
-        </td>
+        <th colspan="3">
+            <div class="kit-transfer-heading">
+            Booking Name: {{ $booking->Purpose }}
+            </div>
+        </th>
     </tr>
     <tr>
-        <td class="receive-kit-form-label">
-        Description: {{ $booking->kit->KitDesc }}
-        </td>
+    <tr>
+        <th colspan="3">
+            <div class="kit-transfer-heading">
+            @foreach($booking->details as $bookdetail)
+            @if($bookdetail->Booker == '1')
+            Booker's Email: {{ $bookdetail->Email }}
+            @endif
+            @endforeach
+            </div>
+        </th>
     </tr>
     <tr>
-        <td class="receive-kit-form-label">
-        Kit Status: {{ $booking->kit->state->StateName }}
-        </td>
-    </tr>
-    <tr>
-        <td class="receive-kit-form-label">
-        Destination: {{ $booking->branch->Name }}
-        </td>
-    </tr>
-    <tr>
-        <td class="receive-kit-form-label">
-        Last Kit Location: {{ $booking->kit->atBranch->Name }}
-        </td>
-    </tr>
-    <tr>
-        <td class="receive-kit-form-label">
-        @foreach($booking->details as $bookdetail)
-        @if($bookdetail->Booker == '1')
-        Last Booker: {{ $bookdetail->Email }}
+        <th colspan="3">
+        @if ($mode == 'receive')
+            <button onclick="$('.receive-kit-edit-form').submit(); return false;" id="formSubmit" class="kit-submit">Receive Kit</button>
+            Click to confirm reception of kit
+        @else
+            <button onclick="$('.send-kit-edit-form').submit(); return false;" id="formSubmit" class="kit-submit">Ship Kit</button>
+            Click to set kit into 'In Transit'
         @endif
-        @endforeach
+        </th>
+
+    </tr>
+    <tr>
+    </tr>
+    <tr>
+        <td class="receive-kit-form-label">
+        </td>
+    </tr>
+    <tr>
+        <td class="receive-kit-form-label">
+            <div class="kit-transfer-heading">
+            Kit Name: {{ $booking->kit->Name }}
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="receive-kit-form-label">
+            <div class="kit-transfer-heading">
+            Kit Description: {{ $booking->kit->KitDesc }}
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="kit-transfer-barcode">
+            <div class="kit-transfer-heading">
+            Kit Barcode #: {{ $booking->kit->BarcodeNumber }}
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="receive-kit-form-label">
+            <div class="kit-transfer-heading">
+            Kit Status: {{ $booking->kit->state->StateName }}
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="receive-kit-form-label">
+            <div class="kit-transfer-heading">
+            Destination: {{ $booking->branch->Name }}
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="receive-kit-form-label">
+            <div class="kit-transfer-heading">
+            Current Kit Location: {{ $booking->kit->atBranch->Name }}
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="receive-kit-form-label">
+            <div class="kit-transfer-heading">
+            @foreach($booking->details as $bookdetail)
+            @if($bookdetail->Booker == '1')
+            Last Booker: {{ $bookdetail->Email }}
+            @endif
+            @endforeach
+            </div>
         </td>
     </tr>
 </table>
@@ -49,7 +132,7 @@
 <table border="1"  class="kit-contents-list">
     <tr>
         <th class="kit-contents-list-name"> Content Name</th>
-        <th class="kit-contents-list-serial"> Serial Number</th>
+        <th class="kit-contents-list-serial"> Asset Tag</th>
     </tr>
 
     @foreach($booking->kit->contents as $content)
@@ -101,10 +184,5 @@
         </td>
     </tr>
 </table>
-@if ($mode == 'receive')
-    {{Form::submit('Receive Kit', array('class' => 'kit-submit'))}}
-@else
-    {{Form::submit('Ship Kit', array('class' => 'kit-submit'))}}
-@endif
 
 {{Form::close();}}
