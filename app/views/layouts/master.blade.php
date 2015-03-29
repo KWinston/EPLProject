@@ -78,7 +78,7 @@
                 @if(Auth::check())
                     <div id="branch-name" class="option left branch-name"><p class="branch-name"> Kits for {{ Branches::find(Session::get('branch'))->Name }}</p></div>
                     <div class="option right" style="padding-left: 10px;" >
-                        <div id="settings_button_open" class="settings-icon"></div>
+                        <div id="settings_button" class="settings-icon"></div>
                     </div>
                 @endif
 
@@ -122,8 +122,6 @@
         <div class="branch-select">
             <select data-placeholder="Branch" id="branchMenu" class="chosen-select" tabindex="2">
             </select>
-            <br/><br/>
-            <input id="settings_button_close" type="button" value="Done" />
         </div>
 
         {{ HTML::script('plugins/chosen_1_4_0_dropdown/chosen.jquery.min.js',
@@ -231,12 +229,15 @@
                     }
                 });
 
-                $('#settings_button_open').click(function(){
-                    $('.branch-select').fadeIn("slow");
-                });
-
-                $('#settings_button_close').button().click(function(){
-                    $(this).parent().fadeOut("slow");
+                $('#settings_button').click(function(){
+                    if (!$('#settings_button').hasClass('open')) {
+                        $('.branch-select').fadeIn("slow");
+                        $('#settings_button').addClass('open');
+                    }
+                    else {
+                        $('.branch-select').fadeOut("slow");
+                        $('#settings_button').removeClass('open');
+                    }
                 });
             });
         @yield('master-script')
