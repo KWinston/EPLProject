@@ -248,7 +248,12 @@ $(function()
         console.log(data);
         inventory = data.data;
         bookings = data.bookings;
-        kitTypes = data.kitTypes;
+        kitTypes = {};
+        // convert the array of kit types into a associated array. 
+        for(i in data.kitTypes)
+        {
+            kitTypes[data.kitTypes[i].ID] = data.kitTypes[i];
+        }
         loadInventory();
         loadBookings();
         $("div.kit-block-activity.kit-shipping").button();
