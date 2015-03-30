@@ -58,12 +58,12 @@
             "version": "v1.0.8",
             "source": {
                 "type": "git",
-                "url": "https://github.com/d11wtq/boris.git",
+                "url": "https://github.com/borisrepl/boris.git",
                 "reference": "125dd4e5752639af7678a22ea597115646d89c6e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/d11wtq/boris/zipball/125dd4e5752639af7678a22ea597115646d89c6e",
+                "url": "https://api.github.com/repos/borisrepl/boris/zipball/125dd4e5752639af7678a22ea597115646d89c6e",
                 "reference": "125dd4e5752639af7678a22ea597115646d89c6e",
                 "shasum": ""
             },
@@ -147,16 +147,16 @@
         },
         {
             "name": "indatus/dispatcher",
-            "version": "v1.4.1",
+            "version": "v1.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Indatus/dispatcher.git",
-                "reference": "42c32027e947718873af2784af5f7567e2d246f9"
+                "reference": "e406351ba302217c49310647f8fd0213399872e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Indatus/dispatcher/zipball/42c32027e947718873af2784af5f7567e2d246f9",
-                "reference": "42c32027e947718873af2784af5f7567e2d246f9",
+                "url": "https://api.github.com/repos/Indatus/dispatcher/zipball/e406351ba302217c49310647f8fd0213399872e8",
+                "reference": "e406351ba302217c49310647f8fd0213399872e8",
                 "shasum": ""
             },
             "require": {
@@ -196,7 +196,7 @@
                 "laravel",
                 "schedule"
             ],
-            "time": "2014-09-22 17:06:36"
+            "time": "2015-03-26 16:52:57"
         },
         {
             "name": "ircmaxell/password-compat",
