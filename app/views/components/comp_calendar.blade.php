@@ -585,15 +585,15 @@
 
 				var url = "{{ route('kits.kitDetails', array('topic' => ':KitID')); }}";
 	    		url = url.replace(':KitID', event.KitID);
-	    		console.log(url);
+	    		console.log(jsEvent);
                 $.get(url, function(data){
                 	var tooltip = $('<div>', {
                 		'class' : "tooltip-event",
                 		'style' : [
                 			'width: 500px;',
                 			'position: absolute;',
-                			'top: 110px;',
-                			'left: 5px;',
+                			'top: ' + (jsEvent.pageY + (jsEvent.pageY < 200 ? 40 : -175)) + 'px;',
+                			'left: ' + (jsEvent.pageX - 250) + 'px;',
                 			'z-index: 15000;',
                 			'background-color: #fff;',
                 			'border: 2px solid #333;',
@@ -601,16 +601,11 @@
                 			'padding: 3px;'
                 		].join(' ')
                 	}).append(data);
-
+                	tooltip.find('.kit-details-bookings').remove();
                     $("body").append(tooltip);
 		        	tooltip.fadeIn('500');
 		        	tooltip.fadeTo('10', 1.9);
                 });
-
-                setTimeout(function(){
-                	$('.tooltip-event').fadeOut('250');
-					$('.tooltip-event').remove();
-                }, 5000);
 	    	},
 	    	eventMouseout: function(event) {
 	    		$(this).css('z-index', 8);
