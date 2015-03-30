@@ -9,7 +9,6 @@ td.start-date
 .menu
 {
     display: table;
-    border: 2px solid #000;
     padding: 2px;
     width: 100%;
     margin: 5px 0px;
@@ -314,7 +313,6 @@ input.log-filter
 {
     margin-top: 5px;
     /* line-height: 20%; */
-    border: 5px solid black;
     padding-left: 10px;
     font-size: 20px;
     width: 513px;
@@ -384,7 +382,7 @@ div.kit-block-activity
 }
 .kit-block.kit-receiving
 {
-
+    border: small;
     background-color: lightblue;
 }
 
@@ -784,12 +782,12 @@ td.users-list-isadmin
 table.kit-status
 {
     width: 100%;
-
 }
 tr.kit-status
 {
     /* width: 100%; */
-
+    height: 40px;
+    font-size: 150%;
 }
 tr.kit-status:nth-child(2n+1) td
 {
@@ -885,15 +883,14 @@ td.pending
 td.inventory
 {
     height: 100%;
-
     vertical-align: top;
 }
 .home-table-headers
 {
     height: 50px;
     font-size: 150%;
-    border-style: solid;
-    border-width: small;
+    color: white;
+    background: black;
 }
 
 
@@ -1045,6 +1042,7 @@ textarea.receive-kit
 .receive-kit-side-menu
 {
     height: 100% !important;
+    font-size: 150%;
 }
 div.kit-transfer-heading
 {
@@ -1052,7 +1050,6 @@ div.kit-transfer-heading
 }
 div.bookings-table
 {
-    border: 2px solid black;
 
 }
 table.bookings-table
@@ -1067,9 +1064,10 @@ table.bookings-table tr
 }
 table.bookings-table tr.header
 {
-    color: white;
+    color: black;
     height: 40px;
     width: 100%;
+    background-color: bisque;
 }
 table.bookings-table th.type
 {
