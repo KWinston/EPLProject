@@ -19,12 +19,6 @@
                 </p>
             </td>
         </tr>
-        <tr>
-        	<td colspan="3" style>
-                <label>Event Name</label>
-				<input type="text" class="event-purpose" id="event_purpose">
-            </td>
-        </tr>
 		<tr>
 			<td >
 				<label>Branch of Booking</label>
@@ -93,12 +87,6 @@
                     Update booking information. Add or remove users to inform.
                     Change branch for kit booking.
                 </p>
-            </td>
-        </tr>
-		<tr>
-        	<td colspan="3" style>
-                <label>Event Name</label>
-				<input type="text" class="event-purpose" id="event_purpose">
             </td>
         </tr>
 		<tr>
@@ -618,6 +606,11 @@
 		        	tooltip.fadeIn('500');
 		        	tooltip.fadeTo('10', 1.9);
                 });
+
+                setTimeout(function(){
+                	$('.tooltip-event').fadeOut('250');
+					$('.tooltip-event').remove();
+                }, 5000);
 	    	},
 	    	eventMouseout: function(event) {
 	    		$(this).css('z-index', 8);
@@ -711,7 +704,6 @@
 		    			var bookingStart = $(this).find('#start_date_picker').datepicker('getDate');
 		    			var bookingEnd = $(this).find('#end_date_picker').datepicker('getDate');
 		    			var forBranch = $('#branch_insert option:selected').val();
-		    			var purpose = $('#event_purpose').val()
 		    			var recipients = getRecipients('#booking_users');
 		    			var purpose = $(this).find('#booking_purpose').val();
 
@@ -730,7 +722,7 @@
 				                        !createBookingByDateRange(
 						    				resp.ID,
 						    				_kitTypeID,
-						    				purpose,
+						    				_kitText,
 						    				forBranch,
 						    				moment(bookingStart).format('YYYY-MM-DD'),
 						    				moment(bookingEnd).format('YYYY-MM-DD'),
@@ -754,7 +746,7 @@
 			    			if (!createBookingByDateRange(
 			    				_kitID,
 			    				_kitTypeID,
-			    				purpose,
+			    				_kitText,
 			    				forBranch,
 			    				bookingStart,
 			    				bookingEnd,
@@ -807,7 +799,6 @@
 			    		var event = $(this).data.event;
 
 			    		event.ForBranch = $('#branch_update').val();
-			    		event.text = $('#booking_information #event_purpose').val();
 			    		var recipients = getRecipients('#booking_update_users');
 			    		event.KitRecipients = recipients;
 			    		event.Purpose = $('#booking_update_purpose').val();
@@ -840,8 +831,6 @@
 				var event = $(this).data.event;
 				console.log(event);
 				$('#branch_update').val(event.ForBranch);
-
-				$('#booking_information #event_purpose').val(event.text);
 			    $('#branch_update').trigger("chosen:updated");
 
 			    $('#booking_update_users').find('.user-field.optional').each(function() {
