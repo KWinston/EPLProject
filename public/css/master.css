@@ -312,6 +312,7 @@ input.log-filter
 .kit-block
 {
     margin-top: 5px;
+    border: 2px solid black;
     /* line-height: 20%; */
     padding-left: 10px;
     font-size: 20px;
