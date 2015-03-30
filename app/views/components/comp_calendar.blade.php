@@ -511,7 +511,7 @@
 	function dialogMessage(id, text) {
 		$(id).html(text);
 		setTimeout(function(){
-			$('#booking_message').html('');
+			$(id).html('');
 		}, 2500);
 	}
 
@@ -592,6 +592,8 @@
 	    			event.isType) {
 	    			return;
 	    		}
+	    		$('.tooltip-event').fadeOut('250');
+				$('.tooltip-event').remove();
 
 				var url = "{{ route('kits.kitDetails', array('topic' => ':KitID')); }}";
 	    		url = url.replace(':KitID', event.KitID);
@@ -619,6 +621,7 @@
 	    	},
 	    	eventMouseout: function(event) {
 	    		$(this).css('z-index', 8);
+	    		$('.tooltip-event').fadeOut('250');
 				$('.tooltip-event').remove();
 	    	},
 	    	droppable: true,
