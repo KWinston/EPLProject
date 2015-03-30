@@ -145,7 +145,7 @@ $( '.receive-kit-edit-form' ).on('submit', function() {
                     {{ Form::label('Name', 'Missing: ', array('class' => 'receive-kit'));}}
                 </td>
                 <td class="receive-kit-form-value">
-                @if ($content->MissingLogID == null)
+                @if ($content->MissingLogID == 0 || null)
                     {{ Form::checkbox('isMissing_'.$content->ID, '1', false, array('ID' => 'isMissing_'.$content->ID, 'class' => 'receive-kit-form-value checkbox')); }}
                     {{ Form::text('MissingID_'.$content->ID, '', array('ID' => 'MissingID_'.$content->ID,  'class' => 'receive-kit receive-kit-form-value single-line-text'));}}
                 @else
@@ -160,7 +160,7 @@ $( '.receive-kit-edit-form' ).on('submit', function() {
                     {{ Form::label('Name', 'Damaged: ', array('class' => 'receive-kit'));}}
                 </td>
                 <td class="receive-kit-form-value">
-                @if ($content->DamagedLogID == null)
+                @if ($content->DamagedLogID == 0 || null)
                     {{ Form::checkbox('isDamaged_'.$content->ID, '1', false, array('ID' => 'isDamaged_'.$content->ID, 'class' => 'receive-kit-form-value checkbox')); }}
                     {{ Form::text('DamagedID_'.$content->ID, '', array('ID' => 'DamagedID_'.$content->ID, 'class' => 'receive-kit receive-kit-form-value single-line-text'));}}
                 @else
