@@ -585,15 +585,14 @@
 
 				var url = "{{ route('kits.kitDetails', array('topic' => ':KitID')); }}";
 	    		url = url.replace(':KitID', event.KitID);
-	    		console.log(jsEvent);
                 $.get(url, function(data){
                 	var tooltip = $('<div>', {
                 		'class' : "tooltip-event",
                 		'style' : [
-                			'width: 500px;',
+                			'width: 300px;',
                 			'position: absolute;',
-                			'top: ' + (jsEvent.pageY + (jsEvent.pageY < 200 ? 40 : -175)) + 'px;',
-                			'left: ' + (jsEvent.pageX - 250) + 'px;',
+                			'top: 100px;',
+                			'left: 5px;',
                 			'z-index: 15000;',
                 			'background-color: #fff;',
                 			'border: 2px solid #333;',
@@ -705,19 +704,19 @@
 		    			if (_isType)
 		    			{
 		    				var json = {
-		    					'StartDate' : moment(bookingStart).format('YYYY-MM-DD'),
-		    					'EndDate'   : moment(bookingEnd).format('YYYY-MM-DD'),
+		    					'StartDate' : moment(bookingStart).format('YYYY-MM-DD') + " 00:00:00",
+		    					'EndDate'   : moment(bookingEnd).add(1, 'd').format('YYYY-MM-DD') + " 00:00:00",
 		    					'KitTypeID' : _kitTypeID
 		    				};
 
 			    			$.post("{{ URL::route('book_kit.get_available_kit') }}", json)
 			                    .success(function(resp){
-			                    	//console.log(resp);
+			                    	console.log(resp);
 			                        if (resp == "" ||
 				                        !createBookingByDateRange(
 						    				resp.ID,
-						    				_kitTypeID,
-						    				_kitText,
+						    				resp.KitType,
+						    				resp.Name,
 						    				forBranch,
 						    				moment(bookingStart).format('YYYY-MM-DD'),
 						    				moment(bookingEnd).format('YYYY-MM-DD'),
