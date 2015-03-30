@@ -1065,18 +1065,18 @@ table.bookings-table
 }
 table.bookings-table tr
 {
-
+    height: 50px;
+    font-size: 150%;
 }
 table.bookings-table tr.header
 {
     color: white;
-
+    height: 40px;
     width: 100%;
 }
 table.bookings-table th.type
 {
     width: 20%;
-
 }
 table.bookings-table th.name
 {
