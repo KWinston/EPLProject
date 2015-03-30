@@ -136,14 +136,12 @@ td.start-date
 {
     display: table-row;
     background-color: #000;
-    height: 50px;
 }
 
 .option
 {
     color: white;
     display: inline-block;
-    height: 50px;
     vertical-align: middle;
 }
 
@@ -151,7 +149,6 @@ td.start-date
 {
     float: left;
     text-align: left;
-    height: 50px;
     border-right: 2px solid #fff;
     vertical-align: middle;
 }
@@ -160,7 +157,6 @@ td.start-date
 {
     float: right;
     text-align: right;
-    height: 50px;
     vertical-align: middle;
     border-left: 2px solid #fff;
 }
@@ -388,6 +384,7 @@ div.kit-block-activity
 }
 .kit-block.kit-receiving
 {
+
     background-color: lightblue;
 }
 
@@ -893,10 +890,10 @@ td.inventory
 }
 .home-table-headers
 {
-    background-color:black;
-    color:white;
     height: 50px;
     font-size: 150%;
+    border-style: solid;
+    border-width: small;
 }
 
 
