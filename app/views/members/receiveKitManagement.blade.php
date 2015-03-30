@@ -70,9 +70,13 @@
                     @foreach($sendKits as $sk)
                         @if($sk->KitID != 0 && $sk->KitState != 2)
                             <li class="send-kit-name" ID="{{$sk->BookingID}}">{{$sk->KitName}}</li>
-                        @else
-                        <br><br><br>
-                        <u><b>In Transit:</b></u>
+                        @endif
+                    @endforeach
+                    <br><br>
+                    <u><b>In Transit:</b></u>
+                    <br><br>
+                    @foreach($sendKits as $sk)
+                        @if($sk->KitID != 0 && $sk->KitState == 2)
                             <li class="send-kit-name" ID="{{$sk->BookingID}}">{{$sk->KitName}}</li>
                         @endif
                     @endforeach
