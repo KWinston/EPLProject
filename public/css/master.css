@@ -1072,7 +1072,7 @@ table.bookings-table tr.header
 }
 table.bookings-table th.type
 {
-    width: 20%;
+    width: 15%;
 }
 table.bookings-table th.name
 {
@@ -1081,7 +1081,7 @@ table.bookings-table th.name
 }
 table.bookings-table th.event
 {
-    width: 20%;
+    width: 25%;
 
 }
 table.bookings-table th.booker
@@ -1096,12 +1096,12 @@ table.bookings-table th.branch
 }
 table.bookings-table th.booking-start-date
 {
-    width: 15%;
+    width: 13%;
 
 }
 table.bookings-table th.booking-end-date
 {
-    width: 15%;
+    width: 12%;
 
 }
 

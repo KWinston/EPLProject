@@ -11,13 +11,15 @@
         var oldKitType = kitData.KitType;
         if ($(this).hasClass("checkbox"))
         {
+            console.log("Kit Changed Check" + $(this).prop('checked'));
             kitData[changeName] = ($(this).prop('checked') ? "1" : "0");
         }
         else
         {
             kitData[changeName] = $(this).val();
         }
-
+        console.log("Kit Changed " + changeName);
+        console.log(kitData[changeName]);
         // update the tree name, doing it all the time instead of detecting the
         // change as it is trivial update.
         var nm = kitData.Name;
@@ -375,7 +377,7 @@
                     </tr>
                     <tr>
                         <td> <label for="Available">Available for use:</label> </td>
-                        <td> <input class="kit-data form-checkbox" checked="checked" name="Available" type="checkbox" value="" id="Available"> </td>
+                        <td> <input class="kit-data form-checkbox checkbox" checked="checked" name="Available" type="checkbox" value="1" id="Available"> </td>
                     </tr>
                     <tr>
                         <td> <label for="KitState">Kit State:</label> </td>
