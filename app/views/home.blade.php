@@ -209,8 +209,8 @@ function doBooking()
 @if (Auth::check())
     <table cellpadding = 0 style="height:100%; width:100%;">
         <tr>
-            <th class="right-seperator">Pending Activity</th>
-            <th>Kit Bookings</th>
+            <th class="home-table-headers">Pending Activity</th>
+            <th class="home-table-headers">Kit Bookings</th>
         </tr>
         <tr>
             <td class="kit-blocks pending right-seperator"></td>
@@ -224,7 +224,7 @@ function doBooking()
                             </div>
                         </td>
                     </tr>
-                    <tr><th>Branch Inventory</th></tr>
+                    <tr><th class="home-table-headers">Branch Inventory</th></tr>
                     <tr style="width:100%; height:100%">
                         <td style="width:100%; height:50%;" class="kit-blocks inventory"></td>
                     </tr>

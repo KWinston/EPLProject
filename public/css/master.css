@@ -136,29 +136,35 @@ td.start-date
 {
     display: table-row;
     background-color: #000;
+    height: 50px;
 }
 
 .option
 {
     color: white;
     display: inline-block;
-    height: 35px;
-    vertical-align: center;
+    height: 50px;
+    vertical-align: middle;
 }
 
 .option.left
 {
     float: left;
     text-align: left;
+    height: 50px;
     border-right: 2px solid #fff;
+    vertical-align: middle;
 }
 
 .option.right
 {
     float: right;
     text-align: right;
+    height: 50px;
+    vertical-align: middle;
     border-left: 2px solid #fff;
 }
+
 font.text-red
 {
     color:red;
@@ -884,6 +890,13 @@ td.inventory
     height: 100%;
 
     vertical-align: top;
+}
+.home-table-headers
+{
+    background-color:black;
+    color:white;
+    height: 50px;
+    font-size: 200%;
 }
 
 
