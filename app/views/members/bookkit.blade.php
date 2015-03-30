@@ -55,8 +55,8 @@
         }
         else {
             $('#current_kit').text("Selected Kit is: " + kit.text);
-            $('#book_kit').prop('disabled', false);      
-            
+            $('#book_kit').prop('disabled', false);
+
             setBookingKit(kit);
 
             getKitBookings(kit);
@@ -113,7 +113,7 @@
             'KitID'     : parseInt(event.KitID, 10)
         };
 
-        console.log(json);
+        // console.log(json);
 
         $.post("{{ URL::route('book_kit.insert_booking') }}", json)
             .success(function(resp){
@@ -235,11 +235,11 @@
                 bookingsByID[bookings[index].KitID].push(range[index2].format('YYYY-MM-DD'));
             }
         }
-        
+
 
         for (var index in bookingsByID)
-        {    
-            var filtered = 
+        {
+            var filtered =
                 bookingsByID[index].filter(function(item, i, ar){ return ar.indexOf(item) === i; });
             bookingsByID[index] = filtered.sort(function(r1, r2) {
                 return r1.start > r2.start;
@@ -270,16 +270,16 @@
 
             if (Math.abs(prev.diff(next, 'd')) > 1) {
                 ranges.push({
-                    'start': moment(intersectTypes[lastIndex] + " 00:00:00"), 
+                    'start': moment(intersectTypes[lastIndex] + " 00:00:00"),
                     'end'  : moment(intersectTypes[i] + " 00:00:00").add(1, 'd')
                 });
                 lastIndex = i + 1;
-            }   
+            }
         }
         if (lastIndex < intersectTypes.length - 1)
         {
             ranges.push({
-                'start': moment(intersectTypes[lastIndex] + " 00:00:00"), 
+                'start': moment(intersectTypes[lastIndex] + " 00:00:00"),
                 'end'  : moment(intersectTypes[intersectTypes.length - 1] + " 00:00:00").add(1, 'd')
             });
         }

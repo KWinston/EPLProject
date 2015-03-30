@@ -1067,7 +1067,12 @@ table.bookings-table th.type
 }
 table.bookings-table th.name
 {
-    width: 35%;
+    width: 15%;
+
+}
+table.bookings-table th.event
+{
+    width: 20%;
 
 }
 table.bookings-table th.booker
@@ -1095,6 +1100,9 @@ table.bookings-table td.type
 {
 }
 table.bookings-table td.name
+{
+}
+table.bookings-table td.event
 {
 }
 table.bookings-table td.booker
