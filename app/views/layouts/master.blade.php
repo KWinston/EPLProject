@@ -213,7 +213,6 @@
                     content: function ()
                     {
                         var title = $(this).prop('title');
-                        console.log(title);
                         if (title.indexOf('__KIT_DETAIL__') == 0)
                         {
                             url = "{{ route('kits.kitDetails', array('topic' => ':KitID')); }}";

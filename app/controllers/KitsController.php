@@ -183,6 +183,7 @@ class KitsController extends BaseController
 
         return View::make("kit.kitDetails", ['kit' => $kit, 'bookings' => $bookings, 'logs' => $logs]);
     }
+
     // ---------------------------------------------------------------------------------------------------
     // Create a new kit.
     public function create()

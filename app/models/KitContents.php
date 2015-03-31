@@ -74,5 +74,5 @@ class KitContents extends Eloquent
     {
         return $this->hasOne('Logs', 'ID', 'DamagedLogID');
     }
-
+    
 }
