@@ -30,7 +30,8 @@
                 'updateMethod' => "updateBooking",
                 'insertMethod' => "insertBooking",
                 'deleteMethod' => "deleteBooking",
-                'kitChange'    => "homeMenuCallback"
+                'kitChange'    => "homeMenuCallback",
+                'messageMethod' => "setBookingFeedback"
             ))
             <div id="bookingStatus" style="font-size: 16px; width: 100%;
                 background-color: #ddd; text-align: center;
@@ -70,32 +71,34 @@
             json = { 'ID' : kit.KitID };
             $.post("{{ URL::route('book_kit.get_kit_bookings') }}", json)
                 .success(function(resp){
-                    console.log(resp);
                     addCalendarKits(resp, '{{ Auth::id(); }}');
                 })
                .fail(function(){
-                    console.log("error while getting kit bookings");
+                    setBookingFeedback("Unable to get booked kit information.");
                 });
         }
         else {
             json = { 'Type' : kit.KitTypeID };
             $.post("{{ URL::route('book_kit.get_type_bookings') }}", json)
                 .success(function(resp) {
-                    //console.log(resp);
                     var kitOverlaps = compareOverlapKitTypeBookings(resp);
                     addCalendarKits(kitOverlaps);
                 })
                .fail(function(){
-                    console.log("error while getting kit type bookings");
+                    setBookingFeedback("Unable to get booked kit type information.");
                 });
         }
     }
 
-    function setBookingFeedback(method) {
-        $('#bookingStatus').html('Booking Status: ' + method);
+    function setBookingFeedback(message) {
+        $('#bookingStatus').html('Booking Status: ' + message);
+        $('#bookingStatus').css('color', '#ff0000');
+        setTimeout(function(){
+            $('#bookingStatus').css('color', '#000');
+        }, 500);
         setTimeout(function(){
             $('#bookingStatus').html('Booking Status: Awaiting');
-        }, 2500);
+        }, 5000);
     }
 
     function insertBooking(event, successCallback, failureCallback) {
@@ -113,8 +116,6 @@
             'KitID'     : parseInt(event.KitID, 10)
         };
 
-        // console.log(json);
-
         $.post("{{ URL::route('book_kit.insert_booking') }}", json)
             .success(function(resp){
                 setBookingFeedback('Created');
@@ -123,7 +124,6 @@
                 }
             })
            .fail(function(){
-                console.log("error on insert");
                 if (failureCallback !== undefined) {
                     failureCallback();
                 }
@@ -133,7 +133,6 @@
     function updateBooking(event, successCallback, failureCallback) {
         var startBooking = moment(event.start).add(1, 'd').format('YYYY-MM-DD');
         var endBooking = moment(event.end).subtract(1, 'd').format('YYYY-MM-DD');
-        console.log(event);
         var json = {
             'ID' : event.BookID,
             'StartDate' : startBooking,
@@ -145,7 +144,6 @@
             'KitID'     : parseInt(event.KitID, 10),
             'Notifees'  : event.KitRecipients
         };
-        console.log(json);
 
         $.post("{{ URL::route('book_kit.update_booking') }}", json)
             .success(function(resp){
@@ -174,7 +172,6 @@
                 }
             })
            .fail(function(){
-                console.log("error on delete");
                 if (failureCallback !== undefined) {
                     failureCallback();
                 }
@@ -187,10 +184,9 @@
             .success(function(resp){
                 var data = JSON.parse(resp);
                 addCalendarShadowDays(data.BranchInfo.HolidayClosures.HolidayClosure);
-                console.log('shadow days added');
             })
             .fail(function(){
-                console.log("error");
+                setBookingFeedback("General error: Unable to get holidays.");
             });
     }
 
@@ -245,8 +241,6 @@
                 return r1.start > r2.start;
             });
         }
-        console.log(bookingsByID);
-
 
         var firstRun = true;
         var intersectTypes;
@@ -259,8 +253,6 @@
                 intersectTypes = getIntersect(intersectTypes, bookingsByID[index]);
             }
         }
-
-        console.log(intersectTypes);
 
         var ranges = [];
         var lastIndex = 0;
