@@ -1,7 +1,7 @@
 ## EPL Kit booking
 
-[![Total Downloads](/images/downloads.svg)](https://github.com/macewanCMPT395/irww/archive/master.zip)
-[![Latest Stable Version](/images/stable.svg)](https://github.com/macewanCMPT395/irww/archive/master.zip)
+[![Total Downloads](images/downloads.svg)](https://github.com/macewanCMPT395/irww/archive/master.zip)
+[![Latest Stable Version](images/stable.svg)](https://github.com/macewanCMPT395/irww/archive/master.zip)
 [![License](https://poser.pugx.org/laravel/framework/license.svg)](http://opensource.org/licenses/MIT)
 
 The EPL kit booking system is written on top of Laravel 4.2.17[Laravel website](http://laravel.com/docs) using mysql database.
