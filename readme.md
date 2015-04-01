@@ -1,6 +1,6 @@
 ## EPL Kit booking
 
-[![Total Downloads](https://poser.pugx.org/laravel/framework/downloads.svg)](https://packagist.org/packages/laravel/framework)
+[![Total Downloads](https://poser.pugx.org/laravel/framework/downloads.svg)](https://github.com/macewanCMPT395/irww/archive/master.zip)
 [![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://github.com/macewanCMPT395/irww/archive/master.zip)
 [![License](https://poser.pugx.org/laravel/framework/license.svg)](http://opensource.org/licenses/MIT)
 
