@@ -1,14 +1,14 @@
 ## EPL Kit booking
 
 [![Total Downloads](https://poser.pugx.org/laravel/framework/downloads.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://github.com/macewanCMPT395/irww/archive/master.zip)](https://github.com/macewanCMPT395/irww/archive/master.zip)
-[![License](http://opensource.org/licenses/MIT)](http://opensource.org/licenses/MIT)
+[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://github.com/macewanCMPT395/irww/archive/master.zip)
+[![License](https://poser.pugx.org/laravel/framework/license.svg)](http://opensource.org/licenses/MIT)
 
 The EPL kit booking system is written on top of Laravel 4.2.17[Laravel website](http://laravel.com/docs) using mysql database.
 
 ## Installation
-1. Retrieve EPL Kit managment software [![Latest Stable Version](https://github.com/macewanCMPT395/irww/archive/master.zip)](https://github.com/macewanCMPT395/irww/archive/master.zip)
-2. Install Composer [![Latest Stable Version](https://getcomposer.org/doc/00-intro.md)](https://getcomposer.org/doc/00-intro.md)
+1. Retrieve EPL Kit managment software [![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://github.com/macewanCMPT395/irww/archive/master.zip)
+2. Install Composer [![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://getcomposer.org/doc/00-intro.md)
 3. Install / Configure MySql (see below)
 4. Perform a composer install on EPL Kit Managment software and execute the 'composer install' command.
 5. Perform a 'artisan migrate' to intalize and seed the database.
@@ -42,4 +42,4 @@ The branches system is a example of data needed to define which branches kits ca
 The system does rely on there being a branch (ID 0) which is the IT depot for the system. This is the default location new kits will be created at.
 
 ### Users
-The user table by default has two users ('user' is a administrator, 'user2' is a normal user) both which have the password 'user'. This table and all references to it are expected to be replaced with access into the EPL LDAP system. The basic admin screens for user management are primitive at best. 
+The user table by default has two users ('user' is a administrator, 'user2' is a normal user) both which have the password 'user'. This table and all references to it are expected to be replaced with access into the EPL LDAP system. The basic admin screens for user management are primitive at best.
