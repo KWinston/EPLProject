@@ -64,7 +64,7 @@
         </tr>
         <tr>
         	<td>
-        		<label>Purpose of Booking (optional)</label>
+        		<label>Booking Purpose</label>
         	</td>
         	<td colspan="2" align="right">
         		<textarea id="booking_purpose" 
@@ -119,7 +119,7 @@
 		</tr>
 		<tr>
         	<td>
-        		<label>Purpose of Booking (optional)</label>
+        		<label>Booking Purpose</label>
         	</td>
         	<td colspan="2" align="right">
         		<textarea id="booking_update_purpose" 
@@ -259,7 +259,8 @@
 
 			if (!existsInNewBookings(e)) {
 				var title = generateEventTitle(
-					e.Name,
+					e.Purpose !== undefined && e.Purpose !== null &&
+						e.Purpose.trim().length > 0 ? e.Purpose : e.Name,
 					moment(e.StartDate),
 					moment(e.EndDate)
 				);
@@ -308,7 +309,8 @@
 			KitRecipients : recipients,
 			ForBranch     : forBranch,
 			Purpose       : purpose,
-			text 		  : kitText,
+			text 		  : purpose != undefined && purpose != null && 
+								purpose.trim().length > 0 ? purpose : kitText,
 			KitID 		  : kitID,
 			KitTypeID 	  : kitTypeID,
 			kitNotes 	  : '',
@@ -331,12 +333,11 @@
 
 			insertKitDB(event, function(id) {
                 event.BookID = id;
-                console.log(event);
 			    newKitObjects.push(event);
 			    $('#calendar').fullCalendar('addEventSource', [event]);
                 $('#booking_dialog').dialog("close");
             }, function(){
-            	console.log('error on insert');
+            	statusMessage('Error inserting booking. Please try again.');
             });
 		}
 		return stat.status;
@@ -381,6 +382,14 @@
         }
 	}
 
+	function statusMessage(message) {
+		var target = "{{ $messageMethod }}";
+		var fn = window[target];
+		if(typeof fn === 'function') {
+			fn(message);
+        }
+	}
+
 	function adjustForShadowDays(event) {
 		var startDayOrig = moment(event.start);
 		var endDayOrig = moment(event.end);
@@ -395,15 +404,15 @@
 			for (var i in shadowObjects)
 			{
 				var shadowStart = moment(moment(shadowObjects[i].start).format("YYYY-MM-DD" + " 00:00:00"));
-				var shadowEnd = moment(shadowStart).subtract(1, 'd');
+				var shadowEnd = moment(shadowStart);
 				if (!RegExp("Sunday", "i").test(shadowStart.format('dddd')) &&
 					!RegExp("Saturday", "i").test(shadowStart.format('dddd')))
 				{
-					if (shadowStart.diff(startDay, 'd') == 0) {
+					if (startDay.format('YYYY-MM-DD') === shadowStart.format('YYYY-MM-DD')) {
 						startDay.subtract(1, 'd');
 						change = true;
 					}
-					if (shadowEnd.diff(endDay, 'd') == 0) {
+					if (endDay.format('YYYY-MM-DD') === shadowEnd.format('YYYY-MM-DD')) {
 						endDay.add(1, 'd');
 						change = true;
 					}
@@ -479,8 +488,6 @@
 		if(typeof fn === 'function') {
 			fn(event);
 		}
-		else
-			console.log("function not defined: " + target);
 	}
 
     function openCreateBookingDialog() {
@@ -489,7 +496,6 @@
 
 	function confirmDeleteCallback() {
 		var event = $('#booking_information').data.event;
-		console.log(event);
         deleteKitDB(event, function() {
 		    $('#calendar').fullCalendar('removeEvents', event._id);
             $('#calendar').fullCalendar('refetchEvents');
@@ -614,7 +620,8 @@
 	    	droppable: true,
 			// internal changes (updates)
 			eventDrop: function(event, delta, revertFunc) {
-				if (event.start.diff(moment(), 'd') < 1) {
+				if (event.start.diff(moment(), 'd') < 0) {
+					statusMessage('Unable to update booking. Cannot be past date.');
 					revertFunc();
 				}
 				else {
@@ -629,6 +636,7 @@
 						updateKitDB(event);
 					}
 					else {
+						statusMessage('Unable to update booking. Overlap encountered.');
 						revertFunc();
 					}
 				}
@@ -649,31 +657,10 @@
 					updateKitDB(event);
 				}
 				else {
+					statusMessage('Unable to update booking. Overlap encountered.');
 					revertFunc();
 				}
 			},
-			/*// external changes (insert)
-			drop: function(date, jsEvent, ui) {
-				$(this).remove();					// remove dropped object
-			},
-			eventReceive: function(event) {
-				var stat = adjustForShadowDays(event);
-				if (stat.status) {
-					event.start.add(stat.diffStart, 'd');
-					event.end.add(stat.diffEnd, 'd');
-					event.title = generateEventTitle(event.kitText,
-						moment(event.start).add(1, 'd'), moment(event.end).subtract(1, 'd'));
-
-					insertKitDB(event, function(id) {
-                        event.bookID = id;
-                        newKitObjects.push(event);
-                        $('#calendar').fullCalendar('updateEvent', event);
-                    });
-				}
-				else {
-					$('#calendar').fullCalendar('removeEvents', event.id);
-				}
-			},*/
 			eventAfterRender: function(event, element) {
 				setEventShadow(event, element[0]);
 			}
@@ -711,7 +698,6 @@
 
 			    			$.post("{{ URL::route('book_kit.get_available_kit') }}", json)
 			                    .success(function(resp){
-			                    	console.log(resp);
 			                        if (resp == "" ||
 				                        !createBookingByDateRange(
 						    				resp.ID,
@@ -724,7 +710,6 @@
 						    				purpose
 						    			)) {
 			                    		dialogMessage('#booking_message', 'No kit available at this time');
-			                    		console.log('No kits available at this time');
 			                    	}
 			                    	else {
 			                    		$('#booking_users').find('.user-field.optional').each(function() {
@@ -733,7 +718,7 @@
 			                    	}
 			                    })
 			                   .fail(function(){
-			                        console.log("error on kit search");
+			                        dialogMessage('#booking_message', 'Error finding kit, please try again');
 			                    });
 		                }
 		                else {
@@ -796,7 +781,6 @@
 			    		var recipients = getRecipients('#booking_update_users');
 			    		event.KitRecipients = recipients;
 			    		event.Purpose = $('#booking_update_purpose').val();
-			    		console.log(event);
 			    		updateKitDB(event, function(){
 			    			var kit = oldKitObjects.filter(function(e){
 			    				return parseInt(e.BookID, 10) === parseInt(event.BookID, 10);
@@ -808,6 +792,8 @@
 		    					$(this).remove();
 		    				});
 		    				$("#booking_information").dialog("close");
+			    		}, function() {
+			    			statusMessage('Error updating booking. Please try again.');
 			    		});
 			    	}
 			    },
@@ -823,7 +809,6 @@
 		    ],
 		    'open': function(event, ui) {
 				var event = $(this).data.event;
-				console.log(event);
 				$('#branch_update').val(event.ForBranch);
 			    $('#branch_update').trigger("chosen:updated");
 
