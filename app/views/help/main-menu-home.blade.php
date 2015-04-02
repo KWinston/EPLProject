@@ -8,24 +8,25 @@ The home screen shows a overview of the kits at your branch. <br>
     <td><img src="images/help/main-screen.png"/></td>
     <td><ol>
         <li>Menu</li>
-        <li>Outgoing kit(shipping)</li>
         <li>Tooltip when hovering over kit</li>
+        <li>Outgoing kit(shipping)</li>
         <li>Incoming kit(receiving)</li>
         <li>Kits in inventory at this branch</li>
+        <li>Kit bookings related to this branch</li>
     </ol>
     </td>
 </tr>
 </table>
 <br>
-This screen is split into two main columns, "Pending Activity" and "Branch Inventory".
-The "Pending Activity" shows kits that need attention from staff at the moment. Kits have two kinds of activities, either a kit is
-coming into the branch(<a href="#" id="main-menu-receive">Receiving</a>), or it is being shipped to another
-branch(<a href="#" id="main-menu-ship">Shipping</a>). Clicking on a kit will take you to the aproprate screen to perform
-this operation.
+This screen is split into three sections, "Pending Activity", "Branch Inventory" and "Kit Bookings".
 <br/>
+<br>
 <h2> Pending Activity</h2>
 <p>
-    The Pending activity column lists the kits that need attention from the branch staff.
+    The "Pending Activity" shows kits that need attention from staff at the moment. Kits have two kinds of activities, either a kit is
+coming into the branch(<a href="#" id="main-menu-receive">Receiving</a>), or it is being shipped to another
+branch(<a href="#" id="main-menu-ship">Shipping</a>). Clicking on a kit will take you to the aproprate screen to perform
+this operation. 
 </p>
 <p>
     Kits with a green background(2) are kits that are scheduled to be shipped out of this branch to another branch.
@@ -44,12 +45,18 @@ this operation.
     For outgoing kits this is the branch that the kit is going to. For incoming kit this is the branch information for where the
     kit is coming from.
 </p>
-
+<br>
+<h2>Kit Bookings</h2>
+Kits under Kit Bookings shows kits bookings related to your branch, these could be kits that needs 
+to be sent out or kits that are coming in.
+<br>
+<br>
 <h2> Branch Inventory</h2>
 <p>
     This area lists all the kits that are in stock at this branch. They will have the Branch Inventory Icon and a white background.
     Clicking on these kits will take you to the booking screen to book this kit.
 </p>
+<br>
 <h2> Icons</h2>
 <table>
     <tr>
