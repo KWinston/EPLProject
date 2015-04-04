@@ -31,8 +31,6 @@ class ShipKitController extends BaseController {
 
     public function store()
     {
-        //print dd(Input::All());
-
         $kit = Kits::findOrFail(Input::get('ID'));
         $kit->KitState = 2;
         $kit->save();
@@ -66,7 +64,7 @@ class ShipKitController extends BaseController {
         return Redirect::action('recieve_kit.index');
     }
 
-    // Show the types Edit form
+    // Show the Edit form
     public function edit($BookingID)
     {
         $booking = Booking::findOrFail($BookingID);
