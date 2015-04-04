@@ -1,6 +1,6 @@
 .receive-kit-form-label
 {
-    width: 5%;
+    width: 6%;
 
 }
 
@@ -85,4 +85,25 @@ td.receive-kit-form-value input.single-line-text
 table.kit-contents-table tr
 {
 
+}
+td.receive-kit-form-info-label
+{
+    width: 15%;
+    text-align: right;
+    font-size: x-large;
+    font-weight: bold;
+    vertical-align: top;
+}
+td.receive-kit-form-info-value
+{
+    font-size: larger;
+    width: 30%;
+    padding-left: 9px;
+    vertical-align: top;
+}
+table.receive-kit-form-info
+{
+    width: 100%;
+
+    border: 1px solid black;
 }

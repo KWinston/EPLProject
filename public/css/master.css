@@ -779,69 +779,6 @@ td.users-list-isadmin
     text-align: center;
 }
 
-
-table.kit-status
-{
-    width: 100%;
-}
-tr.kit-status
-{
-    /* width: 100%; */
-    height: 40px;
-    font-size: 150%;
-}
-tr.kit-status:nth-child(2n+1) td
-{
-    background: aliceblue;
-}
-th.kit-status
-{
-    background: bisque;
-    text-align: center;
-}
-td.kit-status
-{
-
-}
-.kit-status.kit-type
-{
-    width: 20%;
-
-}
-.kit-status.kit-name
-{
-    width: 25%;
-
-}
-.kit-status.branch-id
-{
-    width: 8%;
-
-    text-align: center;
-}
-.kit-status.kit-state
-{
-    width: 10%;
-
-    text-align: center;
-}
-.kit-status.start-date
-{
-    width: 15%;
-
-    text-align: center;
-}
-.kit-status.branch-name
-{
-    width: 10%;
-
-    text-align: center;
-}
-.kit-status.booking-count
-{
-    text-align: center;
-
-}
 .boo {
   position: relative;
   width: 20em;
@@ -1072,7 +1009,7 @@ table.bookings-table tr.header
 }
 table.bookings-table th.type
 {
-    width: 20%;
+    width: 15%;
 }
 table.bookings-table th.name
 {
@@ -1081,7 +1018,7 @@ table.bookings-table th.name
 }
 table.bookings-table th.event
 {
-    width: 20%;
+    width: 25%;
 
 }
 table.bookings-table th.booker
@@ -1096,12 +1033,12 @@ table.bookings-table th.branch
 }
 table.bookings-table th.booking-start-date
 {
-    width: 15%;
+    width: 13%;
 
 }
 table.bookings-table th.booking-end-date
 {
-    width: 15%;
+    width: 12%;
 
 }
 

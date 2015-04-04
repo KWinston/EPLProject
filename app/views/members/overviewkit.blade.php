@@ -1,5 +1,7 @@
 @extends('layouts.master')
 @section('head')
+{{ HTML::style('css/overview.css') }}
+
 <style>
 .ui-tooltip
 {
@@ -7,16 +9,95 @@
     min-width:500px;
 }
 </style>
+<script type="text/javascript">
+
+    var kitContentDialog;
+    var enterMessageDialog;
+
+    function DisplayKitContents(kitID)
+    {
+        url = "{{ route('kit_contents.edit', array(':KitID')); }}";
+        $("#kit-contents-dialog").load(url.replace(':KitID', kitID), function()
+        {
+            $(".kit-content-form-value.checkbox.disabled").prop('disabled', true);
+            $(".kit-content-form-value.damaged.checkbox").unbind().change(DamageChanged);
+            $(".kit-content-form-value.missing.checkbox") .unbind().change(MissingChanged);
+
+            kitContentDialog.dialog("open");
+        })
+    }
+    function GetMessage(title, func)
+    {
+        $("#enter-message-dialog-text").val('');
+        enterMessageDialog.dialog("option", "title", title);
+        enterMessageDialog.dialog("option", "buttons",[
+            {
+              text: "Close",
+              click: function()
+              {
+                $( this ).dialog( "close" );
+                if (func != undefined && func != null)
+                {
+                    func();
+                }
+              }
+            }]);
+        enterMessageDialog.dialog("open");
+    }
+    function DamageChanged()
+    {
+        if ($(this).hasClass("checkbox") )
+        {
+            var contentIndex = $(this).parent().attr('ID');
+            if ($(this).prop('checked'))
+            {
+                GetMessage("Enter Damaged Item Comment", function()
+                {
+                    var msg = $("#enter-message-dialog-text").val();
+                    var txt = '<td colspan="4">Damage:' + msg +'</td>';
+                    txt = txt + '<input name="DamagedMsg_' + contentIndex + '" type="hidden" value="' + window.btoa(msg) + '">'
+                    console.log(txt);
+                    $("tr.kit-contents-damaged-msg#_" + contentIndex).html(txt);
+                });
+            }
+            else
+            {
+                $("tr.kit-contents-damaged-msg#_"+contentIndex).html('');
+            }
+        }
+    }
+    function MissingChanged()
+    {
+        if ($(this).hasClass("checkbox"))
+        {
+            var contentIndex = $(this).parent().attr('ID');
+            if($(this).prop('checked'))
+            {
+                GetMessage("Enter Missing Item Comment", function()
+                {
+                    var msg = $("#enter-message-dialog-text").val();
+                    var txt = '<td colspan="4">Missing:' + msg +'</td>';
+                    txt = txt + '<input name="MissingMsg_' + contentIndex + '" type="hidden" value="' + window.btoa(msg) + '">'
+                    console.log(txt);
+                    $("tr.kit-contents-missing-msg#_" + contentIndex).html(txt);
+                });
+            }
+            else
+            {
+                $("tr.kit-contents-missing-msg#_"+contentIndex).html('');
+            }
+
+        }
+    }
+
+</script>
 @stop
 
 @section('content')
 
-<!-- function makeBranchTooltip(branchID)
-{
-}
- -->
+
 <table class="kit-status">
-    <tr class="kit-status">
+    <tr class="kit-status-header">
         <th class="kit-status kit-type">Kit Type</th>
         <th class="kit-status kit-name">Kit Name</th>
         <th class="kit-status branch-id">At Branch</th>
@@ -28,7 +109,7 @@
     <!-- {{$breakKitType = null; }} -->
 
     @foreach($data as $row)
-    <tr class="kit-status">
+    <tr class="kit-status" id="{{$row->KitID}}">
         @if($row->KitType != $breakKitType)
             <td class="kit-status kit-type" title="<p>{{$row->TypeDescription}}</p>">{{$row->KitType}}</td>
         @else
@@ -56,5 +137,64 @@
     </tr>
     @endforeach
 </table>
+<div id="kit-contents-dialog"> </div>
+<div id="enter-message-dialog">
+    <textarea id="enter-message-dialog-text" rows="4" cols="75" ></textarea>
+</div>
 
+<script type="text/javascript">
+    $(function()
+    {
+        $("tr.kit-status").click(function()
+        {
+            DisplayKitContents($(this).attr('id'));
+        })
+        kitContentDialog = $("#kit-contents-dialog").dialog(
+        {
+            autoOpen: false,
+            buttons: [
+            {
+              text: "Save",
+              click: function()
+              {
+                $( this ).dialog( "close" );
+                $.post("{{ route('kit_contents.store') }}", $('.kit-contents-edit-form').serialize());
+              }
+            },
+            {
+              text: "Cancel",
+              click: function()
+              {
+                $( this ).dialog( "close" );
+              }
+            }],
+            draggable: false,
+            modal: true,
+            height: window.innerHeight * 0.8,
+            width: 1000,
+            resizable: false,
+            title: "Kit contents"
+
+        });
+        enterMessageDialog = $("#enter-message-dialog").dialog(
+        {
+            autoOpen: false,
+            buttons: [
+            {
+              text: "close",
+              click: function()
+              {
+                $( this ).dialog( "close" );
+              }
+            }],
+            draggable: false,
+            modal: true,
+            width: 806,
+            resizable: false,
+            title: "Enter Damage Message"
+        });
+
+
+    })
+</script>
 @stop

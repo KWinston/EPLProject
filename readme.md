@@ -1,25 +1,45 @@
-## Laravel PHP Framework
+## EPL Kit booking
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/downloads.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+[![Total Downloads](https://rawgit.com/robBabiak/irww/master/images/downloads.svg)](https://github.com/macewanCMPT395/irww/archive/master.zip)
+[![Latest Stable Version](https://rawgit.com/robBabiak/irww/master/images/stable.svg)](https://github.com/macewanCMPT395/irww/archive/master.zip)
+[![License](https://poser.pugx.org/laravel/framework/license.svg)](http://opensource.org/licenses/MIT)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, and caching.
+The EPL kit booking system is written on top of Laravel 4.2.17[Laravel website](http://laravel.com/docs) using mysql database.
 
-Laravel aims to make the development process a pleasing one for the developer without sacrificing application functionality. Happy developers make the best code. To this end, we've attempted to combine the very best of what we have seen in other web frameworks, including frameworks implemented in other languages, such as Ruby on Rails, ASP.NET MVC, and Sinatra.
+## Installation
+1. Retrieve EPL Kit managment software [![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://github.com/macewanCMPT395/irww/archive/master.zip)
+2. Install Composer [![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://getcomposer.org/doc/00-intro.md)
+3. Install / Configure MySql (see below)
+4. Perform a composer install on EPL Kit Managment software and execute the 'composer install' command.
+5. Perform a 'artisan migrate' to intalize and seed the database.
+6. Configure 'app/config/database.php' with the details from above.
+7. test setup with 'artisan serve'
 
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+## Configure MySql
+You will need to install and configure MySql or other compatible sql database as per [Laravel's requirements](http://laravel-recipes.com/recipes/58/setting-up-the-mysql-database-driver).
 
-## Official Documentation
+EPL Kit Managment has been built to use a limited sql user account, for normal operations the sql users needs basic SELECT, INSERT, DELETE, UPDATE operations (see Laravel documentation for needed roles). Although during the migration process DDL(data definition language) roles will be needed to initialize the database (see Laravel documentation for needed roles).
 
-Documentation for the entire framework can be found on the [Laravel website](http://laravel.com/docs).
+The EPL_KIT_DB database will be created by the 'artisan migrate' command with the following tables.
+- Booking - This table stores the bookings by user for a specific kit for a specific event
+- BookingDetails - This table stores a list of users assosated with a booking.
+- Branches - This stores details about the branches in the library system (see Going Live).
+- KitTypes - This table stores the categories for all kits. Each kit belongs to one kit type
+- Kits - This table stores the information about a specific kit, and it's location in the library system.
+- KitContents - This table stores the contents of a kit and reference to any damaged or missing components.
+- KitState - This tables stores the states that a kit can be in, static data for referential integrity.
+- LogTypes - This tables stores the type of log messages that exist in the system, static data for referential integrity.
+- Logs - This table records a history of all changes that occurs within the system.  No data retention policy has been defined for this table.
+- Settings - This table stores details of various configuration settings needed to operate.
+- users - This table stores the username, email, password for the users in the system (see going live!)
 
-### Contributing To Laravel
+## Going Live
 
-**All issues and pull requests should be filed on the [laravel/framework](http://github.com/laravel/framework) repository.**
+You want to take this system live? There are a couple areas where the system will need to be modified.
+### Branches
+The branches system is a example of data needed to define which branches kits can be transfered between. This area was left poorly defined as it is enisioned that this table will be replaced with a connection into the library branch database. The table was initialized with information downloaded from the EPL API data, replacing this data with access to the live database table behind the API information is desired.
 
-### License
+The system does rely on there being a branch (ID 0) which is the IT depot for the system. This is the default location new kits will be created at.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+### Users
+The user table by default has two users ('user' is a administrator, 'user2' is a normal user) both which have the password 'user'. This table and all references to it are expected to be replaced with access into the EPL LDAP system. The basic admin screens for user management are primitive at best.

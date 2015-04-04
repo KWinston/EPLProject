@@ -71,6 +71,7 @@ class KitsController extends BaseController
         {
             $inp['Available'] = 0;
         }
+
         $kit->fill($inp);
         $kit->save();
         $res = "OK";
@@ -80,6 +81,10 @@ class KitsController extends BaseController
             {
                 if ($item["status"] == 1) // CRUD, 1 == create
                 {
+                    if (strlen($item["DamagedLogID"]) == 0)
+                        $item["DamagedLogID"] = null;
+                    if (strlen($item["MissingLogID"]) == 0)
+                        $item["MissingLogID"] = null;
                     $content = KitContents::create($item);
                     $content->save();
                 }
@@ -98,6 +103,10 @@ class KitsController extends BaseController
                             $content->DamagedLogID = Logs::DamageReport($kit->KitType, $kit->ID, $content->ID, $item["DamagedMessage"]);
                         }
                     }
+                    else
+                    {
+                        $content->DamagedLogID = null;
+                    }
                     if (isset($item["Missing"]))
                     {
                         if ($item["Missing"] == 0)
@@ -109,6 +118,10 @@ class KitsController extends BaseController
                             $content->MissingLogID = Logs::MissingReport($kit->KitType, $kit->ID, $content->ID, $item["missingMessage"]);
                         }
 
+                    }
+                    else
+                    {
+                        $content->MissingLogID = null;
                     }
                     $content->save();
                 }
@@ -170,6 +183,7 @@ class KitsController extends BaseController
 
         return View::make("kit.kitDetails", ['kit' => $kit, 'bookings' => $bookings, 'logs' => $logs]);
     }
+
     // ---------------------------------------------------------------------------------------------------
     // Create a new kit.
     public function create()

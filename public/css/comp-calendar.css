@@ -197,3 +197,16 @@
 {
 	width: 81%;
 }
+.event-name-label
+{
+    width: 12%;
+}
+.event-name-value
+{
+
+    vertical-align: middle;
+    
+
+    display: table-cell;
+
+}

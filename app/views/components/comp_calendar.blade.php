@@ -63,12 +63,10 @@
         	</td>
         </tr>
         <tr>
-        	<td>
-        		<label>Booking Purpose</label>
-        	</td>
-        	<td colspan="2" align="right">
-        		<textarea id="booking_purpose" 
-        			rows="3" cols="50" style="width: 95%;"></textarea>
+        	<td colspan="3" align="right"  class="event-name-value">
+        		<label style="vertical-align: top;">Event Name</label>
+        		<textarea id="booking_purpose"
+        			rows="3" cols="50" style="width: 80%;"></textarea>
         	</td>
        	</tr>
         <tr>
@@ -118,12 +116,10 @@
         	</td>
 		</tr>
 		<tr>
-        	<td>
-        		<label>Booking Purpose</label>
-        	</td>
-        	<td colspan="2" align="right">
-        		<textarea id="booking_update_purpose" 
-        			rows="3" cols="50" style="width: 95%;"></textarea>
+        	<td colspan="3" align="right" class="event-name-value">
+        		<label style="vertical-align: top;">Event Name</label>
+        		<textarea id="booking_update_purpose"
+        			rows="3" cols="50" style="width: 80%;"></textarea>
         	</td>
        	</tr>
        	<tr>
@@ -443,7 +439,7 @@
 			}
 		}
 		while(change);
-		
+
 
 		// compare to to kit current bookings
 		endDay.add(1, 'd');
@@ -706,7 +702,7 @@
 						    				forBranch,
 						    				moment(bookingStart).format('YYYY-MM-DD'),
 						    				moment(bookingEnd).format('YYYY-MM-DD'),
-						    				recipients, 
+						    				recipients,
 						    				purpose
 						    			)) {
 			                    		dialogMessage('#booking_message', 'No kit available at this time');
