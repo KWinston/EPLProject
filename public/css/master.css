@@ -933,6 +933,8 @@ table.kit-details-bookings tr.before
     -webkit-margin-start: -2em;
     -webkit-margin-before: 0em;
     cursor: default;
+    width: 100%;
+    margin: auto;
 }
 
 .receive-kit-name.selected
@@ -946,6 +948,8 @@ table.kit-details-bookings tr.before
     -webkit-margin-start: -2em;
     -webkit-margin-before: 0em;
     cursor: default;
+    width:  100%;
+    margin: auto;
 }
 
 .send-kit-name.selected

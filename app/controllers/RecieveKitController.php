@@ -112,38 +112,16 @@ class RecieveKitController extends BaseController {
                                                                      'home.index', [], false);
   }
 
-    public function confirmReceive()
-    {
-        if(!Request::ajax())
-            return "not a json request";
-
-        $post = Input::except('ID');
-
-        $stat = DB::table('Kits')
-            ->where('id', $post['KitID'])
-            ->update(array(
-                'AtBranch' => $post['ForBranch'],
-                'KitState' => '1',
-            ));
-
-        return Response::json(array(
-            'success' => $stat = 1 ? true : false
-        ), 200);
-    }
-
-        // Show the types Edit form
+        // Show the Edit form
     public function edit($BookingID)
     {
         $booking = Booking::findOrFail($BookingID);
         return View::make("members.receiveKitEdit", ['booking' => $booking, 'mode' => 'receive']);
     }
 
-        // ---------------------------------------------------------------------------------------------------
-    //
+        // Update kit information and status
     public function store()
     {
-        //print dd(Input::All());
-
         $kit = Kits::findOrFail(Input::get('ID'));
         foreach ($kit->contents as $content)
         {
