@@ -43,3 +43,7 @@ The system does rely on there being a branch (ID 0) which is the IT depot for th
 
 ### Users
 The user table by default has two users ('user' is a administrator, 'user2' is a normal user) both which have the password 'user'. This table and all references to it are expected to be replaced with access into the EPL LDAP system. The basic admin screens for user management are primitive at best.
+
+## Heroku Deployment
+
+You want to deploy this system on Heroku? Refer to herokudeployment.md to get started.

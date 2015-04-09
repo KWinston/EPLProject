@@ -5,7 +5,8 @@
 	"license": "MIT",
 	"require": {
 		"laravel/framework": "4.2.*",
-        "indatus/dispatcher": "1.4.*"
+        "indatus/dispatcher": "1.4.*",
+        "ext-mbstring": "*"
 	},
 	"autoload": {
 		"classmap": [
