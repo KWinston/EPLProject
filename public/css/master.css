@@ -24,7 +24,7 @@ td.start-date
     margin:  10px 10px;
     text-decoration: none;
     font-weight: bold;
-    font-size: x-large;
+    font-size: large;
 }
 
 .menu a:hover
@@ -34,11 +34,13 @@ td.start-date
 
 .menu p
 {
-    color: #fff;
-    margin: auto 10px;
+    /* color: #fff; */
+    /* margin: auto 10px; */
     vertical-align: center;
-    line-height: 40px;
-    height: 40px;
+    /* line-height: 40px; */
+    /* height: 40px; */
+    /* font-family: Verdana,Arial,sans-serif; */
+    /* font-size: 1.1em; */
 }
 
 .menu p.branch-name
@@ -104,7 +106,7 @@ td.start-date
     width: 35px;
     height: 35px;
     margin-right: 5px;
-    background: url('./images/settings-icon2.png') no-repeat center center;
+    background: url('./images/settings-icon.png') no-repeat center center;
     background-size: 30px 30px;
     background-color: #000;
 }
@@ -323,6 +325,15 @@ input.log-filter
     cursor: pointer;
     overflow: auto;
 }
+p.user-name
+{
+    font-size: large;
+
+    /* text-align: center; */
+    /* vertical-align: middle; */
+    font-family: Verdana,Arial,sans-serif;
+    font-size: 2.1em;
+}
 p.sign-in
 {
     min-height: 64px;
@@ -338,6 +349,15 @@ p.sign-out
     background-image: url("images/logout.png");
     background-size: contain;
     background-repeat: no-repeat;
+}
+div.sign-out
+{
+    min-height: 16px;
+    /* min-width: 16px; */
+    background-image: url("images/sign-out-W.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    padding-left: 34px;
 }
 p.on-self
 {
@@ -355,7 +375,7 @@ div.kit-block table
 {
     padding-left: 10px;
 
-    width: 59%;
+    width: 56%;
 }
 .kit-block.inventory
 {
@@ -908,6 +928,7 @@ table.kit-details-bookings tr td
 table.kit-details-bookings tr td ul
 {
     margin-top: 0;
+    margin-bottom: 0 !important;
 
 }
 table.kit-details-bookings tr.after
@@ -1032,7 +1053,7 @@ table.bookings-table th.booker
 }
 table.bookings-table th.branch
 {
-    width: 6%;
+    width: 10%;
 
 }
 table.bookings-table th.booking-start-date

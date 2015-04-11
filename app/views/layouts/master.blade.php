@@ -83,8 +83,8 @@
                 @endif
 
                 @if (Auth::check())
-                    <div class="option right">
-                        <p>WELCOME: {{ Auth::user()->username }} <a href="{{ URL::route('master.logout') }}">(logout)</a></p>
+                    <div class="option right sign-out">
+                        <a  href="{{ URL::route('master.logout') }}">{{ Auth::user()->username }}</a>
                     </div>
                 @else
                     <div class="option right">

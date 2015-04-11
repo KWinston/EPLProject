@@ -22,7 +22,6 @@
                 <tr>
                     <td>At Branch:</td>
                     <td>{{$kit->atBranch->BranchID}} - {{$kit->atBranch->Name}}<br/>
-                        {{$kit->atBranch->EPLAddress}} <br/>
                         ({{$kit->atBranch->PhoneNumber}})
                     </td>
                 </tr>
@@ -65,8 +64,8 @@
                     @foreach($bookings as $book)
                     <tr class="kit-booking @if(strtotime($book->EndDate) > getdate()[0] ) after @else before @endif">
                         <td>{{$book->branch->BranchID}}</td>
-                        <td>{{date("D M-d-Y",strtotime($book->StartDate))}}</td>
-                        <td>{{date("D M-d-Y",strtotime($book->EndDate))}}</td>
+                        <td>{{date("D d-m-y",strtotime($book->StartDate))}}</td>
+                        <td>{{date("D d-m-y",strtotime($book->EndDate))}}</td>
                         <td>
                             <ul>
                             @foreach($book->details as $detail)
