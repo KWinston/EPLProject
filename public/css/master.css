@@ -212,7 +212,6 @@ font.text-red
 table.log-table
 {
     width:100%;
-    background: #AAAAAA;
     font-family: Verdana,Arial,sans-serif;
     font-size: 115%;
 }
@@ -228,7 +227,7 @@ tr.log-table-row
 }
 tr.log-table-row:nth-child(2n-1)
 {
-    background: #CCCCCC;
+    background: aliceblue;
 }
 tr.log-table-row:nth-child(2n-2)
 {
@@ -237,7 +236,7 @@ tr.log-table-row:nth-child(2n-2)
 
 th.log-table-date
 {
-    background: rgb(252, 252, 151);
+    background: bisque;
     width:20%;
 }
 td.log-table-date
@@ -245,7 +244,7 @@ td.log-table-date
 }
 th.log-table-type
 {
-    background: rgb(252, 252, 151);
+    background: bisque;
     width:16%;
 }
 td.log-table-type
@@ -254,15 +253,16 @@ td.log-table-type
 
 th.log-table-user
 {
-    background: rgb(252, 252, 151);
+    background: bisque;
     width:15%;
 }
 td.log-table-user
 {
 }
+
 th.log-table-message
 {
-    background: rgb(252, 252, 151);
+    background: bisque;
     width:49%;
 }
 td.log-table-message
@@ -686,6 +686,7 @@ td.kit-status
 {
     font-family: Verdana,Arial,sans-serif;
     font-size: 125%;
+    padding-left: 25px;
 }
 
 .pagination{
@@ -893,7 +894,7 @@ table.kit-details-details tr
 }
 table.kit-details-details tr:nth-child(2n+2)
 {
-    background-color: lightblue;
+    background-color: aliceblue;
 }
 table.kit-details-details tr td:nth-child(odd)
 {
@@ -915,7 +916,7 @@ table.kit-details-logs tr:nth-child(2n+1)
 }
 table.kit-details-logs tr.contents-damaged
 {
-    background: lightyellow;
+    background: bisque;
 
 }
 table.kit-details-logs tr.contents-missing
@@ -1053,7 +1054,17 @@ table.bookings-table
 table.bookings-table tr
 {
     height: 50px;
+    text-align: center;
 }
+tr.bookings-table-row:nth-child(2n-1)
+{
+    background: aliceblue;
+}
+tr.bookings-table-row:nth-child(2n-2)
+{
+    background: #FFFFFF;
+}
+
 table.bookings-table tr.header
 {
     color: black;
@@ -1101,9 +1112,13 @@ table.bookings-table td.type
 }
 table.bookings-table td.name
 {
+    text-align: left;
+    padding-left: 25px;
 }
 table.bookings-table td.event
 {
+    text-align: left;
+    padding-left: 25px;
 }
 table.bookings-table td.booker
 {
