@@ -76,7 +76,7 @@
                     </div>
                 @endif
                 @if(Auth::check())
-                    <div id="branch-name" class="option left branch-name"><p class="branch-name"> Kits for {{ Branches::find(Session::get('branch'))->Name }}</p></div>
+                    <div id="branch-name" class="option middle branch-name"><p class="branch-name"> Kits for {{ Branches::find(Session::get('branch'))->Name }}</p></div>
                     
                     @if(Auth::check() && Auth::user()->is_admin == 1)
                         <div class="option right" style="padding-left: 10px;" >
