@@ -135,6 +135,7 @@
     {
         url = "{{ route('kits.destroy', array(':KITID')) }}";
         url = url.replace(':KITID',kitID);
+        console.log(url);
         treeMenu.jstree().select_node(treeMenu.jstree().get_node("#"));
         treeMenu.jstree().delete_node(treeMenu.jstree().get_node("kit_" + kitID));
         $(".kit-area").hide().addClass("hidden");
@@ -201,7 +202,7 @@
         });
         $(".destroy-kit").unbind().button().click(function()
         {
-            if (confirm("Are you sure you which to destroy " + $(".kit-form input#Name").val()) === true)
+            if (confirm("Are you sure you which to destroy " + $(".kit-data#Name").val()) === true)
             {
                 DestroyKit(kitData.ID);
             }
@@ -318,7 +319,8 @@
     function KitSelected(value)
     {
         // If we get passed a null value or false(which the treedoes some times on delete of node) we return
-        if (value.KitID == null) return;
+        console.log(value)
+        if (value == null || value.KitID == null) return;
         if (value.type == "KIT")
         {
             LoadKit(value.KitID);
