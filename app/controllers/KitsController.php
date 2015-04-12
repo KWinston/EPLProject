@@ -141,6 +141,14 @@ class KitsController extends BaseController
     public function destroy($kitID)
     {
         $kit = Kits::find($kitID);
+        foreach (Booking::where('KitID', '=', $kitID)->get() as $book)
+        {
+            foreach (BookingDetails::where('BookingID', '=', $book->ID)->get() as $detail)
+            {
+                BookingDetails::destroy($detail->ID);
+            }
+            Booking::destroy($book->ID);
+        }
         foreach($kit->contents as $content)
             KitContents::destroy($content->ID);
         Kits::destroy($kitID);
