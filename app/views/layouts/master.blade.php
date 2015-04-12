@@ -53,7 +53,7 @@
         <div class="menu">
             <div class="options">
                 <div class="option left" >
-                    <a href="{{Settings::HomeLink()}}"><img src="images/EPL_logo.png" width="50" height="20" style="margin: 0px 5px;" /></a>
+                    <a href="{{Settings::HomeLink()}}"><img src="images/EPL_logo.png" width="50" height="14" style="margin: 0px 5px;" /></a>
                 </div>
                 <div class="option left main-menu-home">
                     <a class="main-menu" href="{{ route('home.index', array('selected_menu' => 'main-menu-home')); }}">HOME</a>
@@ -77,14 +77,17 @@
                 @endif
                 @if(Auth::check())
                     <div id="branch-name" class="option left branch-name"><p class="branch-name"> Kits for {{ Branches::find(Session::get('branch'))->Name }}</p></div>
-                    <div class="option right" style="padding-left: 10px;" >
-                        <div id="settings_button" class="settings-icon"></div>
-                    </div>
+                    
+                    @if(Auth::check() && Auth::user()->is_admin == 1)
+                        <div class="option right" style="padding-left: 10px;" >
+                            <div id="settings_button" class="settings-icon"></div>
+                        </div>
+                    @endif
                 @endif
 
                 @if (Auth::check())
-                    <div class="option right">
-                        <p>WELCOME: {{ Auth::user()->username }} <a href="{{ URL::route('master.logout') }}">(logout)</a></p>
+                    <div class="option right sign-out">
+                        <a  href="{{ URL::route('master.logout') }}">{{ Auth::user()->username }}</a>
                     </div>
                 @else
                     <div class="option right">

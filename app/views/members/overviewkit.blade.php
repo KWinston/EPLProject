@@ -122,7 +122,7 @@
             ">{{$row->BranchID}}</td>
         <td class="kit-status kit-state">{{$row->KitState}}</td>
         @if(isset($row->StartDate))
-            <td class="kit-status start-date" title="{{'<p>Booked By:' . $row->UserName . '</p><p>Email:' . $row->UserEmail . '</p>'}}">{{ date("D d-F-Y",strtotime($row->StartDate)) }}</td>
+            <td class="kit-status start-date" title="{{'<p>Booked By:' . $row->UserName . '</p><p>Email:' . $row->UserEmail . '</p>'}}">{{ date("D d-m-y",strtotime($row->StartDate)) }}</td>
         @else
             <td class="kit-status start-date"></td>
         @endif

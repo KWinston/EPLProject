@@ -120,8 +120,8 @@ class HomeController extends BaseController
                 'Booker' => user::find($det->UserID)->realname, // :( this makes me sad, hopefully Laravel caches aggressively.
                 'Branch' => $det->BranchID,
                 'Event' => $det->Purpose,
-                'Start Date' => date("D d-F-Y",strtotime($det->StartDate)),
-                'End Date' => date("D d-F-Y",strtotime($det->EndDate))
+                'Start Date' => date("d-m-y",strtotime($det->StartDate)),
+                'End Date' => date("d-m-y",strtotime($det->EndDate))
                 ));
 
         }
