@@ -144,6 +144,7 @@ td.start-date
     color: white;
     display: inline-block;
     vertical-align: middle;
+    min-height: 37px;
 }
 
 .option.left
