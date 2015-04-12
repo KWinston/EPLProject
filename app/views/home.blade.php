@@ -170,7 +170,7 @@ function loadBookings()
     for (var i in bookings)
     {
         var booking = bookings[i];
-        $("#bookings-table").append($("<tr>")
+        $("#bookings-table").append($("<tr class='bookings-table-row'>")
         .append("<td class='type' title='__KIT_DETAIL__"+booking.KitID+"'>"+kitTypes[booking.type].Name+"</td>")
         .append("<td class='name' title='__KIT_DETAIL__"+booking.KitID+"'>"+booking.Name+"</td>")
         .append("<td class='event'>"+booking.Event+"</td>")
