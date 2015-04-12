@@ -2,7 +2,7 @@
 @section('topic')
 <h2> Overview</h2>
 <table><tr>
-    <td><img style="width:800px;" src="images/help/User1-screen.png"/></td>
+    <td><img style="width:800px;" src="images/help/user1-screen.png"/></td>
     <td>User List</td>
 </tr>
 <tr>

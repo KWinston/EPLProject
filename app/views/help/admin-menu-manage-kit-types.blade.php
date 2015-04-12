@@ -2,7 +2,7 @@
 @section('topic')
 <h2> Overview</h2>
 <table><tr>
-    <td><img style="width:512px;" src="images/help/Kittypes-screen.png"/></td>
+    <td><img style="width:512px;" src="images/help/KitTypes-screen.png"/></td>
     <td><ol>
         <li>Existing kit types.</li>
         <li>Create new kit type.</li>

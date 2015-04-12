@@ -53,26 +53,26 @@
         <div class="menu">
             <div class="options">
                 <div class="option left" >
-                    <a href="{{Settings::HomeLink()}}"><img src="images/EPL_Logo.png" width="50" height="14" style="margin: 0px 5px;" /></a>
+                    <a href="{{Settings::HomeLink()}}"><img src="images/EPL_logo.png" width="50" height="14" style="margin: 0px 5px;" /></a>
                 </div>
                 <div class="option left main-menu-home">
-                    <a class="main-menu" href="{{ route('home.index', array('selected_menu' => 'main-menu-home')); }}">HOME</a>
+                    <a class="main-menu" href="{{ route('home.index', array('selected_menu' => 'main-menu-home')); }}">Home</a>
                 </div>
                 @if(Auth::check())
                     <div class="option left main-menu-book" >
-                        <a href="{{ route('book_kit.index', array('selected_menu' => 'main-menu-book')); }}">BOOK</a>
+                        <a href="{{ route('book_kit.index', array('selected_menu' => 'main-menu-book')); }}">Book</a>
                     </div>
                     <div class="option left main-menu-receive">
-                        <a href="{{ route('recieve_kit.index', array('selected_menu' => 'main-menu-receive')); }}">TRANSFER</a>
+                        <a href="{{ route('recieve_kit.index', array('selected_menu' => 'main-menu-receive')); }}">Transfer</a>
                     </div>
                     <div class="option left main-menu-overview">
-                        <a href="{{ route('overview_kit.index', array('selected_menu' => 'main-menu-overview')); }}">BROWSE</a>
+                        <a href="{{ route('overview_kit.index', array('selected_menu' => 'main-menu-overview')); }}">Browse</a>
                     </div>
                 @endif
 
                 @if(Auth::check() && Auth::user()->is_admin == 1)
                     <div class="option left main-menu-administration">
-                        <a href="{{ route('admin.index', array('selected_menu' => 'main-menu-administration')); }}">ADMINISTRATOR</a>
+                        <a href="{{ route('admin.index', array('selected_menu' => 'main-menu-administration')); }}">Administrator</a>
                     </div>
                 @endif
                 @if(Auth::check())
@@ -104,7 +104,7 @@
 
                 @endif
                 <div class="option right">
-                    <a href="#" id="help-button">HELP</a>
+                    <a href="#" id="help-button">Help</a>
                 </div>
 
             </div>

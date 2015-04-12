@@ -1,5 +1,5 @@
 <ul>
-    <li> <a href="#" id="main-menu-home"> Home Screen</a> </li>
+    <li> <a href="#" id="main-menu-home"> Home screen</a> </li>
     <li> <a href="#" id="main-menu-book"> Booking a kit</a> </li>
     <li> <a href="#" id="main-menu-receive"> Receive and ship kits</a> </li>
     <li> <a href="#" id="main-menu-overview"> Kit Overview</a> </li>
