@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:8889
--- Generation Time: Apr 12, 2015 at 09:40 AM
+-- Generation Time: Apr 13, 2015 at 05:23 AM
 -- Server version: 5.5.38
 -- PHP Version: 5.6.2
 
@@ -56,7 +56,6 @@ INSERT INTO `Booking` (`ID`, `KitID`, `ForBranch`, `StartDate`, `EndDate`, `Shad
 (43, 56, 3, '2015-03-28 00:00:00', '2015-03-30 00:00:00', '2015-03-27 00:00:00', '2015-03-31 00:00:00', 'Pi Networking', '2015-03-30 04:59:46', '2015-03-30 04:59:46'),
 (46, 2, 2, '2015-04-11 00:00:00', '2015-04-15 00:00:00', '2015-04-10 00:00:00', '2015-04-16 00:00:00', 'Story Time', '2015-04-12 03:42:48', '2015-04-12 03:42:48'),
 (47, 16, 2, '2015-04-15 00:00:00', '2015-04-17 00:00:00', '2015-04-14 00:00:00', '2015-04-18 00:00:00', 'Libraries', '2015-04-12 03:46:24', '2015-04-12 03:46:24'),
-(51, 2, 3, '2015-04-29 00:00:00', '2015-05-01 00:00:00', '2015-04-28 00:00:00', '2015-05-02 00:00:00', 'Learn About EPL''s Operations', '2015-04-12 03:51:56', '2015-04-12 03:51:56'),
 (54, 57, 7, '2015-04-14 00:00:00', '2015-04-20 00:00:00', '2015-04-13 00:00:00', '2015-04-21 00:00:00', 'Robotics Meet', '2015-04-12 06:13:37', '2015-04-12 06:13:37'),
 (55, 3, 3, '2015-04-11 00:00:00', '2015-04-15 00:00:00', '2015-04-10 00:00:00', '2015-04-16 00:00:00', 'EPL Learn', '2015-04-12 06:27:53', '2015-04-12 06:27:53');
 
@@ -81,15 +80,15 @@ CREATE TABLE `BookingDetails` (
 --
 
 INSERT INTO `BookingDetails` (`ID`, `BookingID`, `UserID`, `Email`, `Booker`, `updated_at`, `created_at`) VALUES
-(2, 14, 1, NULL, 1, '2015-03-02 17:59:56', '2015-03-02 17:59:56'),
-(3, 15, 1, NULL, 1, '2015-03-02 18:07:06', '2015-03-02 18:07:06'),
-(5, 17, 1, NULL, 1, '2015-03-02 18:19:51', '2015-03-02 18:19:51'),
-(6, 18, 1, NULL, 1, '2015-03-02 19:38:49', '2015-03-02 19:38:49'),
-(7, 19, 1, NULL, 1, '2015-03-02 19:42:29', '2015-03-02 19:42:29'),
-(8, 21, 1, NULL, 1, '2015-03-11 20:02:37', '2015-03-11 20:02:37'),
-(10, 17, 2, NULL, 0, '2015-03-15 13:46:42', '2015-03-15 13:46:42'),
+(2, 14, 1, 'BettyD@mailinator.com', 1, '2015-03-02 17:59:56', '2015-03-02 17:59:56'),
+(3, 15, 1, 'BettyD@mailinator.com', 1, '2015-03-02 18:07:06', '2015-03-02 18:07:06'),
+(5, 17, 1, 'BettyD@mailinator.com', 1, '2015-03-02 18:19:51', '2015-03-02 18:19:51'),
+(6, 18, 1, 'BettyD@mailinator.com', 1, '2015-03-02 19:38:49', '2015-03-02 19:38:49'),
+(7, 19, 1, 'BettyD@mailinator.com', 1, '2015-03-02 19:42:29', '2015-03-02 19:42:29'),
+(8, 21, 1, 'BettyD@mailinator.com', 1, '2015-03-11 20:02:37', '2015-03-11 20:02:37'),
+(10, 17, 2, 'FredG@mailinator.com', 1, '2015-03-15 13:46:42', '2015-03-15 13:46:42'),
 (11, 17, NULL, 'EricNilsson@mailinator.com', 0, '2015-03-15 13:46:42', '2015-03-15 13:46:42'),
-(27, 36, 2, 'FredG@mailinator.com', 1, '2015-03-30 04:43:33', '2015-03-30 04:43:33'),
+(27, 36, 3, 'LilyP@mailinator.com', 1, '2015-03-30 04:43:33', '2015-03-30 04:43:33'),
 (28, 37, 1, 'BettyD@mailinator.com', 1, '2015-03-30 04:45:33', '2015-03-30 04:45:33'),
 (29, 38, 1, 'BettyD@mailinator.com', 1, '2015-03-30 04:46:11', '2015-03-30 04:46:11'),
 (30, 39, 1, 'BettyD@mailinator.com', 1, '2015-03-30 04:48:23', '2015-03-30 04:48:23'),
@@ -99,7 +98,6 @@ INSERT INTO `BookingDetails` (`ID`, `BookingID`, `UserID`, `Email`, `Booker`, `u
 (34, 43, 1, 'BettyD@mailinator.com', 1, '2015-03-30 04:59:46', '2015-03-30 04:59:46'),
 (37, 46, 3, 'LilyP@mailinator.com', 1, '2015-04-12 03:42:48', '2015-04-12 03:42:48'),
 (38, 47, 1, 'BettyD@mailinator.com', 1, '2015-04-12 03:46:24', '2015-04-12 03:46:24'),
-(42, 51, 1, 'BettyD@mailinator.com', 1, '2015-04-12 03:51:56', '2015-04-12 03:51:56'),
 (45, 54, 1, 'BettyD@mailinator.com', 0, '2015-04-12 06:13:37', '2015-04-12 06:13:37'),
 (54, 54, 3, 'LilyP@mailinator.com', 1, '2015-04-12 06:15:34', '2015-04-12 06:15:34'),
 (55, 54, NULL, 'MattC@mailinator.com', 0, '2015-04-12 06:15:34', '2015-04-12 06:15:34'),
@@ -346,7 +344,7 @@ CREATE TABLE `Logs` (
   `LogMessage` text NOT NULL,
   `updated_at` varchar(45) DEFAULT NULL,
   `created_at` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=748 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=749 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `Logs`
@@ -783,7 +781,8 @@ INSERT INTO `Logs` (`ID`, `LogDate`, `LogType`, `LogKey1`, `LogKey2`, `LogKey3`,
 (744, '2015-04-12 00:00:00', 5, 1, 2, NULL, 1, 'Changed Kit field: AtBranch From:2 To:3', '2015-04-12 07:01:10', '2015-04-12 07:01:10'),
 (745, '2015-04-12 00:00:00', 5, 1, 16, NULL, 1, 'Changed Kit field: AtBranch From:2 To:3', '2015-04-12 07:03:31', '2015-04-12 07:03:31'),
 (746, '2015-04-12 00:00:00', 5, 2, 3, NULL, 1, 'Changed Kit field: KitDesc From:4 HP Laptops with 15.6" screens. To:4 HP Laptops with 15.6 inch screens.', '2015-04-12 07:26:52', '2015-04-12 07:26:52'),
-(747, '2015-04-12 00:00:00', 5, 2, 12, NULL, 1, 'Changed Kit field: KitDesc From:Want to have fun with math? A look into Calculus. Included are 4 HP Laptops with 15.6" Screens. To:Want to have fun with math? A look into Calculus. Included are 4 HP Laptops with 15.6 inch screens.', '2015-04-12 07:27:10', '2015-04-12 07:27:10');
+(747, '2015-04-12 00:00:00', 5, 2, 12, NULL, 1, 'Changed Kit field: KitDesc From:Want to have fun with math? A look into Calculus. Included are 4 HP Laptops with 15.6" Screens. To:Want to have fun with math? A look into Calculus. Included are 4 HP Laptops with 15.6 inch screens.', '2015-04-12 07:27:10', '2015-04-12 07:27:10'),
+(748, '2015-04-13 00:00:00', 14, 1, 2, NULL, 1, 'Booking Deleted by:BettyD', '2015-04-13 03:13:46', '2015-04-13 03:13:46');
 
 -- --------------------------------------------------------
 
@@ -868,8 +867,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `realname`, `email`, `home_branch`, `is_admin`, `remember_token`, `updated_at`, `created_at`) VALUES
-(1, 'BettyD', '$2y$10$yKhkFzxkvhrgMY7DCXCdAOA2lNIIMDEYw4qnKCTxnpPXplZV7KzgG', 'Betty Djinn', 'BettyD@mailinator.com', 2, 1, 'LhHabUNIG7Bsb8ZlEjWHRs1jbqq2yh8iQ9DqPdM49aA0fFumJ73uNn6S3B7d', '2015-04-12 07:03:42', ''),
-(2, 'FredG', '$2y$10$yKhkFzxkvhrgMY7DCXCdAOA2lNIIMDEYw4qnKCTxnpPXplZV7KzgG', 'Fred Gilson', 'FredG@mailinator.com', 3, 0, '3YbiGX4XXrQhhhZPxypAxlyy3z5YhYGpSG6sHtDJCLaGGwlnUxQsHPpr2aLY', '2015-04-12 07:05:33', ''),
+(1, 'BettyD', '$2y$10$yKhkFzxkvhrgMY7DCXCdAOA2lNIIMDEYw4qnKCTxnpPXplZV7KzgG', 'Betty Djinn', 'BettyD@mailinator.com', 2, 1, 'zruCm4rjthkcfM2h12kfBeRHenx2zqATgU3a5sLcBKs69MtVeDfTJ1u4m0BL', '2015-04-13 03:14:10', ''),
+(2, 'FredG', '$2y$10$yKhkFzxkvhrgMY7DCXCdAOA2lNIIMDEYw4qnKCTxnpPXplZV7KzgG', 'Fred Gilson', 'FredG@mailinator.com', 3, 0, 'N3AW7mzHG7WBLxbCvdcjsyXoaoKcXq9M8XzllLilFmZ4MKO5PWY5emmTbbby', '2015-04-13 03:12:45', ''),
 (3, 'LilyP', '$2y$10$yKhkFzxkvhrgMY7DCXCdAOA2lNIIMDEYw4qnKCTxnpPXplZV7KzgG', 'Lily Parsons', 'LilyP@mailinator.com', 0, 0, NULL, '2015-03-09 23:01:42', '');
 
 --
@@ -985,7 +984,7 @@ MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 -- AUTO_INCREMENT for table `Logs`
 --
 ALTER TABLE `Logs`
-MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=748;
+MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=749;
 --
 -- AUTO_INCREMENT for table `LogType`
 --

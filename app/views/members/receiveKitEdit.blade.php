@@ -92,7 +92,7 @@ $( '.receive-kit-edit-form' ).on('submit', function() {
                     <td class="receive-kit-form-info-label">Last Booker: </td>
                     <td class="receive-kit-form-info-value">
                         <div>
-                        @foreach($booking->details as $bookdetail)
+                        @foreach($lastbook->details as $bookdetail)
                             @if($bookdetail->Booker == '1')
                                 {{ $bookdetail->Email }}<br/>
                             @endif
