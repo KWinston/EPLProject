@@ -36,6 +36,17 @@ td.start-date
     padding: 5px;
 }
 
+a.epl-image
+{
+    padding: 0;
+
+    padding-top: 4px;
+    margin: 0px 4px 0px 4px;
+}
+img.epl-image
+{
+    
+}
 .menu a:hover
 {
     color: rgb(255, 255, 0);
@@ -77,10 +88,10 @@ td.start-date
 
     margin:  6px 2px;
     text-decoration: none;
-    font-weight: bold;
+    /* font-weight: bold; */
 
     box-shadow: none;
-    font-size: 15px;
+    font-size: 15pt;
     border: none;
 }
 
@@ -98,6 +109,8 @@ td.start-date
 {
     color: #fff;
     margin-left: 5px;
+    font-size: x-large;
+    vertical-align: middle;
 }
 
 .menu input[type="text"],
@@ -106,7 +119,7 @@ td.start-date
     width: 75px;
     color: #000;
     background-color: #ddd;
-    margin: 7px 5px;
+    margin: 16px 5px;
 }
 
 .settings-icon
@@ -135,7 +148,13 @@ td.start-date
     right: 10px;
     width: 150px;
 }
+.branch-select p
+{
+    color: white;
 
+    font-size: medium;
+    margin-top: 0;
+}
 .branch-select select
 {
     width: 90%;
@@ -1034,8 +1053,8 @@ textarea.receive-kit
 }
 .receive-kit-side-menu
 {
-    height: 125% !important;
-    font-size: 150%;
+    height: 100% !important;
+    font-size: x-large;
 }
 div.side-menu
 {

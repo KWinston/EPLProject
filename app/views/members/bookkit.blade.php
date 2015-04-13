@@ -12,12 +12,12 @@
 <table cellpadding="0" style="height: 100%;" >
     <tr>
         <td style="vertical-align: top;" align="left">
+            <input type="button" id="book_kit" value="Book Kit Time" />
             @include('components.comp_menu', array(
                 'function' => 'homeMenuCallback',
                 'side_menu_class' => 'button-bar-visible',
                 'selectedNode' => $selected_id
             ))
-            <input type="button" id="book_kit" value="Book Kit Time" />
         </td>
         <td style="padding: 5px 10px; vertical-align: top; text-align: center;">
             <p id="current_kit" style="font-size: 18px; width: 100%;
@@ -43,9 +43,9 @@
     </tr>
     <tr>
         <td style="text-align: center; font-size: 30px; padding: 5px; vertical-align: middle;">
-            <label>Booking Kit Legend</label>
         </td>
         <td style="padding: 5px;">
+            <label style="text-align: center; font-size: 30px; padding: 39%; vertical-align: middle;">Booking Kit Legend</label><br/>
             <div style="width: 100%;">
                 <img src="images/booking-legend.png" style="width: 100%; height; 50px;"/>
             </div>

@@ -53,7 +53,7 @@
         <div class="menu">
             <div class="options">
                 <div class="option left" >
-                    <a href="{{Settings::HomeLink()}}"><img src="images/EPL_logo.png" width="50" height="14" style="margin: 0px 5px;" /></a>
+                    <a href="{{Settings::HomeLink()}}" class="epl-image"><img src="images/EPL_logo.png" class="epl-image" /></a>
                 </div>
                 <div class="option left main-menu-home">
                     <a class="main-menu" href="{{ route('home.index', array('selected_menu' => 'main-menu-home')); }}">Home</a>
@@ -77,7 +77,7 @@
                 @endif
                 @if(Auth::check())
                     <div id="branch-name" class="option middle branch-name"><p class="branch-name"> Kits for {{ Branches::find(Session::get('branch'))->Name }}</p></div>
-                    
+
                     @if(Auth::check() && Auth::user()->is_admin == 1)
                         <div class="option right" style="padding-left: 10px;" >
                             <div id="settings_button" class="settings-icon"></div>
@@ -123,6 +123,7 @@
         @endif
 
         <div class="branch-select">
+            <p>Choose Branch</p>
             <select data-placeholder="Branch" id="branchMenu" class="chosen-select" tabindex="2">
             </select>
         </div>
