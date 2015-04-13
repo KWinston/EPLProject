@@ -1,10 +1,10 @@
 ## EPL Kit booking
 
-[![Total Downloads](https://rawgit.com/robBabiak/irww/master/images/downloads.svg)](https://github.com/macewanCMPT395/irww/archive/master.zip)
-[![Latest Stable Version](https://rawgit.com/robBabiak/irww/master/images/stable.svg)](https://github.com/macewanCMPT395/irww/archive/master.zip)
+[![Total Downloads](https://github.com/macewanCMPT395/irww/blob/master/images/downloads.svg)](https://github.com/macewanCMPT395/irww/archive/master.zip)
+[![Latest Stable Version](https://github.com/macewanCMPT395/irww/blob/master/images/stable.svg)](https://github.com/macewanCMPT395/irww/archive/master.zip)
 [![License](https://poser.pugx.org/laravel/framework/license.svg)](http://opensource.org/licenses/MIT)
 
-The EPL kit booking system is written on top of Laravel 4.2.17[Laravel website](http://laravel.com/docs) using mysql database.
+The EPL kit booking system is written on top of Laravel 4.2.17 [Laravel website](http://laravel.com/docs) using mysql database.
 
 ## Installation
 1. Retrieve EPL Kit managment software [![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://github.com/macewanCMPT395/irww/archive/master.zip)
@@ -22,11 +22,11 @@ EPL Kit Managment has been built to use a limited sql user account, for normal o
 
 The EPL_KIT_DB database will be created by the 'artisan migrate' command with the following tables.
 - Booking - This table stores the bookings by user for a specific kit for a specific event
-- BookingDetails - This table stores a list of users assosated with a booking.
+- BookingDetails - This table stores a list of users associated with a booking.
 - Branches - This stores details about the branches in the library system (see Going Live).
 - KitTypes - This table stores the categories for all kits. Each kit belongs to one kit type
 - Kits - This table stores the information about a specific kit, and it's location in the library system.
-- KitContents - This table stores the contents of a kit and reference to any damaged or missing components.
+- KitContents - This table stores the contents of a kit and reference to any damaged r missing components.
 - KitState - This tables stores the states that a kit can be in, static data for referential integrity.
 - LogTypes - This tables stores the type of log messages that exist in the system, static data for referential integrity.
 - Logs - This table records a history of all changes that occurs within the system.  No data retention policy has been defined for this table.
@@ -37,12 +37,12 @@ The EPL_KIT_DB database will be created by the 'artisan migrate' command with th
 
 You want to take this system live? There are a couple areas where the system will need to be modified.
 ### Branches
-The branches system is a example of data needed to define which branches kits can be transfered between. This area was left poorly defined as it is enisioned that this table will be replaced with a connection into the library branch database. The table was initialized with information downloaded from the EPL API data, replacing this data with access to the live database table behind the API information is desired.
+The branches system is a example of data needed to define which branches kits can be transferred between. This area was left poorly defined as it is assumed that this table will be replaced with a connection into the library branch database. The table was initialized with information downloaded from the EPL API data, replacing this data with access to the live database table behind the API information is desired.
 
 The system does rely on there being a branch (ID 0) which is the IT depot for the system. This is the default location new kits will be created at.
 
 ### Users
-The user table by default has two users ('user' is a administrator, 'user2' is a normal user) both which have the password 'user'. This table and all references to it are expected to be replaced with access into the EPL LDAP system. The basic admin screens for user management are primitive at best.
+The user table by default has two users ('user' is an administrator, 'user2' is a normal user) both which have the password 'user'. This table and all references to it are expected to be replaced with access into the EPL LDAP system. The basic admin screens for user management are primitive at best.
 
 ## Heroku Deployment
 
