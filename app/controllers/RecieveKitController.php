@@ -116,7 +116,19 @@ class RecieveKitController extends BaseController {
     public function edit($BookingID)
     {
         $booking = Booking::findOrFail($BookingID);
-        return View::make("members.receiveKitEdit", ['booking' => $booking, 'mode' => 'receive']);
+        $findlastbook = $booking->KitID;
+        $bookerdata = DB::select('SELECT B.ID as BookID FROM Booking AS B WHERE B.KitID = ? ORDER BY StartDate DESC', array($findlastbook));
+        if (count($bookerdata) > 1)
+        {
+            $lastBooking = array_slice($bookerdata, 1, 1);
+            $lastBook = $lastBooking[0];
+            $lastBook = Booking::findOrFail($lastBook->BookID);  
+        } else {
+          $lastBook = $booking;
+        }        
+        return View::make("members.receiveKitEdit", ['booking' => $booking,
+                                                      'mode' => 'receive',
+                                                      'lastbook' => $lastBook]);
     }
 
         // Update kit information and status
