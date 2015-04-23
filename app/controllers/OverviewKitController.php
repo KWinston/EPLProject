@@ -25,7 +25,7 @@ clASs OverviewKitCONtroller extends BaseController {
                                 U.realname AS UserName,
                                 U.email AS UserEmail,
                                 count(BK3.ID) AS BookingCount
-                              FROM kits AS K
+                              FROM Kits AS K
                                 INNER JOIN KitTypes AS KT ON (KT.ID = K.KitType)
                                 INNER JOIN Branches AS B ON (B.ID = K.AtBranch)
                                 INNER JOIN KitState AS KS ON (KS.ID = K.KitState)
