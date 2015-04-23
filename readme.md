@@ -11,7 +11,7 @@ The EPL kit booking system is written on top of Laravel 4.2.17 [Laravel website]
 2. Install Composer [![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://getcomposer.org/doc/00-intro.md)
 3. Install / Configure MySql (see below)
 4. Perform a composer install on EPL Kit Managment software and execute the 'composer install' command.
-5. Perform a 'artisan migrate' to intalize and seed the database.
+5. Perform a 'artisan migrate' to intalize and seed the database with sample data.
 6. Configure 'app/config/database.php' with the details from above.
 7. test setup with 'artisan serve'
 
@@ -20,7 +20,7 @@ You will need to install and configure MySql or other compatible sql database as
 
 EPL Kit Managment has been built to use a limited sql user account, for normal operations the sql users needs basic SELECT, INSERT, DELETE, UPDATE operations (see Laravel documentation for needed roles). Although during the migration process DDL(data definition language) roles will be needed to initialize the database (see Laravel documentation for needed roles).
 
-The EPL_KIT_DB database will be created by the 'artisan migrate' command with the following tables.
+The EPL_KIT_DB database will be created by the 'php artisan migrate' command with the following tables.
 - Booking - This table stores the bookings by user for a specific kit for a specific event
 - BookingDetails - This table stores a list of users associated with a booking.
 - Branches - This stores details about the branches in the library system (see Going Live).
@@ -36,13 +36,14 @@ The EPL_KIT_DB database will be created by the 'artisan migrate' command with th
 ## Going Live
 
 You want to take this system live? There are a couple areas where the system will need to be modified.
+
 ### Branches
 The branches system is a example of data needed to define which branches kits can be transferred between. This area was left poorly defined as it is assumed that this table will be replaced with a connection into the library branch database. The table was initialized with information downloaded from the EPL API data, replacing this data with access to the live database table behind the API information is desired.
 
 The system does rely on there being a branch (ID 0) which is the IT depot for the system. This is the default location new kits will be created at.
 
 ### Users
-The user table by default has two users ('user' is an administrator, 'user2' is a normal user) both which have the password 'user'. This table and all references to it are expected to be replaced with access into the EPL LDAP system. The basic admin screens for user management are primitive at best.
+The user table by default has two users ('BettyD' is an administrator, 'FredG' is a normal user) both which have the password 'user'. This table and all references to it are expected to be replaced with access into the EPL LDAP system. The basic admin screens for user management are primitive at best.
 
 ## Heroku Deployment
 
